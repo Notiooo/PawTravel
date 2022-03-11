@@ -1,0 +1,1 @@
+The software used to create prototypes/sketches/graphics of the website is Lunacy. Its designs are stored here.

@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="PawTravel" version="4">
+  <OBJECT>
+    <ID name="PawTravel" mc="Standard.Project" uid="37c8a72c-5173-4ee4-bc6b-9169cc583f4f"/>
+    <ATTRIBUTES>
+      <ATT name="ProjectContext"></ATT>
+      <ATT name="ProjectDescr"></ATT>
+      <ATT name="Name"><![CDATA[PawTravel]]></ATT>
+      <ATT name="status">1970354901745664</ATT>
+    </ATTRIBUTES>
+    <DEPENDENCIES>
+      <COMP relation="Model">
+        <COMPID name="pawtravel" mc="Standard.Package" uid="13392d9a-0f14-453e-8e8e-0f9e6a32153d"/>
+      </COMP>
+      <COMP relation="DiagramRoot">
+        <COMPID name="PawTravel" mc="Infrastructure.DiagramSet" uid="4290ba1c-9e9e-49ed-b3a5-814948c96036"/>
+      </COMP>
+    </DEPENDENCIES>
+  </OBJECT>
+</EXT>

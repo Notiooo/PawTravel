@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="pawtravel" version="4">
+  <OBJECT>
+    <ID name="pawtravel" mc="Standard.Package" uid="13392d9a-0f14-453e-8e8e-0f9e6a32153d"/>
+    <PID name="PawTravel" mc="Standard.Project" uid="37c8a72c-5173-4ee4-bc6b-9169cc583f4f"/>
+    <ATTRIBUTES>
+      <ATT name="IsInstantiable">false</ATT>
+      <ATT name="IsAbstract">false</ATT>
+      <ATT name="IsLeaf">false</ATT>
+      <ATT name="IsRoot">false</ATT>
+      <ATT name="Visibility">Public</ATT>
+      <ATT name="Name"><![CDATA[pawtravel]]></ATT>
+      <ATT name="status">1970354901745664</ATT>
+    </ATTRIBUTES>
+    <DEPENDENCIES></DEPENDENCIES>
+  </OBJECT>
+</EXT>
