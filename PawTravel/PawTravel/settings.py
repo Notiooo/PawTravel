@@ -45,6 +45,7 @@ INSTALLED_APPS = [
 
     # Our apps
     'users',
+    'travel_guides',
 ]
 
 MIDDLEWARE = [
