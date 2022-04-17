@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %} Guide List {% endblock %}
+
+{% block content %}
+<h1>Travel guides</h1>
+    {% for guide in guides %}
+        <h2>
+        <a href="{{ guide.get_absolute_url }}">
+        {{ guide.title }}
+        </a>
+        </h2>
+        {{ guide.description }}
+        <p class="date">
+        Posted by {{ guide.author }} on {{ guide.publish }}
+        </p>
+    {% endfor %}
+{% endblock %}
