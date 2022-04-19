@@ -4,11 +4,10 @@ from django.utils import timezone
 # Create your models here.
 
 
-class GuideManager(models.Manager):
-    pass
-
-
 class Guide(models.Model):
+    '''
+    Main model of this app, It represents single travel guide
+    '''
     #STATUS = () #Travel Guide status
 
     CATEGORY_CHOICES=(('other', 'Inne'),) #List of available categories to the user
@@ -22,8 +21,6 @@ class Guide(models.Model):
     country = models.CharField(max_length=32, choices=COUNTRY_CHOICES)
     body = models.TextField()
     publish = models.DateTimeField(default=timezone.now)
-    manager = GuideManager() #Manager of travel guides
-
     objects = models.Manager() #Default manager
 
     class Meta:
@@ -33,6 +30,10 @@ class Guide(models.Model):
         return self.title
 
     def get_absolute_url(self):
+        '''
+        Generate absolute url of this object (guide)
+        :return: Absolute url with /YYYY/MM/DD/slug format
+        '''
         return reverse('travel_guides:guide_detail',
                        args=[self.publish.year,
                              self.publish.strftime('%m'),

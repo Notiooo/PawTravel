@@ -7,4 +7,8 @@ urlpatterns = [
     path('<int:year>/<int:month>/<int:day>/<slug:guide>/',
          views.guide_detail,
          name='guide_detail'),
+    path('<str:username>/',
+         views.get_user_guides,
+         name="get_user_guides")
+
 ]
