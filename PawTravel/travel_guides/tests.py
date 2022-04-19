@@ -19,6 +19,19 @@ class GuideModelTests(TestCase):
         expected="/guides/{:04d}/{:02d}/{:02d}/{}/".format(date.year, date.month, date.day, slug)
         self.assertEqual(expected, url)
 
+    def test_custom_save(self):
+        """
+        Guide model has own save method which can be used to generate unique slugs.
+        This test checks if this works properly.
+        """
+        time=timezone.now()
+        guide_one=Guide(title="Lorem Ipsum", publish=time)
+        guide_one.save()
+        guide_two=Guide(title="Lorem Ipsum", publish=time)
+        guide_two.save()
+        self.assertEqual("lorem-ipsum", guide_one.slug) #guide_one is first therefore it should not contain extra number
+        self.assertEqual("lorem-ipsum-1", guide_two.slug) #guide_two is second therefore It will have 1 attached to it
+
 class GuidesViewTests(TestCase):
     """
     Test class responsible for testing views

@@ -2,6 +2,7 @@ from django.db import models
 from django.urls import reverse
 from django.utils import timezone
 # Create your models here.
+from django.utils.text import slugify
 
 
 class Guide(models.Model):
@@ -40,3 +41,19 @@ class Guide(models.Model):
                              self.publish.strftime('%d'),
                              self.slug
                        ])
+
+    def save(self, *args, **kwargs):
+        """
+        Override of basic save function, It implements custom slug generation which will ensure It is unique
+        :param args:
+        :param kwargs:
+        :return:
+        """
+        if not self.slug:
+            potential_slug=slugify(self.title)
+            conflict_count=len(Guide.objects.filter(slug=potential_slug))
+            if conflict_count==0:
+                self.slug=potential_slug
+            else:
+                self.slug=potential_slug+str(conflict_count*-1)
+        super().save(*args, **kwargs)
