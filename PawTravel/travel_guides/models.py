@@ -50,10 +50,13 @@ class Guide(models.Model):
         :return:
         """
         if not self.slug:
+
             potential_slug=slugify(self.title)
-            conflict_count=len(Guide.objects.filter(slug=potential_slug))
-            if conflict_count==0:
-                self.slug=potential_slug
-            else:
-                self.slug=potential_slug+str(conflict_count*-1)
+            while True:
+                conflict_count=len(Guide.objects.filter(slug=potential_slug, publish__year=self.publish.year, publish__month=self.publish.month, publish__day=self.publish.day))
+                if conflict_count==0:
+                    self.slug=potential_slug
+                    break
+                else:
+                    potential_slug+=str(conflict_count*-1)
         super().save(*args, **kwargs)
