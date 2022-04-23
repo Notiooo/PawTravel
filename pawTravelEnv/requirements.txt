@@ -3,3 +3,5 @@ Django==4.0.3
 python-dotenv==0.19.2
 sqlparse==0.4.2
 tzdata==2021.5
+djangorestframework==3.13.1
+django-cors-headers==3.11.0
