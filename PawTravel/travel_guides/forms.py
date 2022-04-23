@@ -8,4 +8,4 @@ class GuideForm(forms.ModelForm):
 
     class Meta:
         model=Guide
-        fields=('title', 'description', 'category', 'country', 'body')
+        fields=('title', 'description', 'category', 'country', 'body', 'author')
