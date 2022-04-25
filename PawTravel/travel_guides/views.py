@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404
 
 from .forms import GuideForm
 from .models import Guide
-from django.utils.datastructures import MultiValueDictKeyError
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 # Create your views here.
 def guide_list(request):
@@ -11,11 +11,22 @@ def guide_list(request):
     :param request: HTTP request
     :return: List of all guides
     '''
-    guides = Guide.objects.all()
-    #print(request.GET.get('test'))
+
+    guides_list = Guide.objects.filter()
+    paginator=Paginator(guides_list, 2)
+
+    page = request.GET.get('page')
+    try:
+        guides=paginator.page(page)
+    except PageNotAnInteger:
+        guides=paginator.page(1)
+    except EmptyPage:
+        guides=paginator.page(paginator.num_pages)
+    #print(request.GET)
     return render(request,
                    'guide/list.html',
-                   {'guides': guides})
+                   {'guides': guides,
+                    'page': page})
 
 def guide_detail(request, year, month, day, guide):
     '''

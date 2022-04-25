@@ -1,4 +1,6 @@
 from django.test import TestCase
+from django.urls import reverse
+
 from .models import Guide
 from django.utils import timezone
 
@@ -94,3 +96,17 @@ class GuidesViewTests(TestCase):
         resp=self.client.get("/guides/user/"+self.author+"/")
 
         self.assertEqual(resp.status_code, 200)
+
+    def test_pagination_out_of_range(self):
+        """
+        Checks if pagination returns last page if out of range
+        """
+        response = self.client.get(reverse('travel_guides:guide_list'), {'guides': Guide.objects.all(), 'page': 999})
+        self.assertEqual(response.context['guides'].number, 1)
+
+    def test_pagination_not_an_integer(self):
+        """
+        Checks if pagination works correctly if page number is not an integer
+        """
+        response = self.client.get(reverse('travel_guides:guide_list'), {'guides': Guide.objects.all(), 'page': "test"})
+        self.assertEqual(response.context['guides'].number, 1)

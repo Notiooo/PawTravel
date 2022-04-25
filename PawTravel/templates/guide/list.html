@@ -14,4 +14,7 @@
         Posted by {{ guide.author }} on {{ guide.publish }}
         </p>
     {% endfor %}
+    {% include "pagination.html" with page=guides %}
+
 {% endblock %}
+
