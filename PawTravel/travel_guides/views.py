@@ -51,7 +51,7 @@ def get_user_guides(request, username):
     :return: View with given guides
     TODO: this method must be updated when User app will be implemented
     '''
-    guides = Guide.objects.filter(author=username)
+    guides = Guide.search.search_by_user(username)
     return render(request,
                    'guide/list.html',
                    {'guides': guides})

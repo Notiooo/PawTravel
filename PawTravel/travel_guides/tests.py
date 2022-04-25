@@ -110,3 +110,30 @@ class GuidesViewTests(TestCase):
         """
         response = self.client.get(reverse('travel_guides:guide_list'), {'guides': Guide.objects.all(), 'page': "test"})
         self.assertEqual(response.context['guides'].number, 1)
+
+class GuideSearchTests(TestCase):
+    """
+    Test class responsible for testing custom Manager for Guide model
+    """
+    def setUp(self):
+        guide_one=Guide(author="lorem", category="hotels", description="It is test description")
+        guide_one.save()
+        guide_two=Guide(author="ipsum", country="poland", body="It is only test")
+        guide_two.save()
+        guide_three=Guide(author="lorem", title="Lorem test ipsum")
+        guide_three.save()
+
+    def test_user_search(self):
+        """
+        Checks if search_by_user method returns correct amount of guides
+        """
+        query_set=Guide.search.search_by_user("lorem")
+        self.assertEqual(len(query_set), 2)
+
+    def test_keyword_search(self):
+        """
+        Checks if searching by keywords works as intended, Not implemented yet
+        """
+        self.assertEqual(len(Guide.search.search(category="hotels")), 1)
+        self.assertEqual(len(Guide.search.search(country="poland")), 1)
+        self.assertEqual(len(Guide.search.search(keywords="test")), 3)

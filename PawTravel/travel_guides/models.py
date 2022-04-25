@@ -4,6 +4,32 @@ from django.utils import timezone
 # Create your models here.
 from django.utils.text import slugify
 
+class GuideSearchManager(models.Manager):
+    def search(self, country=None, category=None, keywords=None):
+        """
+        Search guides depending on defined arguments
+        :param country: What country?
+        :param category: What category
+        :param keywords: What keywords?
+        :return: Query set with guides matching above criteria
+        """
+        query_set=super().get_queryset().all()
+        if country is not None:
+            query_set=query_set.filter(country=country)
+        if category is not None:
+            query_set=query_set.filter(category=category)
+        if keywords is not None:
+            query_set=query_set.filter(body__icontains=keywords) | query_set.filter(title__icontains=keywords) | query_set.filter(description__icontains=keywords)
+        return query_set
+
+    def search_by_user(self, username):
+        """
+        Get all guides written by specifc user
+        :param username: Username TODO: Update when user system is implemented
+        :return:
+        """
+        return super().get_queryset().filter(author=username)
+
 
 class Guide(models.Model):
     '''
@@ -11,7 +37,7 @@ class Guide(models.Model):
     '''
     #STATUS = () #Travel Guide status
 
-    CATEGORY_CHOICES=(('other', 'Inne'),) #List of available categories to the user
+    CATEGORY_CHOICES=(('other', 'Inne'), ('hotels', 'Hotele')) #List of available categories to the user
     COUNTRY_CHOICES=(('poland', 'Polska'),) #Countries to which travel guide can be linked
     title = models.CharField(max_length=256)
     description = models.CharField(max_length=1024)
@@ -23,6 +49,7 @@ class Guide(models.Model):
     body = models.TextField()
     publish = models.DateTimeField(default=timezone.now)
     objects = models.Manager() #Default manager
+    search = GuideSearchManager()
 
     class Meta:
         ordering = ('-publish',)
