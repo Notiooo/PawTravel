@@ -1,5 +1,5 @@
 <template>
-  <div class="hello">
+  <div class="pt-background-darkblue">
     <h1 class="title">SAMPLE PAGE</h1>
 
     <hr>
@@ -8,20 +8,31 @@
       <div class="column is-half">
         <h2 class="subtitle">Users</h2>
 
-     <div class="api-fetcher">
-      <div class="card" v-for="user in users" :key="user.id">
-        <div class="card-content">
-          <div class="content">
+        <div class="api-fetcher">
+          <div class="card" v-for="user in users" :key="user.id">
+            <div class="card-content">
+
+              <div class="content">
             Username : {{ user.username }} <br>
             Email : {{ user.email }} <br>
             Administrator account : {{ user.is_staff }} <br> <br>
-          </div>
+              </div>
+
+            </div>
           </div>
         </div>
+
+        <hr>
+
+        <div class="pt-background-lightblue">
+          <button class="pk-button-primary" @click="go_to_TravelGuides">
+            Go to Travel Guides
+          </button>
+        </div>
+
       </div>
     </div>
   </div>
-</div>
 </template>
 
 <script>
@@ -49,6 +60,9 @@ export default {
       }).then(response => {
         this.users = response.data
       })
+    },
+    go_to_TravelGuides() {
+      this.$router.push('/travel-guides')
     }
   }
 }
