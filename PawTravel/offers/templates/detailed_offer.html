@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <p>Title: {{ offer.title }}</p>
+    <p>Content: {{ offer.content|safe}}</p>
+    <p>Category: {{ offer.category }}</p>
+    <p>Image: {{ offer.image }}</p>
+    <p>Date Posted: {{ offer.datePosted }}</p>
+    <p>Offer Ends: {{ offer.offerEnds }}</p>
+    <p>Author: {{ offer.author }}</p>
+    <p>Original Price: {{ offer.originalPrice }}</p>
+    <p>Offer Price: {{ offer.offerPrice }}</p>
+    <p>Link: {{ offer.link }}</p>
+{% endblock content %}
