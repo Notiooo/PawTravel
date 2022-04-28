@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+
+{% block content %}
+    <h1>Hello in custom login form</h1>
+    <form id="form" method="post">
+        {% csrf_token %}
+        {% render_field form.username|attr:"autofocus" class+="uk-input uk-border-rounded" placeholder="Username" %}
+        {% render_field form.password class+="uk-input uk-boder-rounded" placeholder="Password" %}
+        <button type="submit" class="uk-button" value="login">Login</button>
+    </form>
+    {% if form.non_field_errors %}
+        <div class="uk-alert-danger" uk-alert>
+            {% for error in form.non_field_errors %}
+                {{ error }}
+            {% endfor %}
+            {% for error in form.captcha.errors %}
+                <p>{{ error }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+{% endblock content %}

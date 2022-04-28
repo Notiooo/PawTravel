@@ -46,6 +46,9 @@ INSTALLED_APPS = [
     'corsheaders',
     # Our apps
     'users',
+
+    # 3rd party apps
+    'widget_tweaks',
     'tinymce',
 ]
 
