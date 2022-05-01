@@ -27,6 +27,10 @@ sys.path.append('..')
 from users.views import CustomUserViewSet
 # # # # # #
 
+from django.contrib.staticfiles.urls import static
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from . import settings
+
 router = routers.DefaultRouter()
 router.register(r'users', CustomUserViewSet)
 
@@ -36,3 +40,6 @@ urlpatterns = [
     path('tinymce/', include('tinymce.urls')),
     path('', include(router.urls)),
 ]
+
+urlpatterns += staticfiles_urlpatterns()
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
