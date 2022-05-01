@@ -25,6 +25,31 @@
     background: #F1Bf98;
 }
 
+.pt-color-darkblue
+{
+    color: #08415C;
+}
+
+.pt-color-lightblue
+{
+    color: #6B818C;
+}
+
+.pt-color-red
+{
+    color: #CC2936;
+}
+
+.pt-color-white
+{
+    color: #EEE5E9;
+}
+
+.pt-color-manhattan
+{
+    color: #F1Bf98;
+}
+
 
 /* ==== Buttons ==== */
 /* Use it together with uk-button */
@@ -126,4 +151,23 @@
 {
   background-color: #f8f8f8!important;
   border-color: #e5e5e5!important;
+}
+
+/* ==== Offers ==== */
+.pt-offer-title
+{
+    font-weight: 500;
+    font-size: 28px;
+}
+
+.pt-offer-discount
+{
+    font-weight: 500;
+    font-size: 20px;
+}
+
+.pt-offer-author-name
+{
+    font-weight: 500;
+    font-size: 16px;
 }
