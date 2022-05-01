@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from django.urls import reverse
 from tinymce.models import HTMLField
 
 
@@ -29,3 +30,6 @@ class Offer(models.Model):
 
     def __str__(self):
         return self.title
+
+    def absoluteUrl(self):
+        return reverse('offer', args=[str(self.pk)])
