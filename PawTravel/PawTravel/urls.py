@@ -37,5 +37,6 @@ urlpatterns = [
     path('users/', include('django.contrib.auth.urls')), #logout
     path('users/', include('users.urls')),
     path('tinymce/', include('tinymce.urls')),
+    path('social-auth/', include('social_django.urls', namespace='social')),
     path('', include(router.urls)),
 ]

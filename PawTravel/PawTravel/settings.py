@@ -50,6 +50,8 @@ INSTALLED_APPS = [
     # 3rd party apps
     'widget_tweaks',
     'tinymce',
+    'sslserver',
+    'social_django',
 ]
 
 MIDDLEWARE = [
@@ -61,6 +63,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'social_django.middleware.SocialAuthExceptionMiddleware',
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True
@@ -78,13 +81,14 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
 ]
 
 WSGI_APPLICATION = 'PawTravel.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
@@ -143,7 +147,27 @@ AUTH_USER_MODEL = 'users.CustomUser'
 LOGIN_REDIRECT_URL = 'home' # Uncomment this once the homepage is ready
 LOGOUT_REDIRECT_URL = 'home' # Uncomment this once the homepage is ready
 
+AUTHENTICATION_BACKENDS = [
+ 'social_core.backends.facebook.FacebookOAuth2',
+ 'social_core.backends.google.GoogleOAuth2',
+ 'django.contrib.auth.backends.ModelBackend', # Authenticate with the username and password
+ 'users.authentication.EmailAuthenticationBackend', #  Email-based authentication backend
+]
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+#Social authentication settings
+SOCIAL_AUTH_FACEBOOK_EXTRA_DATA = [
+    ('name', 'name'),
+    ('email', 'email'),
+    ('picture', 'picture'),
+    ('link', 'profile_url'),
+]
+SOCIAL_AUTH_FACEBOOK_KEY = '1168427277430470'
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = "744887949840-3a1l402q1oede706ba8i2ufodq5miorr.apps.googleusercontent.com"
+SECRET_KEY = str(getenv('SECRET_KEY'))
+SOCIAL_AUTH_FACEBOOK_SECRET= str(getenv('SOCIAL_AUTH_FACEBOOK_SECRET'))
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET=str(getenv('SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET'))
