@@ -30,12 +30,16 @@ sys.path.append('..')
 from users.views import CustomUserViewSet
 # # # # # #
 
+from django.contrib.staticfiles.urls import static
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from . import settings
 
 router = routers.DefaultRouter()
 router.register(r'users', CustomUserViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('offers/', include('offers.urls')),
     path('tinymce/', include('tinymce.urls')),
     path('', include(router.urls)),
 ]

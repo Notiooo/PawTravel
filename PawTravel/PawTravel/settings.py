@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'corsheaders',
     # Our apps
     'users',
+    'offers',
     'tinymce',
 ]
 
