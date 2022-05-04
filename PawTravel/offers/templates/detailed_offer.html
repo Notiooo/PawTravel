@@ -1,15 +1,53 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <p>Title: {{ offer.title }}</p>
-    <p>Content: {{ offer.shortContent }}</p>
-    <p>Content: {{ offer.content|safe }}</p>
-    <p>Category: {{ offer.category }}</p>
-    <p>Image: {{ offer.image }}</p>
-    <p>Date Posted: {{ offer.datePosted|date:'d-m-Y' }}</p>
-    <p>Offer Ends: {{ offer.offerEnds|date:'d-m-Y' }} at {{ offer.offerEnds|date:'H:i' }}</p>
-    <p>Author: {{ offer.author }}</p>
-    <p>Original Price: {{ offer.originalPrice }}</p>
-    <p>Offer Price: {{ offer.offerPrice }}</p>
-    <p>Link: {{ offer.link }}</p>
+    <div class="uk-container uk-container-small">
+        <div class="uk-flex-center" uk-grid>
+            <!-- Image (left side)-->
+            <div>
+                <img src="{{ offer.image.url }}" class="uk-width-medium" alt="img">
+            </div>
+            <!-- Offer (right side) -->
+            <div class="uk-section-default uk-width-expand@s">
+                <div class="uk-margin-small pt-offer-title pt-color-darkblue">{{ offer.title }}</div>
+                <div class="uk-margin-small">
+                    <span class="pt-offer-discount">
+                        <span class="pt-color-red uk-text-bolder">{{ offer.offerPrice }}$</span>
+                        <s class="uk-text-muted">{{ offer.originalPrice }}$</s>
+                    </span>
+                    Ends {{ offer.offerEnds|date:'d-m-Y' }} at {{ offer.offerEnds|date:'H:i' }}
+                </div>
+                <div class="uk-text-justify">{{ offer.shortContent }}</div>
+                <div class="uk-flex-middle" uk-grid>
+                    <!-- Author -->
+                    <div class="uk-grid-small uk-flex-middle uk-margin-top" uk-grid>
+                        <div class="uk-width-auto">
+                            <img class="uk-comment-avatar uk-border-circle" src="{{ offer.author.avatar.url }}" width="60" height="60" alt="">
+                        </div>
+                        <div class="uk-width-expand">
+                            <h4 class="pt-offer-author-name uk-margin-remove"><a class="uk-link-reset" href="#">{{ offer.author }}</a></h4>
+                            <div class="uk-comment-meta uk-margin-remove-top">
+                                Posted {{ offer.datePosted|date:'d-m-Y' }}
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Links & Category -->
+                    <div class="uk-grid-small uk-flex-middle uk-flex-right@m uk-width-expand@m" uk-grid>
+                        <div>
+                            <a href="{{ offer.link }}" target="_blank">
+                                <button class="uk-button pk-button-primary">Open offer</button>
+                            </a>
+                        </div>
+                        <div>
+                            <img src="{{ offer.category.iconImage.url }}" width="30" height="30" alt="img">
+                            {{ offer.category.name }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <p>{{ offer.content|safe}}</p>
+        </div>
+    </div>
 {% endblock content %}
