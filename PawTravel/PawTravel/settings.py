@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'corsheaders',
     # Our apps
     'users',
+    'offers',
     'tinymce',
 ]
 
@@ -69,7 +70,7 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             os.path.join(BASE_DIR, 'templates'),
-            'pawtravel-front/public'
+            os.path.join(BASE_DIR, 'pawtravel-front/public')
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -134,7 +135,7 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
-    'pawtravel-front/static'
+    os.path.join(BASE_DIR, 'pawtravel-front/static')
 ]
 
 # Media files
