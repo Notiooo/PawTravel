@@ -88,6 +88,20 @@ class DetailOfferViewTestCase(TestCase):
         response = self.client.get('/offers/1/')
         self.assertContains(response, "http://google.com")
 
+class HomePageView(TestCase):
+    def testViewStatusCode(self):
+        response = self.client.get('/')
+        self.assertEqual(response.status_code, 200)
+
+    def testViewByName(self):
+        response = self.client.get(reverse('home'))
+        self.assertEqual(response.status_code, 200)
+
+    def testViewCorrectTemplate(self):
+        response = self.client.get(reverse('home'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'home.html')
+
 class DetailOfferTestCase(TestCase):
     def setUp(self):
         user = CustomUser.objects.create(username='user1')
