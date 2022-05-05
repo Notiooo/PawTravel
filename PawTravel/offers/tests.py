@@ -11,7 +11,7 @@ class DetailOfferViewTestCase(TestCase):
         self.mockFile = tempfile.NamedTemporaryFile(suffix=".jpg").name
         self.currentTime = datetime.datetime.now()
         user = CustomUser.objects.create(username='user1')
-        offerCategory = OfferCategory.objects.create(name="TestCategory")
+        offerCategory = OfferCategory.objects.create(name="TestCategory", iconImage=self.mockFile)
         offer = Offer.objects.create(
             title="TestTitle",
             shortContent="Example short content",
@@ -138,4 +138,4 @@ class DetailOfferTestCase(TestCase):
 
     def testAbsoluteUrl(self):
         offer = Offer.objects.get(id=1)
-        self.assertEquals(offer.absoluteUrl(), '/offers/1/')
+        self.assertEquals(offer.get_absolute_url(), '/offers/1/')

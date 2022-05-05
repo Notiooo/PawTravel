@@ -31,5 +31,5 @@ class Offer(models.Model):
     def __str__(self):
         return self.title
 
-    def absoluteUrl(self):
+    def get_absolute_url(self):
         return reverse('offer', args=[str(self.pk)])

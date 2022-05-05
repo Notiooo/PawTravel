@@ -144,8 +144,8 @@ MEDIA_URL = '/uploads/'
 
 # User related settings
 AUTH_USER_MODEL = 'users.CustomUser'
-# LOGIN_REDIRECT_URL = 'home' # Uncomment this once the homepage is ready
-# LOGOUT_REDIRECT_URL = 'home' # Uncomment this once the homepage is ready
+LOGIN_REDIRECT_URL = 'home' # Uncomment this once the homepage is ready
+LOGOUT_REDIRECT_URL = 'home' # Uncomment this once the homepage is ready
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
