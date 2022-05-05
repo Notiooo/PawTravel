@@ -139,3 +139,21 @@ class DetailOfferTestCase(TestCase):
     def testAbsoluteUrl(self):
         offer = Offer.objects.get(id=1)
         self.assertEquals(offer.get_absolute_url(), '/offers/1/')
+
+class CreateOfferViewTestCase(TestCase):
+    def setUp(self):
+         user = CustomUser.objects.create(username='user1')
+         offerCategory = OfferCategory.objects.create(name="TestCategory")
+
+    def testViewStatusCode(self):
+        response = self.client.get('/offers/new/')
+        self.assertEqual(response.status_code, 200)
+
+    def testViewByName(self):
+        response = self.client.get(reverse('offer_new'))
+        self.assertEqual(response.status_code, 200)
+
+    def testViewCorrentTemplate(self):
+        response = self.client.get(reverse('offer_new'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'new_offer.html')
