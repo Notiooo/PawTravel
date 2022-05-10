@@ -1,5 +1,5 @@
 <template>
-  <div class="pt-background-darkblue">
+  <div class="header">
     <h1 class="title">SAMPLE PAGE</h1>
 
     <hr>
@@ -24,7 +24,7 @@
 
         <hr>
 
-        <div class="pt-background-lightblue">
+        <div class="button">
           <button class="pk-button-primary" @click="go_to_TravelGuides">
             Go to Travel Guides
           </button>

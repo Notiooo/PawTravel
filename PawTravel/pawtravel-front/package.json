@@ -10,6 +10,8 @@
   "dependencies": {
     "axios": "^0.26.1",
     "core-js": "^3.8.3",
+    "corepack": "^0.10.0",
+    "uikit": "^3.14.0",
     "vue": "^3.2.13",
     "vue-router": "^4.0.14"
   },
