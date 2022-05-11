@@ -1,8 +1,5 @@
 <template>
   <header>
-    <div class="uk-grid">
-      <!--<div class="uk-width-1-6"/> -->
-      <div class="uk-width-5-6 uk-align-center">
         <nav class="uk-navbar-container uk-margin uk-navbar">
           <div class="uk-navbar-left">
             <div class="uk-navbar-item">
@@ -15,14 +12,15 @@
           <div class="uk-navbar-center">
             <div class="uk-navbar-item">
               <form action="javascript:void(0)">
-                <input class="uk-input uk-form-width-large m-font pk-button-primary" type="text" placeholder="Lorem Ipsum">
+                <input class="pk-button-primary uk-input uk-form-width-large m-font" type="text" placeholder="Lorem Ipsum">
               </form>
             </div>
           </div>
               <div class="uk-navbar-right">
             <div class="uk-navbar-item">
-              <button class="uk-button uk-button-default pk-button-primary">
-                <span uk-icon="icon: check"></span>Add</button>
+              <div class="uk-inline">
+                <button class="uk-button uk-button-default pk-button-primary"><span class="uk-icon" uk-icon="icon: pencil"></span>  ADD</button>
+              </div>
             </div>
             <div class="uk-navbar-item">
               <a class="uk-icon-link">
@@ -41,9 +39,6 @@
               </div>
           </div>
         </nav>
-      </div>
-<!--      <div class="uk-width-1-6"/>-->
-    </div>
   </header>
 </template>
 <script>
@@ -65,4 +60,6 @@ export default {
 <style scoped>
 @import 'uikit/dist/css/uikit.min.css';
 @import './../assets/static/css/pawtravel.css';
+
+
 </style>

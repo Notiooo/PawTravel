@@ -13,7 +13,8 @@
     "corepack": "^0.10.0",
     "uikit": "^3.14.0",
     "vue": "^3.2.13",
-    "vue-router": "^4.0.14"
+    "vue-router": "^4.0.14",
+    "yarn": "^1.22.18"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
