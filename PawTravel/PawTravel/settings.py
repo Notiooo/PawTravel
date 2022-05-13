@@ -144,8 +144,8 @@ MEDIA_URL = '/uploads/'
 
 # User related settings
 AUTH_USER_MODEL = 'users.CustomUser'
-LOGIN_REDIRECT_URL = 'home' # Uncomment this once the homepage is ready
-LOGOUT_REDIRECT_URL = 'home' # Uncomment this once the homepage is ready
+#LOGIN_REDIRECT_URL = 'home' # Uncomment this once the homepage is ready
+#LOGOUT_REDIRECT_URL = 'home' # Uncomment this once the homepage is ready
 
 AUTHENTICATION_BACKENDS = [
  'social_core.backends.facebook.FacebookOAuth2',

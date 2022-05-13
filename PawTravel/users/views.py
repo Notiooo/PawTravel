@@ -16,8 +16,3 @@ class  SignUpView(generic.CreateView):
 class CustomUserViewSet(viewsets.ModelViewSet):
     queryset = CustomUser.objects.all().order_by('id')
     serializer_class = CustomUserSerializer
-
-class CustomLoginView(auth_views.LoginView):
-    # authentication_form = forms.CustomAuthenticationForm
-    # Will this view be needed?
-    ...

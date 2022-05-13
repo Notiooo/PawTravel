@@ -5,9 +5,19 @@
     <h1>Hello in custom login form</h1>
     <form id="form" method="post">
         {% csrf_token %}
-        {% render_field form.username|attr:"autofocus" class+="uk-input uk-border-rounded" placeholder="Username" %}
+        {% render_field form.username|attr:"autofocus" class+="uk-input uk-border-rounded" placeholder="Username / Email" %}
         {% render_field form.password class+="uk-input uk-boder-rounded" placeholder="Password" %}
         <button type="submit" class="uk-button" value="login">Login</button>
+        <div class="social">
+        <ul>
+            <li class="facebook">
+                <a href="{% url "social:begin" "facebook" %}">Sign in with Facebook</a>
+            </li>
+            <li class="google">
+                <a href="{% url "social:begin" "google-oauth2" %}">Sign in with Google</a>
+            </li>
+         </ul>
+        </div>
     </form>
     {% if form.non_field_errors %}
         <div class="uk-alert-danger" uk-alert>

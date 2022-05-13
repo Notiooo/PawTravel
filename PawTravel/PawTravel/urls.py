@@ -32,11 +32,9 @@ router = routers.DefaultRouter()
 router.register(r'users', CustomUserViewSet)
 
 urlpatterns = [
-    path('', TemplateView.as_view(template_name='home.html'), name='home'),
     path('admin/', admin.site.urls),
     path('users/', include('django.contrib.auth.urls')), #logout
     path('users/', include('users.urls')),
     path('tinymce/', include('tinymce.urls')),
-    path('social-auth/', include('social_django.urls', namespace='social')),
     path('', include(router.urls)),
 ]
