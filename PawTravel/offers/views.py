@@ -5,6 +5,8 @@ from . import models
 
 
 class OfferDetailView(DetailView):
+    """A view showing one particular offer in detail."""
+
     model = models.Offer
     context_object_name = 'offer'
-    template_name = 'detailed_offer.html'
+    template_name = 'offers/detailed_offer.html'
