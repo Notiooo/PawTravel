@@ -116,13 +116,10 @@ class GuideSearchTests(TestCase):
     Test class responsible for testing custom Manager for Guide model
     """
     def setUp(self):
-        guide_one=Guide(author="lorem", category="hotels", description="It is test description")
-        guide_one.save()
-        guide_two=Guide(author="ipsum", country="poland", body="It is only test")
-        guide_two.save()
-        guide_three=Guide(author="lorem", title="Lorem test ipsum")
-        guide_three.save()
-
+        Guide(author="lorem", category="hotels", description="It is test Lorem ipsum").save()
+        Guide(author="ipsum", country="poland", body="It is only test").save()
+        Guide(author="lorem", title="Lorem test ipsum").save()
+        Guide(author="ipsum",  country="poland", category="hotels", body="message").save()
     def test_user_search(self):
         """
         Checks if search_by_user method returns correct amount of guides
@@ -130,10 +127,28 @@ class GuideSearchTests(TestCase):
         query_set=Guide.search.search_by_user("lorem")
         self.assertEqual(len(query_set), 2)
 
-    def test_keyword_search(self):
+    def test_one_element_search(self):
         """
-        Checks if searching by keywords works as intended, Not implemented yet
+        Checks if searching with single works as intended,
         """
-        self.assertEqual(len(Guide.search.search(category="hotels")), 1)
-        self.assertEqual(len(Guide.search.search(country="poland")), 1)
-        self.assertEqual(len(Guide.search.search(keywords="test")), 3)
+        self.assertEqual(len(Guide.search.search(category="hotels")), 2)
+        self.assertEqual(len(Guide.search.search(country="poland")), 2)
+        self.assertEqual(len(Guide.search.search(keywords=["test"])), 3)
+
+    def test_two_element_search(self):
+        """
+        Checks if searching with two elements works as intended.
+        """
+
+        self.assertEqual(len(Guide.search.search(category="hotels", keywords=["test"])), 1)
+        self.assertEqual(len(Guide.search.search(country="poland", keywords=["test"])), 1)
+        self.assertEqual(len(Guide.search.search(country="poland", category="hotels")), 1)
+        self.assertEqual(len(Guide.search.search(keywords=["test", "lorem"])), 2)
+
+    def test_three_element_search(self):
+        """
+        Checks if searching with three elements works as intended.
+        """
+
+        self.assertEqual(len(Guide.search.search(country="poland", category="hotels", keywords=["message"])), 1)
+        self.assertEqual(len(Guide.search.search(keywords=["test", "lorem", "ipsum"])), 2)

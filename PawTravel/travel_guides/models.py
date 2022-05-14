@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Q
 from django.urls import reverse
 from django.utils import timezone
 # Create your models here.
@@ -19,7 +20,10 @@ class GuideSearchManager(models.Manager):
         if category is not None:
             query_set=query_set.filter(category=category)
         if keywords is not None:
-            query_set=query_set.filter(body__icontains=keywords) | query_set.filter(title__icontains=keywords) | query_set.filter(description__icontains=keywords)
+            q_object = ~Q()
+            for item in keywords:
+                q_object &= Q(body__icontains=item) | Q(title__icontains=item) | Q(description__icontains=item)
+            query_set = query_set.filter(q_object)
         return query_set
 
     def search_by_user(self, username):
@@ -77,7 +81,6 @@ class Guide(models.Model):
         :return:
         """
         if not self.slug:
-
             potential_slug=slugify(self.title)
             while True:
                 conflict_count=len(Guide.objects.filter(slug=potential_slug, publish__year=self.publish.year, publish__month=self.publish.month, publish__day=self.publish.day))

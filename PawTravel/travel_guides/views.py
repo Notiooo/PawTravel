@@ -22,7 +22,6 @@ def guide_list(request):
         guides=paginator.page(1)
     except EmptyPage:
         guides=paginator.page(paginator.num_pages)
-    #print(request.GET)
     return render(request,
                    'guide/list.html',
                    {'guides': guides,
