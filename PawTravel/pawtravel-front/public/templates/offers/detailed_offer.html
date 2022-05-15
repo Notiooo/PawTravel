@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load avatar_tags %}
 
 {% block content %}
     <div class="uk-container uk-container-small">
@@ -22,7 +23,7 @@
                     <!-- Author -->
                     <div class="uk-grid-small uk-flex-middle uk-margin-top" uk-grid>
                         <div class="uk-width-auto">
-                            <img class="uk-comment-avatar uk-border-circle" src="{{ offer.author.avatar.url }}" width="60" height="60" alt="">
+                            {% avatar offer.author 60 class="uk-comment-avatar uk-border-circle" %}
                         </div>
                         <div class="uk-width-expand">
                             <h4 class="pt-offer-author-name uk-margin-remove"><a class="uk-link-reset" href="#">{{ offer.author }}</a></h4>
