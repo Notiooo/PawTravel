@@ -1,8 +1,12 @@
 {% extends 'base.html' %}
 {% load widget_tweaks %}
+{% load avatar_tags %}
+{% load static %}
 
 {% block content %}
     <h1>Hello in custom login form</h1>
+    {% avatar user %}
+    <a href="{% url 'avatar_change' %}">Change your avatar</a>
     <form id="form" method="post">
         {% csrf_token %}
         {% render_field form.username|attr:"autofocus" class+="uk-input uk-border-rounded" placeholder="Username / Email" %}

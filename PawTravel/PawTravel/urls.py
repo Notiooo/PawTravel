@@ -18,6 +18,9 @@ from django.urls import path, include
 from django.views.generic.base import TemplateView
 
 from rest_framework import routers
+from django.contrib.staticfiles.urls import static
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from . import settings
 
 # The solution below is experimental and PyCharm's IntelliSense doesn't seem to like it.
 # Feel free to change it if you find a more elegant solution.
@@ -36,5 +39,9 @@ urlpatterns = [
     path('users/', include('django.contrib.auth.urls')), #logout
     path('users/', include('users.urls')),
     path('tinymce/', include('tinymce.urls')),
+    path('avatar/', include('avatar.urls')),
     path('', include(router.urls)),
 ]
+
+urlpatterns += staticfiles_urlpatterns()
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
