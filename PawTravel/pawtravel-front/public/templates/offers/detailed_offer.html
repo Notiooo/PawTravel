@@ -12,12 +12,12 @@
                 <div class="uk-margin-small pt-offer-title pt-color-darkblue">{{ offer.title }}</div>
                 <div class="uk-margin-small">
                     <span class="pt-offer-discount">
-                        <span class="pt-color-red uk-text-bolder">{{ offer.offerPrice }}$</span>
-                        <s class="uk-text-muted">{{ offer.originalPrice }}$</s>
+                        <span class="pt-color-red uk-text-bolder">{{ offer.offer_price }}$</span>
+                        <s class="uk-text-muted">{{ offer.original_price }}$</s>
                     </span>
-                    Ends {{ offer.offerEnds|date:'d-m-Y' }} at {{ offer.offerEnds|date:'H:i' }}
+                    Ends {{ offer.offer_ends|date:'d-m-Y' }} at {{ offer.offer_ends|date:'H:i' }}
                 </div>
-                <div class="uk-text-justify">{{ offer.shortContent }}</div>
+                <div class="uk-text-justify">{{ offer.short_content }}</div>
                 <div class="uk-flex-middle" uk-grid>
                     <!-- Author -->
                     <div class="uk-grid-small uk-flex-middle uk-margin-top" uk-grid>
@@ -27,7 +27,7 @@
                         <div class="uk-width-expand">
                             <h4 class="pt-offer-author-name uk-margin-remove"><a class="uk-link-reset" href="#">{{ offer.author }}</a></h4>
                             <div class="uk-comment-meta uk-margin-remove-top">
-                                Posted {{ offer.datePosted|date:'d-m-Y' }}
+                                Posted {{ offer.date_posted|date:'d-m-Y' }}
                             </div>
                         </div>
                     </div>
@@ -39,7 +39,9 @@
                             </a>
                         </div>
                         <div>
-                            <img src="{{ offer.category.iconImage.url }}" width="30" height="30" alt="img">
+                            {% if offer.category.icon_image %}
+                            <img src="{{ offer.category.icon_image.url }}" width="30" height="30" alt="img">
+                            {% endif %}
                             {{ offer.category.name }}
                         </div>
                     </div>
