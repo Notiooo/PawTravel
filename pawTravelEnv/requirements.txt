@@ -11,3 +11,4 @@ social-auth-app-django==5.0.0
 django-sslserver==0.22
 django-avatar==5.0.0
 six==1.16.0
+Pillow==9.1.0
