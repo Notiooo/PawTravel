@@ -8,7 +8,7 @@ from .serializers import CustomUserSerializer
 
 
 class SignUpView(generic.CreateView):
-    template_name = 'signup.html'
+    template_name = 'users/signup.html'
     form_class = CustomUserCreationForm
     success_url = reverse_lazy('login')
 
