@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block content %}
+    <style>
+    body
+    {
+        overflow-x: hidden;
+    }
+    </style>
+    <div>
+        <div class="tk-blob uk-position-absolute" style="--fill: #d7dcdf; --time: 120s; z-index: -999; width: 1500px; top: -600px; left: -800px">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 412.3 354.7">
+            <path d="m 334 47 c 57 28 97 39 85.2 111.6 s -33 63 -93 93 c -75.2 30.4 -100.2 26.4 -186.4 26.5 c -66.8 -10.1 -128.8 -29.1 -132.8 -74.1 c -3 -40 12 -54 74 -131 c 22 -20 21 -46 110 -53 c 62 1 41 11 92 17 z"></path>
+          </svg>
+        </div>
+    </div>
+    <div class="uk-container uk-width-large">
+        <div class="uk-text-center uk-margin-large-top" uk-scrollspy="cls: uk-animation-scale-up; target: > p, > img; delay: 100;">
+            <p style="font-size: 32px; margin-top: -20px" class="uk-text-bolder">Hello, for the first time!</p>
+            <img src="{% static 'img/login/cat.png' %}" width="200px"/>
+            <p>We'll need some of your data, but don't worry!<br>We won't give them away to any other cats!</p>
+        </div>
+        <form id="form" method="post" uk-scrollspy="cls: uk-animation-slide-bottom; target: > div; delay: 200;">
+            {% csrf_token %}
+            <div class="uk-margin">
+                <div class="uk-inline uk-width-1-1">
+                    <a class="uk-form-icon pt-color-lightblue" href="#" uk-icon="icon: user"></a>
+                    {% render_field form.username|attr:"autofocus" class+="uk-input pt-input" placeholder="Login" %}
+                </div>
+            </div>
+            <div class="uk-margin">
+                <div class="uk-inline uk-width-1-1">
+                    <a class="uk-form-icon pt-color-lightblue" href="#" uk-icon="icon: mail"></a>
+                    {% render_field form.email|attr:"autofocus" class+="uk-input pt-input" placeholder="Email Address" %}
+                </div>
+            </div>
+            <div class="uk-margin">
+                <div class="uk-inline uk-width-1-1">
+                    <a class="uk-form-icon pt-color-lightblue" href="#" uk-icon="icon: lock"></a>
+                    {% render_field form.password1 class+="uk-input pt-input" placeholder="Password" %}
+                </div>
+            </div>
+            <div class="uk-margin">
+                <div class="uk-inline uk-width-1-1">
+                    <a class="uk-form-icon pt-color-lightblue" href="#" uk-icon="icon: lock"></a>
+                    {% render_field form.password2 class+="uk-input pt-input" placeholder="Repeat Password" %}
+                </div>
+            </div>
+            <div class="uk-flex-column uk-text-small uk-margin">
+                <div>Your password must not be too similar to your other personal information.</div>
+                <div>Your password must contain at least 8 characters.</div>
+                <div>Your password cannot be a commonly used password.</div>
+            </div>
+            <div class="uk-margin">
+                <a href="#"><button type="submit" value="register" class="uk-button pt-button-primary uk-width-1-1">Register</button></a>
+                <p class="uk-text-center">Already have an account, huh? Login <a href="{% url 'login' %}">there</a>.</p>
+            </div>
+        </form>
+    </div>
+    {% if form.non_field_errors %}
+    <div class="uk-alert-danger" uk-alert>
+        {% for error in form.non_field_errors %}
+            {{ error }}
+        {% endfor %}
+        {% for error in form.captcha.errors %}
+            <p>{{ error }}</p>
+        {% endfor %}
+    </div>
+    {% endif %}
+{% endblock content %}
