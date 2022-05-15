@@ -3,7 +3,7 @@
 
 {% block content %}
 <h1>Travel guides</h1>
-    {% for guide in guides %}
+    {% for guide in object_list %}
         <h2>
         <a href="{{ guide.get_absolute_url }}">
         {{ guide.title }}

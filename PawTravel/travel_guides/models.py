@@ -1,3 +1,6 @@
+import string
+import random
+
 from django.db import models
 from django.db.models import Q
 from django.urls import reverse
@@ -45,7 +48,7 @@ class Guide(models.Model):
     COUNTRY_CHOICES=(('poland', 'Polska'),) #Countries to which travel guide can be linked
     title = models.CharField(max_length=256)
     description = models.CharField(max_length=1024)
-    slug = models.SlugField(max_length=250, unique_for_date='publish')
+    slug = models.SlugField(max_length=250, primary_key=True, unique=True, editable=True, blank=True)
     author = models.CharField(max_length=16) #Until users module is finished author will be represented only as username
     #author = models.ForeignKey() #Foreign key which links travel guide to its author
     category = models.CharField(max_length=24, choices=CATEGORY_CHOICES)
@@ -64,29 +67,25 @@ class Guide(models.Model):
     def get_absolute_url(self):
         '''
         Generate absolute url of this object (guide)
-        :return: Absolute url with /YYYY/MM/DD/slug format
+        :return: Absolute url with slug-pk
         '''
-        return reverse('travel_guides:guide_detail',
-                       args=[self.publish.year,
-                             self.publish.strftime('%m'),
-                             self.publish.strftime('%d'),
-                             self.slug
-                       ])
+        return reverse("travel_guides:guide_detail", args=[self.slug])
 
     def save(self, *args, **kwargs):
         """
-        Override of basic save function, It implements custom slug generation which will ensure It is unique
-        :param args:
-        :param kwargs:
-        :return:
+        Custom save function. Newly created guide will get slug in title-PK format even if slug was already predefined.
+        In such case slug will be overwritten.
         """
-        if not self.slug:
-            potential_slug=slugify(self.title)
-            while True:
-                conflict_count=len(Guide.objects.filter(slug=potential_slug, publish__year=self.publish.year, publish__month=self.publish.month, publish__day=self.publish.day))
-                if conflict_count==0:
-                    self.slug=potential_slug
-                    break
-                else:
-                    potential_slug+=str(conflict_count*-1)
+        self.slug=None
+        while not self.slug:
+
+            id = ''.join([
+                "".join(random.sample(string.ascii_letters, 2)),
+                "".join(random.sample(string.digits, 2)),
+                "".join(random.sample(string.ascii_letters, 2)),
+            ])
+            newslug="{}-{}".format(slugify(self.title), id)
+            if not Guide.objects.filter(pk=newslug).exists():
+                self.slug = newslug
+
         super().save(*args, **kwargs)
