@@ -3,3 +3,4 @@ Django==4.0.3
 python-dotenv==0.19.2
 sqlparse==0.4.2
 tzdata==2021.5
+django-tinymce==3.4.0

@@ -7,6 +7,7 @@ from django.urls import reverse
 from django.utils import timezone
 # Create your models here.
 from django.utils.text import slugify
+from tinymce.models import HTMLField
 
 class GuideSearchManager(models.Manager):
     def search(self, country=None, category=None, keywords=None):
@@ -53,7 +54,7 @@ class Guide(models.Model):
     #author = models.ForeignKey() #Foreign key which links travel guide to its author
     category = models.CharField(max_length=24, choices=CATEGORY_CHOICES)
     country = models.CharField(max_length=32, choices=COUNTRY_CHOICES)
-    body = models.TextField()
+    body = HTMLField()
     publish = models.DateTimeField(default=timezone.now)
     objects = models.Manager() #Default manager
     search = GuideSearchManager()
