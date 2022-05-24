@@ -1,7 +1,7 @@
 from django.shortcuts import render
 
 from django.views.generic import DetailView, ListView
-from django.views.generic.edit import CreateView 
+from django.views.generic.edit import CreateView, UpdateView 
 from . import models
 
 
@@ -25,3 +25,10 @@ class OfferCreateView(CreateView):
     def form_valid(self, form):
         form.instance.author = self.request.user
         return super().form_valid(form)
+
+class OfferUpdateView(UpdateView):  #Here will be mixin preventing access from different users
+    model = models.Offer
+    fields = [
+        'title', 'shortContent', 'content', 'category', 'image',
+        'originalPrice', 'offerPrice', 'offerEnds', 'link']
+    template_name = 'edit_offer.html'

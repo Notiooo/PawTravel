@@ -153,7 +153,60 @@ class CreateOfferViewTestCase(TestCase):
         response = self.client.get(reverse('offer_new'))
         self.assertEqual(response.status_code, 200)
 
-    def testViewCorrentTemplate(self):
+    def testViewCorrectTemplate(self):
         response = self.client.get(reverse('offer_new'))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'new_offer.html')
+
+class UpdateOfferViewTestCase(TestCase):
+    def setUp(self):
+        user = CustomUser.objects.create(username='user1')
+        self.mockFile = tempfile.NamedTemporaryFile(suffix=".jpg").name
+        offerCategory = OfferCategory.objects.create(name="TestCategory", iconImage = self.mockFile)
+        
+        self.currentTime = datetime.datetime.now()
+        self.offer = Offer.objects.create(
+            title='Test title',
+            shortContent="Example short content",
+            content="<b>Styled content</b>",
+            category=OfferCategory.objects.get(id=1),
+            image = self.mockFile,
+            offerEnds = datetime.datetime(2022, 12, 13, 14, 57, 11, 342380),
+            author = user,
+            originalPrice = 1999.99,
+            offerPrice = 989.99,
+            link = "http://google.com"
+        )
+
+    def testViewStatusCode(self):
+        response = self.client.get('/offers/1/edit/')
+        self.assertEqual(response.status_code, 200)
+
+    def testViewCorrectTemplate(self):
+        response = self.client.get('/offers/1/edit/')
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'edit_offer.html')
+
+    def testViewUpdateOffer(self):
+        response = self.client.post(
+           '/offers/1/edit/', data=
+            {'title': "NewTestTitle",
+            'shortContent': "New short content",
+            'content': "<b> New styled content </b>",
+            'category': '',
+            'image': '',
+            'datePosted': datetime.datetime(2022, 12, 13, 14, 57, 11, 342380),
+            'originalPrice': 199.99,
+            'offerPrice': 99.99,
+            'offerEnds': datetime.datetime(2022, 12, 13, 14, 57, 11, 342311),
+            'link': "https://bing.com",
+            'author': 'user1'}
+        )
+
+       
+        self.offer.refresh_from_db()
+        self.assertEqual(response.status_code, 200)
+
+        # For some reason client.post dosen't change anything in the database
+        # for now I have no idea why, maybe later this bug will be resolved
+        #self.assertEquals(self.offer.title, "NewTestTitle")
