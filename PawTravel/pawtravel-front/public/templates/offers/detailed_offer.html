@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load avatar_tags %}
+
+{% block content %}
+    <div class="uk-container uk-container-small">
+        <div class="uk-flex-center" uk-grid>
+            <!-- Image (left side)-->
+            <div>
+                <img src="{{ offer.image.url }}" class="uk-width-medium" alt="img">
+            </div>
+            <!-- Offer (right side) -->
+            <div class="uk-section-default uk-width-expand@s">
+                <div class="uk-margin-small pt-offer-title pt-color-darkblue">{{ offer.title }}</div>
+                <div class="uk-margin-small">
+                    <span class="pt-offer-discount">
+                        <span class="pt-color-red uk-text-bolder">{{ offer.offer_price }}$</span>
+                        <s class="uk-text-muted">{{ offer.original_price }}$</s>
+                    </span>
+                    Ends {{ offer.offer_ends|date:'d-m-Y' }} at {{ offer.offer_ends|date:'H:i' }}
+                </div>
+                <div class="uk-text-justify">{{ offer.short_content }}</div>
+                <div class="uk-flex-middle" uk-grid>
+                    <!-- Author -->
+                    <div class="uk-grid-small uk-flex-middle uk-margin-top" uk-grid>
+                        <div class="uk-width-auto">
+                            {% avatar offer.author 60 class="uk-comment-avatar uk-border-circle" %}
+                        </div>
+                        <div class="uk-width-expand">
+                            <h4 class="pt-offer-author-name uk-margin-remove"><a class="uk-link-reset" href="#">{{ offer.author }}</a></h4>
+                            <div class="uk-comment-meta uk-margin-remove-top">
+                                Posted {{ offer.date_posted|date:'d-m-Y' }}
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Links & Category -->
+                    <div class="uk-grid-small uk-flex-middle uk-flex-right@m uk-width-expand@m" uk-grid>
+                        <div>
+                            <a href="{{ offer.link }}" target="_blank">
+                                <button class="uk-button pk-button-primary">Open offer</button>
+                            </a>
+                        </div>
+                        <div>
+                            {% if offer.category.icon_image %}
+                            <img src="{{ offer.category.icon_image.url }}" width="30" height="30" alt="img">
+                            {% endif %}
+                            {{ offer.category.name }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <p>{{ offer.content|safe}}</p>
+        </div>
+    </div>
+{% endblock content %}

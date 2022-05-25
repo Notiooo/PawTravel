@@ -1,6 +1,14 @@
 asgiref==3.5.0
-Django==4.0.3
+Django==3.2.13
 python-dotenv==0.19.2
 sqlparse==0.4.2
 tzdata==2021.5
+djangorestframework==3.13.1
+django-cors-headers==3.11.0
 django-tinymce==3.4.0
+django-widget-tweaks==1.4.12
+social-auth-app-django==5.0.0
+django-sslserver==0.22
+django-avatar==5.0.0
+six==1.16.0
+Pillow==9.1.0
