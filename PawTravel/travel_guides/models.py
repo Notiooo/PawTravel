@@ -9,6 +9,9 @@ from django.utils import timezone
 from django.utils.text import slugify
 from tinymce.models import HTMLField
 
+from users.models import CustomUser
+
+
 class GuideSearchManager(models.Manager):
     def search(self, country=None, category=None, keywords=None):
         """
@@ -36,7 +39,8 @@ class GuideSearchManager(models.Manager):
         :param username: Username TODO: Update when user system is implemented
         :return:
         """
-        return super().get_queryset().filter(author=username)
+        user=CustomUser.objects.get(username=username)
+        return super().get_queryset().filter(author=user)
 
 
 class Guide(models.Model):
@@ -47,10 +51,10 @@ class Guide(models.Model):
 
     CATEGORY_CHOICES=(('other', 'Inne'), ('hotels', 'Hotele')) #List of available categories to the user
     COUNTRY_CHOICES=(('poland', 'Polska'),) #Countries to which travel guide can be linked
-    title = models.CharField(max_length=256)
+    title = models.CharField(max_length=256)#
     description = models.CharField(max_length=1024)
     slug = models.SlugField(max_length=250, primary_key=True, unique=True, editable=True, blank=True)
-    author = models.CharField(max_length=16) #Until users module is finished author will be represented only as username
+    author = models.ForeignKey("users.CustomUser", on_delete=models.CASCADE)
     #author = models.ForeignKey() #Foreign key which links travel guide to its author
     category = models.CharField(max_length=24, choices=CATEGORY_CHOICES)
     country = models.CharField(max_length=32, choices=COUNTRY_CHOICES)

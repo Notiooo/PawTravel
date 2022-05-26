@@ -4,9 +4,13 @@ from django.views.generic import ListView, DetailView, FormView, CreateView
 from .forms import GuideForm
 from .models import Guide
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-
+from django.contrib.auth.mixins import LoginRequiredMixin
+from users.models import CustomUser
 
 # Create your views here.
+
+
+
 class GuideListView(ListView):
     """
     Guide List view. It shows list of guides.
@@ -26,7 +30,7 @@ class GuideListView(ListView):
             keywords=[self.request.GET['keywords']]
         queryset=Guide.search.search(country=country, category=category, keywords=keywords)
         if 'username' in self.kwargs:
-            queryset= queryset.filter(author=self.kwargs['username'])
+            queryset= queryset.filter(author=CustomUser.objects.get(username=self.kwargs['username']))
         return queryset
 
 
@@ -36,10 +40,16 @@ class GuideDetailView(DetailView):
     """
     model = Guide
 
-class GuideFormView(CreateView):
+
+class GuideFormView(LoginRequiredMixin, CreateView):
     """
     View responsible for rendering and handling Guide creation form
     """
+    login_url = "/users/login/"
     template_name = "travel_guides/form.html"
     model = Guide
-    fields = ['title', 'description', 'category', 'country', 'body', 'author']
+    fields = ['title', 'description', 'category', 'country', 'body']
+
+    def form_valid(self, form):
+        form.instance.author=self.request.user
+        return super().form_valid(form)

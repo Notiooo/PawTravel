@@ -3,21 +3,24 @@ from django.urls import reverse
 
 from .models import Guide
 from django.utils import timezone
-
+from users.models import CustomUser
 # Create your tests here.
 class GuideModelTests(TestCase):
     """
     Test class responsible for travel_guides model testing
     """
+    def setUp(self) -> None:
+        self.author=CustomUser(username="TestUser", email="test_email@test.com")
+        self.author.save()
 
     def test_custom_save(self):
         """
         Guide model has own save method which can be used to generate unique slugs.
         This test checks if this works properly.
         """
-        guide_one=Guide(title="Lorem Ipsum")
+        guide_one=Guide(title="Lorem Ipsum", author=self.author)
         guide_one.save()
-        guide_two=Guide(title="Lorem Ipsum")
+        guide_two=Guide(title="Lorem Ipsum", author=self.author)
         guide_two.save()
 
         self.assertNotEqual(guide_one.slug, guide_two.slug)
@@ -27,11 +30,11 @@ class GuideModelTests(TestCase):
         If we add '1' to article's slug it may collide with article which had this '1' in its title
         """
         time = timezone.now()
-        guide_special = Guide(title="Lorem Ipsum 1", publish=time)
+        guide_special = Guide(title="Lorem Ipsum 1", publish=time, author=self.author)
         guide_special.save()
-        guide_one = Guide(title="Lorem Ipsum", publish=time)
+        guide_one = Guide(title="Lorem Ipsum", publish=time, author=self.author)
         guide_one.save()
-        guide_two = Guide(title="Lorem Ipsum", publish=time)
+        guide_two = Guide(title="Lorem Ipsum", publish=time, author=self.author)
         guide_two.save()
         self.assertNotEqual(guide_two.slug, guide_special.slug)
 
@@ -41,7 +44,9 @@ class GuidesViewTests(TestCase):
     Test class responsible for testing views
     """
     def setUp(self) -> None:
-        self.author="Testuser"
+
+        self.author=CustomUser(username="TestUser")
+        self.author.save()
         self.guide=Guide(title="Test guide", author=self.author)
         self.guide.save()
 
@@ -65,7 +70,7 @@ class GuidesViewTests(TestCase):
         """
         Checks if list of specific user guides returns correct code (200)
         """
-        resp=self.client.get("/guides/user/"+self.author+"/")
+        resp=self.client.get("/guides/user/"+self.author.username+"/")
 
         self.assertEqual(resp.status_code, 200)
 
@@ -75,16 +80,20 @@ class GuideSearchTests(TestCase):
     Test class responsible for testing custom Manager for Guide model
     """
     def setUp(self):
-        Guide(author="lorem", category="hotels", description="It is test Lorem ipsum").save()
-        Guide(author="ipsum", country="poland", body="It is only test").save()
-        Guide(author="lorem", title="Lorem test ipsum").save()
-        Guide(author="ipsum",  country="poland", category="hotels", body="message").save()
+        self.author=CustomUser(username="TestUser", email="test_email@test.com")
+        self.author.save()
+        self.author_two=CustomUser(username="TestUser2", email="test_email_two@test.com")
+        self.author_two.save()
+        Guide(author=self.author, category="hotels", description="It is test Lorem ipsum").save()
+        Guide(author=self.author, country="poland", body="It is only test").save()
+        Guide(author=self.author_two, title="Lorem test ipsum").save()
+        Guide(author=self.author_two,  country="poland", category="hotels", body="message").save()
 
     def test_user_search(self):
         """
         Checks if search_by_user method returns correct amount of guides
         """
-        query_set=Guide.search.search_by_user("lorem")
+        query_set=Guide.search.search_by_user("TestUser")
         self.assertEqual(len(query_set), 2)
 
     def test_one_element_search(self):
