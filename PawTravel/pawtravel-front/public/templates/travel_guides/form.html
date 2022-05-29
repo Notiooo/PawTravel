@@ -1,7 +1,9 @@
 {% extends "base.html" %}}
-{% block title %} Add new guide {% endblock %}
 
+{% block title %} Add new guide {% endblock %}
+{% block additional_headers %} {{ form.media }} {% endblock %}
 {% block content %}
+
 <form action="." method="post">
 {{ form.as_p }}
 {% csrf_token %}

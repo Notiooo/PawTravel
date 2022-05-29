@@ -12,6 +12,9 @@
     <link rel="stylesheet" href="{% static 'css/pawtravel.css' %}"/>
     <script src="{% static 'js/uikit.min.js' %}"></script>
     <script src="{% static 'js/uikit-icons.min.js' %}"></script>
+    {% block additional_headers %} {% endblock additional_headers %}
+
+
 </head>
 <header>
     {% include 'base/navbar.html' %}
