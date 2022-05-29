@@ -30,7 +30,7 @@ class GuideListView(ListView):
             keywords=[self.request.GET['keywords']]
         queryset=Guide.search.search(country=country, category=category, keywords=keywords)
         if 'username' in self.kwargs:
-            queryset= queryset.filter(author=CustomUser.objects.get(username=self.kwargs['username']))
+            queryset= queryset.filter(author=CustomUser.objects.get(username=self.kwargs['username']), visible='visible')
         return queryset
 
 
@@ -39,6 +39,8 @@ class GuideDetailView(DetailView):
     Guide detail view shows details of given guide
     """
     model = Guide
+    def get_queryset(self):
+        return super().get_queryset().filter(visible='visible')
 
 
 class GuideFormView(LoginRequiredMixin, CreateView):
@@ -48,7 +50,7 @@ class GuideFormView(LoginRequiredMixin, CreateView):
     login_url = "/users/login/"
     template_name = "travel_guides/form.html"
     model = Guide
-    fields = ['title', 'description', 'category', 'country', 'body']
+    form_class = GuideForm
 
     def form_valid(self, form):
         form.instance.author=self.request.user

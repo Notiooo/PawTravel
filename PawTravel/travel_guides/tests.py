@@ -121,3 +121,38 @@ class GuideSearchTests(TestCase):
 
         self.assertEqual(len(Guide.search.search(country="poland", category="hotels", keywords=["message"])), 1)
         self.assertEqual(len(Guide.search.search(keywords=["test", "lorem", "ipsum"])), 2)
+
+class VisibilityTest(TestCase):
+    """
+    This class tests if visibility settings works correctly
+    """
+    def setUp(self):
+        self.author=CustomUser(username="TestUser", email="test_email@test.com")
+        self.author.save()
+        self.guide=Guide(title="Test guide", author=self.author)
+        self.guide.save()
+        self.guide_two=Guide(title="Test guide", author=self.author, visible='Hidden')
+        self.guide_two.save()
+        self.guide_three=Guide(title="Test guide", author=self.author)
+        self.guide_three.save()
+
+    def test_list_with_hidden_article_default(self):
+        """
+        Checks if guide list omits hidden articles
+        """
+        self.assertEqual(len(Guide.search.search()), 2)
+
+    def test_list_with_hidden_article_user(self):
+        """
+        Checks if guide list omits hidden articles, however we search by author
+        """
+        self.assertEqual(len(Guide.search.search_by_user(self.author.username)), 2)
+
+    def test_hidden_guide_detail(self):
+        """
+        Checks if server returns code 404 if someone tries to access hidden article
+        """
+        resp=self.client.get(self.guide_two.get_absolute_url())
+        self.assertEqual(resp.status_code, 404)
+        
+

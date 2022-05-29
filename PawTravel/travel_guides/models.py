@@ -31,16 +31,17 @@ class GuideSearchManager(models.Manager):
             for item in keywords:
                 q_object &= Q(body__icontains=item) | Q(title__icontains=item) | Q(description__icontains=item)
             query_set = query_set.filter(q_object)
+        query_set=query_set.filter(visible='visible')
         return query_set
 
     def search_by_user(self, username):
         """
         Get all guides written by specifc user
-        :param username: Username TODO: Update when user system is implemented
+        :param username: Username
         :return:
         """
         user=CustomUser.objects.get(username=username)
-        return super().get_queryset().filter(author=user)
+        return super().get_queryset().filter(author=user, visible='visible')
 
 
 class Guide(models.Model):
@@ -51,6 +52,7 @@ class Guide(models.Model):
 
     CATEGORY_CHOICES=(('other', 'Inne'), ('hotels', 'Hotele')) #List of available categories to the user
     COUNTRY_CHOICES=(('poland', 'Polska'),) #Countries to which travel guide can be linked
+    VISIBILITY=(('visible', 'Widoczne'), ('Hidden', 'Ukryty'))
     title = models.CharField(max_length=256)#
     description = models.CharField(max_length=1024)
     slug = models.SlugField(max_length=250, primary_key=True, unique=True, editable=True, blank=True)
@@ -58,6 +60,7 @@ class Guide(models.Model):
     #author = models.ForeignKey() #Foreign key which links travel guide to its author
     category = models.CharField(max_length=24, choices=CATEGORY_CHOICES)
     country = models.CharField(max_length=32, choices=COUNTRY_CHOICES)
+    visible=models.CharField(max_length=16, choices=VISIBILITY, default='visible')
     body = HTMLField()
     publish = models.DateTimeField(default=timezone.now)
     objects = models.Manager() #Default manager
@@ -78,10 +81,9 @@ class Guide(models.Model):
 
     def save(self, *args, **kwargs):
         """
-        Custom save function. Newly created guide will get slug in title-PK format even if slug was already predefined.
+        Custom save function. Newly created guide will get slug in title-PK format
         In such case slug will be overwritten.
         """
-        self.slug=None
         while not self.slug:
 
             id = ''.join([

@@ -5,4 +5,3 @@ from .models import Guide
 @admin.register(Guide)
 class GuideAdmin(admin.ModelAdmin):
     list_display = ('title', 'slug', 'author', 'publish', 'category', 'country')
-    prepopulated_fields = {'slug': ('title',)}
