@@ -7,6 +7,7 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.text import slugify
 from tinymce.models import HTMLField
+from like_system.models import LikesTarget
 
 from users.models import CustomUser
 
@@ -43,16 +44,17 @@ class GuideSearchManager(models.Manager):
         return super().get_queryset().filter(author=user, visible='visible')
 
 
-class Guide(models.Model):
+class Guide(LikesTarget):
     '''
     Main model of this app, It represents single travel guide
     '''
     CATEGORY_CHOICES=(('other', 'Other'), ('hotels', 'Hotels'))
     COUNTRY_CHOICES=(('poland', 'Poland'),)
     VISIBILITY=(('visible', 'Visible'), ('hidden', 'Hidden'))
-    title = models.CharField(max_length=256)#
+    title = models.CharField(max_length=256)
     description = models.CharField(max_length=1024)
     slug = models.SlugField(max_length=250, primary_key=True, unique=True, editable=True, blank=True)
+
     author = models.ForeignKey("users.CustomUser", on_delete=models.CASCADE)
     category = models.CharField(max_length=24, choices=CATEGORY_CHOICES)
     country = models.CharField(max_length=32, choices=COUNTRY_CHOICES)

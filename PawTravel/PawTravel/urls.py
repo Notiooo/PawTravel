@@ -37,6 +37,7 @@ router = routers.DefaultRouter()
 router.register(r'users', CustomUserViewSet)
 
 urlpatterns = [
+    path('', include('like_system.urls')),
     path('admin/', admin.site.urls),
     path('guides/', include('travel_guides.urls', namespace='travel_guides')),
     path('tinymce/', include('tinymce.urls')),
@@ -44,7 +45,8 @@ urlpatterns = [
     path('users/', include('django.contrib.auth.urls')),  # logout
     path('users/', include('users.urls')),
     path('avatar/', include('avatar.urls')),
-    path('', include(router.urls)),
+
+
 ]
 
 urlpatterns += staticfiles_urlpatterns()
