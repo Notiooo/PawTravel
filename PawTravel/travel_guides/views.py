@@ -1,16 +1,11 @@
-from django.shortcuts import render, get_object_or_404
-from django.views.generic import ListView, DetailView, FormView, CreateView
+from django.views.generic import ListView, DetailView, CreateView
 
 from .forms import GuideForm
 from .models import Guide
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.mixins import LoginRequiredMixin
 from users.models import CustomUser
 
 # Create your views here.
-
-
-
 class GuideListView(ListView):
     """
     Guide List view. It shows list of guides.
@@ -18,6 +13,8 @@ class GuideListView(ListView):
     """
     model = Guide
     paginate_by = 1
+    template_name = "travel_guides/guide_list.html"
+
     def get_queryset(self):
         category=None
         country=None
@@ -39,6 +36,8 @@ class GuideDetailView(DetailView):
     Guide detail view shows details of given guide
     """
     model = Guide
+    template_name = "travel_guides/guide_detail.html"
+
     def get_queryset(self):
         return super().get_queryset().filter(visible='visible')
 

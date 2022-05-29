@@ -5,7 +5,6 @@ from django.db import models
 from django.db.models import Q
 from django.urls import reverse
 from django.utils import timezone
-# Create your models here.
 from django.utils.text import slugify
 from tinymce.models import HTMLField
 
@@ -48,16 +47,13 @@ class Guide(models.Model):
     '''
     Main model of this app, It represents single travel guide
     '''
-    #STATUS = () #Travel Guide status
-
-    CATEGORY_CHOICES=(('other', 'Inne'), ('hotels', 'Hotele')) #List of available categories to the user
-    COUNTRY_CHOICES=(('poland', 'Polska'),) #Countries to which travel guide can be linked
-    VISIBILITY=(('visible', 'Widoczne'), ('Hidden', 'Ukryty'))
+    CATEGORY_CHOICES=(('other', 'Other'), ('hotels', 'Hotels'))
+    COUNTRY_CHOICES=(('poland', 'Poland'),)
+    VISIBILITY=(('visible', 'Visible'), ('hidden', 'Hidden'))
     title = models.CharField(max_length=256)#
     description = models.CharField(max_length=1024)
     slug = models.SlugField(max_length=250, primary_key=True, unique=True, editable=True, blank=True)
     author = models.ForeignKey("users.CustomUser", on_delete=models.CASCADE)
-    #author = models.ForeignKey() #Foreign key which links travel guide to its author
     category = models.CharField(max_length=24, choices=CATEGORY_CHOICES)
     country = models.CharField(max_length=32, choices=COUNTRY_CHOICES)
     visible=models.CharField(max_length=16, choices=VISIBILITY, default='visible')

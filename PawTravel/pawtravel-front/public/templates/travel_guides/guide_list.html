@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "travel_guides/base.html" %}
 {% block title %} Guide List {% endblock %}
 
 {% block content %}
@@ -10,11 +10,11 @@
         </a>
         </h2>
         {{ guide.description }}
-        <p class="date">
+        <p>
         Posted by {{ guide.author }} on {{ guide.publish }}
         </p>
     {% endfor %}
-    {% include "pagination.html" with page=guides %}
+    {% include "travel_guides/pagination.html" with page=guides %}
 
 {% endblock %}
 

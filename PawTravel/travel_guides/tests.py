@@ -1,9 +1,11 @@
 from django.test import TestCase
-from django.urls import reverse
+from django.test.client import RequestFactory
 
 from .models import Guide
 from django.utils import timezone
 from users.models import CustomUser
+from .views import GuideFormView
+
 # Create your tests here.
 class GuideModelTests(TestCase):
     """
@@ -74,6 +76,17 @@ class GuidesViewTests(TestCase):
 
         self.assertEqual(resp.status_code, 200)
 
+    def test_guide_add_form(self):
+        """
+        Checks if guide creation form is protected from non logged users
+        """
+        resp=self.client.get("/guides/add")
+        self.assertEqual(resp.status_code, 301, "User should not be able to access this page if not logged")
+        factory = RequestFactory()
+        request = factory.get('/guides/add')
+        request.user = CustomUser.objects.create(username='testuser', email="test@test.com")
+        response = GuideFormView.as_view()(request)
+        self.assertEqual(response.status_code, 200, "User should be able to access this page if logged")
 
 class GuideSearchTests(TestCase):
     """
@@ -154,5 +167,5 @@ class VisibilityTest(TestCase):
         """
         resp=self.client.get(self.guide_two.get_absolute_url())
         self.assertEqual(resp.status_code, 404)
-        
+
 

@@ -11,8 +11,6 @@ class GuideForm(forms.ModelForm):
     category=forms.ChoiceField(choices=Guide.CATEGORY_CHOICES, required=True)
     country=forms.ChoiceField(choices=Guide.COUNTRY_CHOICES, required=True)
 
-
-
     class Meta:
         model=Guide
         fields=('title', 'description', 'body', 'category', 'country')
