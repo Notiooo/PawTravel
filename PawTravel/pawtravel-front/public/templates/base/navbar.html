@@ -1,5 +1,95 @@
-<nav class="uk-navbar-container uk-margin uk-box-shadow-large" uk-navbar>
-    <div class="uk-navbar-center">
-        <a class="uk-navbar-item uk-logo" href="#">Sample navbar (placeholder)</a>
+{% load repeatedblocks %}
+{% load static %}
+
+<nav class="uk-container uk-container-small uk-margin uk-visible@m" uk-navbar>
+
+    <div class="uk-navbar-left uk-width-expand">
+        <a class="uk-navbar-item uk-logo" href="#"><img src="{% static 'img/pawtravel.png' %}" width="150px"></a>
+        <div class="uk-navbar-item uk-width-expand">
+            <form class="uk-search uk-search-default uk-width-expand">
+                <span uk-search-icon style="color: white"></span>
+                <input class="uk-search-input pt-search" type="search" placeholder="Search">
+            </form>
+        </div>
+        <ul class="uk-navbar-nav">
+            {% repeated_block navbar-left %} {% endblock %}
+        </ul>
     </div>
+
+    <div class="uk-navbar-center">
+        <ul class="uk-navbar-nav">
+            {% repeated_block navbar-center %} {% endblock %}
+        </ul>
+    </div>
+    <div class="uk-navbar-right">
+        <div class="uk-inline">
+            <span class="uk-form-icon" style="color: white;" uk-icon="icon: plus-circle"></span>
+            <button class="uk-button pt-button-primary" style="padding-left: 50px">Add</button>
+        </div>
+        <ul class="uk-navbar-nav">
+            <li>
+                <a href="#">
+                    <span class="uk-icon pt-color-darkblue" uk-icon="icon: bell; ratio: 1.8"></span>
+                </a>
+            </li>
+        </ul>
+        <ul class="uk-navbar-nav">
+            <li>
+                <a href="#">
+                    <span class="uk-icon pt-color-darkblue" uk-icon="icon: mail; ratio: 1.8"></span>
+                </a>
+            </li>
+        </ul>
+        <ul class="uk-navbar-nav">
+            {% repeated_block navbar-right %} {% endblock %}
+        </ul>
+
+        <ul class="uk-navbar-nav">
+            <li>
+                <a href="#"><span class="pt-color-darkblue" uk-icon="icon: user; ratio: 1.8"></span></a>
+                <div class="uk-navbar-dropdown">
+                    <ul class="uk-nav uk-navbar-dropdown-nav">
+                        <li><a href="#">Your profile</a></li>
+                        <li class="uk-nav-divider"></li>
+                        <li><a href="#">Logout</a></li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<nav class="uk-navbar-container uk-hidden@m" uk-navbar>
+    <div class="uk-navbar-left">
+        <a class="uk-navbar-toggle"  href="#">
+            <span style="color: #6B818C" uk-icon="icon: menu; ratio: 2;" uk-toggle="target: #offcanvas-overlay;"></span>
+        </a>
+    </div>
+   <div class="uk-navbar-right">
+        <div class="nav-overlay">
+            <a class="uk-navbar-toggle" uk-icon="icon: search; ratio: 1.8;" uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+        </div>
+        <div class="nav-overlay uk-navbar-left uk-flex-1" hidden>
+            <div class="uk-navbar-item uk-width-expand">
+                <form class="uk-search uk-search-navbar uk-width-1-1">
+                    <input class="uk-search-input" type="search" placeholder="Search" autofocus>
+                </form>
+            </div>
+            <a class="uk-navbar-toggle" uk-close uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+        </div>
+        <a class="uk-navbar-item uk-logo" href="#"><img src="{% static 'img/pawtravel.png' %}" width="150px"></a>
+   </div>
+    <nav id="offcanvas-overlay" uk-offcanvas="overlay: true">
+        <div class="uk-offcanvas-bar">
+            <ul class="uk-list uk-list-divider uk-list-large uk-margin-top" style="font-size: 21px">
+                {% repeat navbar-left %}
+                <li><a href="#"><span uk-icon="user" class="uk-padding-small" ></span>Your profile</a></li>
+                <li><a href="#"><span uk-icon="plus-circle" class="uk-padding-small"></span>Add</a></li>
+                <li><a href="#"><span uk-icon="bell" class="uk-padding-small"></span>Alerts</a></li>
+                <li><a href="#"><span uk-icon="mail" class="uk-padding-small"></span>Messages</a></li>
+                <li><a href="#"><span uk-icon="sign-out" class="uk-padding-small"></span>Logout</a></li>
+            </ul>
+            <button class="uk-offcanvas-close" type="button" uk-close></button>
+        </div>
+    </nav>
 </nav>
