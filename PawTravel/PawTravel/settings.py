@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'sslserver',
     'social_django',
     'avatar',
+    'macros',
 ]
 
 MIDDLEWARE = [

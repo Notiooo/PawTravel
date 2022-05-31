@@ -1,26 +1,55 @@
-{% load static %}
-<nav class="uk-navbar-container uk-margin uk-box-shadow-medium" uk-navbar>
-        <div class="uk-navbar-left uk-margin-xlarge-left">
-            <a class="uk-navbar-item uk-logo" href="#"><img src="{% static 'img/pawtravel.png' %}" width="150px"></a>
-            {% block navbar-left %} {% endblock %}
-        </div>
-        <div class="uk-navbar-center">
-            {% block navbar-center %} {% endblock %}
-        </div>
-        <div class="uk-navbar-right uk-margin-xlarge-right">
-            {% block navbar-right %} {% endblock %}
+{% load repeatedblocks %}
 
-            <ul class="uk-navbar-nav">
-                <li>
-                    <a href="#"><span uk-icon="icon: user; ratio: 1.5"></span></a>
-                    <div class="uk-navbar-dropdown">
-                        <ul class="uk-nav uk-navbar-dropdown-nav">
-                            <li><a href="#">Your profile</a></li>
-                            <li class="uk-nav-divider"></li>
-                            <li><a href="#">Logout</a></li>
-                        </ul>
-                    </div>
-                </li>
+<nav class="uk-navbar-container uk-margin uk-box-shadow-medium uk-visible@m" uk-navbar>
+
+    <div class="uk-navbar-left uk-margin-xlarge-left">
+        <a class="uk-navbar-item uk-logo" href="#"><img src="{% static 'img/pawmed.png' %}" width="150px"></a>
+        <ul class="uk-navbar-nav">
+            {% repeated_block navbar-left %} {% endblock %}
+        </ul>
+    </div>
+    <div class="uk-navbar-center">
+        <ul class="uk-navbar-nav">
+            {% repeated_block navbar-center %} {% endblock %}
+        </ul>
+    </div>
+    <div class="uk-navbar-right uk-margin-xlarge-right">
+        <ul class="uk-navbar-nav">
+            {% repeated_block navbar-right %} {% endblock %}
+        </ul>
+
+        <ul class="uk-navbar-nav">
+            <li>
+                <a href="#"><span uk-icon="icon: user; ratio: 1.5"></span></a>
+                <div class="uk-navbar-dropdown">
+                    <ul class="uk-nav uk-navbar-dropdown-nav">
+                        <li><a href="#">Your profile</a></li>
+                        <li class="uk-nav-divider"></li>
+                        <li><a href="#">Logout</a></li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<nav class="uk-navbar-container uk-hidden@m" uk-navbar>
+    <div class="uk-navbar-left">
+        <a class="uk-navbar-toggle"  href="#">
+            <span style="color: #6B818C" uk-icon="icon: menu; ratio: 2;" uk-toggle="target: #offcanvas-overlay;"></span>
+        </a>
+    </div>
+   <div class="uk-navbar-right">
+        <a class="uk-navbar-item uk-logo" href="#"><img src="{% static 'img/pawmed.png' %}" width="150px"></a>
+   </div>
+    <nav id="offcanvas-overlay" uk-offcanvas="overlay: true">
+        <div class="uk-offcanvas-bar">
+            <ul class="uk-list uk-list-divider uk-list-large uk-margin-top" style="font-size: 21px">
+                {% repeat navbar-left %}
+                <li><a href="#"><span uk-icon="user" style='margin-right:0.9em; display:inline-block;'></span>Your profile</a></li>
+                <li><a href="#"><span uk-icon="sign-out" style='margin-right:0.9em; display:inline-block;'></span>Logout</a></li>
             </ul>
+            <button class="uk-offcanvas-close" type="button" uk-close></button>
         </div>
-</nav> 
+    </nav>
+</nav>
