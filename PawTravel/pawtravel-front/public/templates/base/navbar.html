@@ -1,5 +1,26 @@
-<nav class="uk-navbar-container uk-margin uk-box-shadow-large" uk-navbar>
-    <div class="uk-navbar-center">
-        <a class="uk-navbar-item uk-logo" href="#">Sample navbar (placeholder)</a>
-    </div>
-</nav>
+{% load static %}
+<nav class="uk-navbar-container uk-margin uk-box-shadow-medium" uk-navbar>
+        <div class="uk-navbar-left uk-margin-xlarge-left">
+            <a class="uk-navbar-item uk-logo" href="#"><img src="{% static 'img/pawtravel.png' %}" width="150px"></a>
+            {% block navbar-left %} {% endblock %}
+        </div>
+        <div class="uk-navbar-center">
+            {% block navbar-center %} {% endblock %}
+        </div>
+        <div class="uk-navbar-right uk-margin-xlarge-right">
+            {% block navbar-right %} {% endblock %}
+
+            <ul class="uk-navbar-nav">
+                <li>
+                    <a href="#"><span uk-icon="icon: user; ratio: 1.5"></span></a>
+                    <div class="uk-navbar-dropdown">
+                        <ul class="uk-nav uk-navbar-dropdown-nav">
+                            <li><a href="#">Your profile</a></li>
+                            <li class="uk-nav-divider"></li>
+                            <li><a href="#">Logout</a></li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </div>
+</nav> 
