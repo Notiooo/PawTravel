@@ -163,3 +163,21 @@
 .pt-input:focus {
     border: 2px solid #F1Bf98 !important;
 }
+
+.pt-search
+{
+    border-radius: 10px;
+    border: 0px;
+    color: white;
+    background-color: #6B818C!important;;
+}
+
+.pt-search::placeholder
+{
+    color: white;
+    opacity: 1;
+}
+
+.pt-search:focus {
+    border: 0px;
+}
