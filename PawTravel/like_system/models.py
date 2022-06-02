@@ -42,7 +42,7 @@ class LikeSystem(models.Model):
     LIKE = 1
     DISLIKE = -1
 
-    ACTIONS = ((DISLIKE, "like"), (LIKE, "dislike"))
+    ACTIONS = ((DISLIKE, "dislike"), (LIKE, "like"))
 
     action = models.SmallIntegerField(choices=ACTIONS)
 

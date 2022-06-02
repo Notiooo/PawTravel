@@ -19,7 +19,7 @@ class LikeSystemView(LoginRequiredMixin, View):
                 content_type=ContentType.objects.get_for_model(
                     content_object
                 ),
-                object_id=content_object.id,
+                object_id=content_object.slug,
                 user=request.user,
             )
 
@@ -29,11 +29,11 @@ class LikeSystemView(LoginRequiredMixin, View):
 
             else:
                 likedislike.delete()
-
-        except:
+        except LikeSystem.DoesNotExist:
             content_object.likesystem.create(
                 action=self.action_type, user=request.user
             )
+
 
         data["likes"] = content_object.likesystem.likes().count()
         data["dislikes"] = content_object.likesystem.dislikes().count()
