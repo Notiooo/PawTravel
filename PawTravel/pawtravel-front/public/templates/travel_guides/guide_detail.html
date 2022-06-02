@@ -2,12 +2,15 @@
 {% block title %} {{ object.title }} {% endblock %}
 
 {% block content %}
+
 <h1>{{object.title}}</h1>
     {{ object.body|safe }}
     <div class='likesystem'>
-  <span class='likes' data-id={{object.slug}} data-type='Guide'>like</span>
-  <span class='countlikes'>{{object.likesystem.likes.count}}</span>
-  <span class='dislikes' data-id={{object.slug}} data-type='Guide'>dislike</span>
-  <span class='countdislikes'>{{object.likesystem.dislikes.count}}</span>
+  <span class='likes' data-id={{object.slug}} data-type='guides/vote'>like</span>  <span class='dislikes' data-id={{object.slug}} data-type='guides/vote'>dislike</span><br>
+  Score: <span class='countlikes'>{{ likes }}</span>
+        <br>
+  Total votes:<span class='countdislikes'>{{ num_votes }}</span>
 </div>
+
+
 {% endblock %}

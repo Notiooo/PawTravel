@@ -1,10 +1,12 @@
+from django.http import JsonResponse
+from django.views import View
 from django.views.generic import ListView, DetailView, CreateView
 
 from .forms import GuideForm
 from .models import Guide
 from django.contrib.auth.mixins import LoginRequiredMixin
 from users.models import CustomUser
-
+from voting.models import Vote
 # Create your views here.
 class GuideListView(ListView):
     """
@@ -41,6 +43,13 @@ class GuideDetailView(DetailView):
     def get_queryset(self):
         return super().get_queryset().filter(visible='visible')
 
+    def get_context_data(self, **kwargs):
+        context = super(GuideDetailView, self).get_context_data(**kwargs)
+        context["likes"] = Vote.objects.get_score(context['guide'])['score']
+        context["num_votes"] = Vote.objects.get_score(context['guide'])['num_votes']
+        return context
+
+
 
 class GuideFormView(LoginRequiredMixin, CreateView):
     """
@@ -54,3 +63,22 @@ class GuideFormView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.author=self.request.user
         return super().form_valid(form)
+
+class GuideVoteView(View):
+    """
+    View responsible for processing voting system
+    """
+    def post(self, request, slug, mode):
+        user=request.user
+        guide=Guide.objects.get(slug=slug)
+        if user.is_authenticated:
+            if mode=="like":
+                Vote.objects.record_vote(guide, user, 1)
+            elif mode=="dislike":
+                Vote.objects.record_vote(guide, user, -1)
+            else:
+                Vote.objects.record_vote(guide, user, 0)
+        data=dict()
+        data["likes"] = Vote.objects.get_score(guide)['score']
+        data["num_votes"] = Vote.objects.get_score(guide)['num_votes']
+        return JsonResponse(data)

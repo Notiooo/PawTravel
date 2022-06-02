@@ -12,3 +12,4 @@ django-sslserver==0.22
 django-avatar==5.0.0
 six==1.16.0
 Pillow==9.1.0
+git+https://github.com/jazzband/django-voting.git@dcfefc4e515039fc90cd67480ee9c50759282756

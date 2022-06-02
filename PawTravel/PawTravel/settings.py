@@ -55,7 +55,7 @@ INSTALLED_APPS = [
     'sslserver',
     'social_django',
     'avatar',
-    'like_system'
+    'voting',
 ]
 
 MIDDLEWARE = [
@@ -145,10 +145,6 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
     os.path.join(BASE_DIR, 'pawtravel-front/static')
 ]
-
-# Like/Dislike objects
-LIKES_OBJS_DICT = {'travel_guides.models': ['Guide'],
-                   'offers.models': ['Offer']}
 
 # Media files
 MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads')

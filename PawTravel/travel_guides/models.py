@@ -7,7 +7,7 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.text import slugify
 from tinymce.models import HTMLField
-from like_system.models import LikesTarget
+
 
 from users.models import CustomUser
 
@@ -44,7 +44,7 @@ class GuideSearchManager(models.Manager):
         return super().get_queryset().filter(author=user, visible='visible')
 
 
-class Guide(LikesTarget):
+class Guide(models.Model):
     '''
     Main model of this app, It represents single travel guide
     '''

@@ -7,5 +7,5 @@ urlpatterns = [
     path('add/', views.GuideFormView.as_view(), name="add_guide"),
     path('list/', views.GuideListView.as_view(), name='guide_list'),
     path('details/<str:slug>/', views.GuideDetailView.as_view(), name='guide_detail'),
-
+    path('vote/<str:slug>/<str:mode>', views.GuideVoteView.as_view(), name='guide_vote'),
 ]
