@@ -1,0 +1,60 @@
+{% load widget_tweaks %}
+{% load avatar_tags %}
+
+<div class="pt-background-darkblue uk-width-1-1 uk-position-relative uk-light" style="height: 50px; font-size: 16px; font-weight: 600">
+    <div class="uk-margin-left uk-position-center-left">{{ offer.comments.all|length }} comments</div>
+    <div class="uk-position-center uk-text-center">
+        4 5 6 7 8
+    </div>
+</div>
+
+<ul id="comments" class="uk-comment-list">
+    {% for comment in offer.comments.all %}
+    <li class="uk-padding-small {% if forloop.counter0|divisibleby:"2" %}pt-background-white{% endif %}">
+        <article class="uk-comment uk-visible-toggle uk-animation-toggle" id="{{ comment.id }}" tabindex="-1">
+            <header class="uk-comment-header uk-position-relative">
+                <div class="uk-grid-medium uk-flex-middle" uk-grid>
+                    <div class="uk-width-auto">
+                        {% avatar comment.author 65 class="uk-comment-avatar uk-border-circle" %}
+                    </div>
+                    <div class="uk-width-expand">
+                        <h4 class="uk-comment-title uk-margin-remove"><a class="uk-link-reset" href="{{ comment.author.url }}">{{ comment.author }}</a></h4>
+                        <p class="uk-comment-meta uk-margin-remove-top"><a class="uk-link-reset" href="#">{{ comment.date }}</a></p>
+                    </div>
+                </div>
+            </header>
+            <div class="uk-comment-body">
+                <p>{{ comment.text }}</p>
+            </div>
+        </article>
+    </li>
+    {% endfor %}
+    {% if user.is_authenticated %}
+    <div>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="uk-margin" uk-grid>
+                <div class="uk-width-auto">
+                    {% avatar user 65 class="uk-comment-avatar uk-border-circle" %}
+                </div>
+                <div class="uk-width-expand">
+                    {% render_field form.text|attr:"style:resize: none" rows="3" class+="pt-input uk-textarea" placeholder="Tell us what you think" %}
+                </div>
+            </div>
+            <div class="uk-text-right" uk-margin><button type="submit" class="uk-button pt-button-primary uk-text-right">Send a comment</button></div>
+        </form>
+        {% if comment_form.non_field_errors %}
+        <div class="uk-alert-danger" uk-alert>
+            {% for error in form.non_field_errors %}
+                {{ error }}
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+    {% endif %}
+    <div class="pt-background-lightblue uk-width-1-1 uk-position-relative uk-light" style="height: 50px; font-size: 16px; font-weight: 600">
+        <div class="uk-position-center uk-text-center">
+            4 5 6 7 8
+        </div>
+    </div>
+</ul>

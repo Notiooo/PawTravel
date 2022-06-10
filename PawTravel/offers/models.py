@@ -1,7 +1,12 @@
 from django.conf import settings
+from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
+from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.urls import reverse
 from tinymce.models import HTMLField
+
+from comments.models import Comment
+from comments.forms import CommentForm
 
 
 class OfferCategory(models.Model):
@@ -31,6 +36,7 @@ class Offer(models.Model):
     original_price = models.FloatField()
     offer_price = models.FloatField()
     link = models.URLField()
+    comments = GenericRelation(Comment, related_query_name='all_comments')
 
     def __str__(self):
         return self.title

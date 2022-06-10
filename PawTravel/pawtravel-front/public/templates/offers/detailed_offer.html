@@ -52,5 +52,6 @@
         <div>
             <p>{{ offer.content|safe}}</p>
         </div>
+        {% include 'comments/comments.html' with object_list=offer.all_comments %}
     </div>
 {% endblock content %}
