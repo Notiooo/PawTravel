@@ -42,4 +42,4 @@ class Offer(models.Model):
         super(Offer, self).save(kwargs)
 
     def get_absolute_url(self):
-        return reverse('offer', args=[str(self.pk), self.slug_url])
+        return reverse('offer', kwargs={'pk': self.pk, 'slug_url': self.slug_url})
