@@ -3,13 +3,33 @@
 
 <div class="pt-background-darkblue uk-width-1-1 uk-position-relative uk-light" style="height: 50px; font-size: 16px; font-weight: 600">
     <div class="uk-margin-left uk-position-center-left">{{ offer.comments.all|length }} comments</div>
-    <div class="uk-position-center uk-text-center">
-        4 5 6 7 8
+    <div class="uk-position-center">
+        {% if is_paginated %}
+            <ul class="uk-pagination" style="margin-top: 20px;">
+                {% if page_obj.has_previous %}
+                <li><a href="?page={{ page_obj.previous_page_number }}"><span uk-pagination-previous></a></li>
+                {% else %}
+                <li class="uk-disabled"></li>
+                {% endif %}
+                {% for i in page_obj.paginator.page_range %}
+                {% if page_obj.number == i %}
+                <li class="uk-active"><span>{{ i }}</span></li>
+                {% elif i > page_obj.number|add:'-3' and i < page_obj.number|add:'3' %}
+                <li><a href="?page={{ i }}">{{ i }}</a></li>
+                {% endif %}
+                {% endfor %}
+                {% if page_obj.has_next %}
+                <li><a href="?page={{ page_obj.next_page_number }}"><span uk-pagination-next></a></li>
+                {% else %}
+                <li class="uk-disabled"></li>
+                {% endif %}
+            </ul>
+        {% endif %}
     </div>
 </div>
 
 <ul id="comments" class="uk-comment-list">
-    {% for comment in offer.comments.all %}
+    {% for comment in object_list %}
     <li class="uk-padding-small {% if forloop.counter0|divisibleby:"2" %}pt-background-white{% endif %}">
         <article class="uk-comment uk-visible-toggle uk-animation-toggle" id="{{ comment.id }}" tabindex="-1">
             <header class="uk-comment-header uk-position-relative">
@@ -53,8 +73,28 @@
     </div>
     {% endif %}
     <div class="pt-background-lightblue uk-width-1-1 uk-position-relative uk-light" style="height: 50px; font-size: 16px; font-weight: 600">
-        <div class="uk-position-center uk-text-center">
-            4 5 6 7 8
-        </div>
+    <div class="uk-position-center">
+        {% if is_paginated %}
+            <ul class="uk-pagination" style="margin-top: 20px;">
+                {% if page_obj.has_previous %}
+                <li><a href="?page={{ page_obj.previous_page_number }}"><span uk-pagination-previous></a></li>
+                {% else %}
+                <li class="uk-disabled"></li>
+                {% endif %}
+                {% for i in page_obj.paginator.page_range %}
+                {% if page_obj.number == i %}
+                <li class="uk-active"><span>{{ i }}</span></li>
+                {% elif i > page_obj.number|add:'-3' and i < page_obj.number|add:'3' %}
+                <li><a href="?page={{ i }}">{{ i }}</a></li>
+                {% endif %}
+                {% endfor %}
+                {% if page_obj.has_next %}
+                <li><a href="?page={{ page_obj.next_page_number }}"><span uk-pagination-next></a></li>
+                {% else %}
+                <li class="uk-disabled"></li>
+                {% endif %}
+            </ul>
+        {% endif %}
+    </div>
     </div>
 </ul>

@@ -4,21 +4,26 @@ from django.urls import reverse
 
 from django.views.generic import DetailView
 from django.views.generic.edit import FormMixin
+from django.views.generic.list import MultipleObjectMixin
 
 from . import models
 from comments.forms import CommentForm
+from comments.models import Comment
 
 
-class OfferDetailView(FormMixin, DetailView):
+class OfferDetailView(FormMixin, DetailView, MultipleObjectMixin):
     """A view showing one particular offer in detail."""
 
     model = models.Offer
     context_object_name = 'offer'
     template_name = 'offers/detailed_offer.html'
     form_class = CommentForm
+    paginate_by = 3
 
     def get_context_data(self, **kwargs):
-        return super().get_context_data(**kwargs)
+        offer = self.get_object()
+        object_list = offer.comments.all()
+        return super().get_context_data(object_list=object_list, **kwargs)
 
     def get_success_url(self):
         return reverse('offer', kwargs={'pk': self.get_object().id})
