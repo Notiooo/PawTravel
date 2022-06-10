@@ -4,6 +4,7 @@ import tempfile
 from django.test import TestCase
 from django.urls import reverse
 from offers.models import Offer, OfferCategory
+from parameterized import parameterized_class, parameterized
 from users.models import CustomUser
 from pathlib import Path
 
@@ -31,47 +32,89 @@ class DetailOfferViewTestCase(TestCase):
             link="http://google.com"
         )
 
-    def test_view_status_code(self):
-        response = self.client.get('/offers/1/')
-        self.assertEqual(response.status_code, 200)
+    @parameterized.expand([
+        ('/offers/1/', 302),
+        ('/offers/slug-url-9-1', 301),
+        ('/offers/slug-url--1', 301),
+        ('/offers/slug-url-9-1/', 302),
+        ('/offers/slug-url--1/', 302),
+        ('/offers/1', 301),
+        ('/offers/testtitle-1/', 200),
+    ])
+    def test_view_status_code(self, test_input, status_code):
+        response = self.client.get(test_input)
+        self.assertEqual(response.status_code, status_code)
 
-    def test_view_by_name(self):
+    @parameterized.expand([
+        '/offers/1/',
+        '/offers/slug-url-9-1',
+        '/offers/slug-url--1',
+        '/offers/slug-url-9-1/',
+        '/offers/slug-url--1/',
+        "/offers/1",
+    ])
+    def test_view_by_name_and_url_are_the_same(self, test_input):
+        response_name = self.client.get(reverse('offer', kwargs={'pk': 1}), follow=True)
+        response_url = self.client.get(test_input, follow=True)
+        self.assertEqual(response_name.redirect_chain[-1], response_url.redirect_chain[-1])
+        self.assertEqual(response_name.status_code, 200)
+        self.assertEqual(response_url.status_code, 200)
+
+    def test_view_by_name_status_code(self):
         response = self.client.get(reverse('offer', kwargs={'pk': 1}))
+        self.assertEqual(response.status_code, 302)
+
+    def test_view_by_name_follow(self):
+        response = self.client.get(reverse('offer', kwargs={'pk': 1}), follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.redirect_chain[-1], ('/offers/testtitle-1/', 302))
+
+    def test_view_by_name_with_wrong_slug_status_code(self):
+        response = self.client.get(reverse('offer', kwargs={'pk': 1, 'slug_url': 'any-slug-url'}))
+        self.assertEqual(response.status_code, 302)
+
+    def test_view_by_name_with_wrong_slug_follow(self):
+        response = self.client.get(reverse('offer', kwargs={'pk': 1, 'slug_url': 'any-slug-url'}), follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.redirect_chain[-1], ('/offers/testtitle-1/', 302))
+
+    def test_view_by_name_with_correct_slug(self):
+        response = self.client.get(reverse('offer', kwargs={'pk': 1, 'slug_url': 'testtitle'}))
         self.assertEqual(response.status_code, 200)
 
     def test_view_correct_template(self):
-        response = self.client.get(reverse('offer', kwargs={'pk': 1}))
+        response = self.client.get(reverse('offer', kwargs={'pk': 1, 'slug_url': 'testtitle'}))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'offers/detailed_offer.html')
 
     def test_view_correct_title(self):
-        response = self.client.get('/offers/1/')
+        response = self.client.get('/offers/testtitle-1/')
         self.assertContains(response, "TestTitle")
 
     def test_view_correct_short_content(self):
-        response = self.client.get('/offers/1/')
+        response = self.client.get('/offers/testtitle-1/')
         self.assertContains(response, "Example short content")
 
     def test_view_correct_content(self):
-        response = self.client.get('/offers/1/')
+        response = self.client.get('/offers/testtitle-1/')
         self.assertContains(response, "<b>Styled content</b>")
 
     def test_view_correct_category(self):
-        response = self.client.get('/offers/1/')
+        response = self.client.get('/offers/testtitle-1/')
         self.assertContains(response, "TestCategory")
 
     def test_view_correct_image(self):
-        response = self.client.get('/offers/1/')
+        response = self.client.get('/offers/testtitle-1/')
         self.assertContains(response, Path(self.mock_file).name)
 
     def test_view_correct_date_posted(self):
-        response = self.client.get('/offers/1/')
+        response = self.client.get('/offers/testtitle-1/')
         self.assertContains(response, f'{self.current_time.year}')
         self.assertContains(response, f'{self.current_time.day}')
         self.assertContains(response, f'{self.current_time.month}')
 
     def test_view_correct_offer_ends(self):
-        response = self.client.get('/offers/1/')
+        response = self.client.get('/offers/testtitle-1/')
         self.assertContains(response, "2022")
         self.assertContains(response, "12")
         self.assertContains(response, "13")
@@ -79,19 +122,19 @@ class DetailOfferViewTestCase(TestCase):
         self.assertContains(response, "57")
 
     def test_view_correct_author(self):
-        response = self.client.get('/offers/1/')
+        response = self.client.get('/offers/testtitle-1/')
         self.assertContains(response, "user1")
 
     def test_view_correct_original_price(self):
-        response = self.client.get('/offers/1/')
+        response = self.client.get('/offers/testtitle-1/')
         self.assertContains(response, "1999.99")
 
     def test_view_correct_offer_price(self):
-        response = self.client.get('/offers/1/')
+        response = self.client.get('/offers/testtitle-1/')
         self.assertContains(response, "989.99")
 
     def test_view_correct_link(self):
-        response = self.client.get('/offers/1/')
+        response = self.client.get('/offers/testtitle-1/')
         self.assertContains(response, "http://google.com")
 
 
@@ -134,4 +177,4 @@ class DetailOfferTestCase(TestCase):
 
     def test_get_absolute_url(self):
         offer = Offer.objects.get(id=1)
-        self.assertEquals(offer.get_absolute_url(), '/offers/1/')
+        self.assertEquals(offer.get_absolute_url(), '/offers/testtitle-1/')
