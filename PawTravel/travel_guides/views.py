@@ -1,5 +1,7 @@
+from django.http import HttpResponseRedirect
 from django.views.generic import ListView, DetailView, CreateView
-
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 from .forms import GuideForm
 from .models import Guide
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -41,6 +43,11 @@ class GuideDetailView(DetailView):
     def get_queryset(self):
         return super().get_queryset().filter(visible='visible')
 
+    def dispatch(self, request, *args, **kwargs):
+        this = self.get_object()
+        if 'slug' not in kwargs or kwargs['slug'] != this.slug:
+            return HttpResponseRedirect(reverse('travel_guides:guide', kwargs={'pk': this.pk, 'slug': this.slug}))
+        return super().dispatch(request, *args, **kwargs)
 
 class GuideFormView(LoginRequiredMixin, CreateView):
     """

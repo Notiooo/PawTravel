@@ -1,5 +1,7 @@
 from django.test import TestCase
 from django.test.client import RequestFactory
+from django.urls import reverse
+from parameterized import parameterized_class, parameterized
 
 from .models import Guide
 from django.utils import timezone
@@ -17,29 +19,12 @@ class GuideModelTests(TestCase):
 
     def test_custom_save(self):
         """
-        Guide model has own save method which can be used to generate unique slugs.
+        Guide model has own save method which can be used to generate slugs.
         This test checks if this works properly.
         """
         guide_one=Guide(title="Lorem Ipsum", author=self.author)
         guide_one.save()
-        guide_two=Guide(title="Lorem Ipsum", author=self.author)
-        guide_two.save()
-
-        self.assertNotEqual(guide_one.slug, guide_two.slug)
-
-    def test_custom_save_other_guide_collision(self):
-        """
-        If we add '1' to article's slug it may collide with article which had this '1' in its title
-        """
-        time = timezone.now()
-        guide_special = Guide(title="Lorem Ipsum 1", publish=time, author=self.author)
-        guide_special.save()
-        guide_one = Guide(title="Lorem Ipsum", publish=time, author=self.author)
-        guide_one.save()
-        guide_two = Guide(title="Lorem Ipsum", publish=time, author=self.author)
-        guide_two.save()
-        self.assertNotEqual(guide_two.slug, guide_special.slug)
-
+        self.assertEqual(guide_one.slug, 'lorem-ipsum')
 
 class GuidesViewTests(TestCase):
     """
@@ -51,7 +36,6 @@ class GuidesViewTests(TestCase):
         self.author.save()
         self.guide=Guide(title="Test guide", author=self.author)
         self.guide.save()
-
 
     def test_guide_list(self):
         """
@@ -87,6 +71,34 @@ class GuidesViewTests(TestCase):
         request.user = CustomUser.objects.create(username='testuser', email="test@test.com")
         response = GuideFormView.as_view()(request)
         self.assertEqual(response.status_code, 200, "User should be able to access this page if logged")
+
+    @parameterized.expand([
+            ('/guides/1/', 302),
+            ('/guides/slug-url-9-1', 301),
+            ('/guides/slug-url--1', 301),
+            ('/guides/slug-url-9-1/', 302),
+            ('/guides/slug-url--1/', 302),
+            ('/guides/1', 301),
+            ('/guides/test-guide-1/', 200),
+        ])
+    def test_view_status_code(self, test_input, status_code):
+        response = self.client.get(test_input)
+        self.assertEqual(response.status_code, status_code, test_input)
+
+    @parameterized.expand([
+        '/guides/1/',
+        '/guides/slug-url-9-1',
+        '/guides/slug-url--1',
+        '/guides/slug-url-9-1/',
+        '/guides/slug-url--1/',
+        "/guides/1",
+    ])
+    def test_view_by_name_and_url_are_the_same(self, test_input):
+        response_name = self.client.get(reverse('travel_guides:guide', kwargs={'pk': 1}), follow=True)
+        response_url = self.client.get(test_input, follow=True)
+        self.assertEqual(response_name.redirect_chain[-1], response_url.redirect_chain[-1])
+        self.assertEqual(response_name.status_code, 200)
+        self.assertEqual(response_url.status_code, 200)
 
 class GuideSearchTests(TestCase):
     """

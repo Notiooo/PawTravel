@@ -52,7 +52,7 @@ class Guide(models.Model):
     VISIBILITY=(('visible', 'Visible'), ('hidden', 'Hidden'))
     title = models.CharField(max_length=256)#
     description = models.CharField(max_length=1024)
-    slug = models.SlugField(max_length=250, primary_key=True, unique=True, editable=True, blank=True)
+    slug = models.SlugField(max_length=250)
     author = models.ForeignKey("users.CustomUser", on_delete=models.CASCADE)
     category = models.CharField(max_length=24, choices=CATEGORY_CHOICES)
     country = models.CharField(max_length=32, choices=COUNTRY_CHOICES)
@@ -71,24 +71,13 @@ class Guide(models.Model):
     def get_absolute_url(self):
         '''
         Generate absolute url of this object (guide)
-        :return: Absolute url with slug-pk
+        :return: Absolute url with slug
         '''
-        return reverse("travel_guides:guide_detail", args=[self.slug])
+        return reverse('travel_guides:guide', kwargs={'pk': self.pk, 'slug': self.slug})
 
     def save(self, *args, **kwargs):
         """
-        Custom save function. Newly created guide will get slug in title-PK format
-        In such case slug will be overwritten.
+        Custom save method, it populates slug field with its title
         """
-        while not self.slug:
-
-            id = ''.join([
-                "".join(random.sample(string.ascii_letters, 2)),
-                "".join(random.sample(string.digits, 2)),
-                "".join(random.sample(string.ascii_letters, 2)),
-            ])
-            newslug="{}-{}".format(slugify(self.title), id)
-            if not Guide.objects.filter(pk=newslug).exists():
-                self.slug = newslug
-
-        super().save(*args, **kwargs)
+        self.slug = slugify(self.title)
+        super(Guide, self).save(*args, **kwargs)
