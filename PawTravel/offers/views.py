@@ -18,7 +18,7 @@ class OfferDetailView(FormMixin, DetailView, MultipleObjectMixin):
     context_object_name = 'offer'
     template_name = 'offers/detailed_offer.html'
     form_class = CommentForm
-    paginate_by = 3
+    paginate_by = 5
 
     def get_context_data(self, **kwargs):
         offer = self.get_object()

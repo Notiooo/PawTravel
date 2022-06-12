@@ -17,5 +17,8 @@ class Comment(models.Model):
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey()
 
+    class Meta:
+        ordering = ['id']
+
     def __str__(self):
         return self.text

@@ -52,12 +52,9 @@ class CommentForm(forms.ModelForm):
         username = self.cleaned_data.get('username')
         cache_results = ActionTimeout.get(self.action, username)
         now = datetime.datetime.now()
-        # gets last attempt or create one
         last_attempt = cache_results['last_attempt'] if cache_results else False
-
-        # if last_attempt > (now - datetime.timedelta(seconds=self.time_between_comments)).timestamp():
-        #     raise forms.ValidationError('You are adding your comments too quickly!.',
-        #                                 params={'seconds': self.time_between_comments})
+        if last_attempt > (now - datetime.timedelta(seconds=self.time_between_comments)).timestamp():
+            raise forms.ValidationError('You are adding your comments too quickly!')
         return super(CommentForm, self).clean()
 
     def form_valid(self, form, request):
@@ -68,5 +65,5 @@ class CommentForm(forms.ModelForm):
         comment.save()
 
     def save(self, *args, **kwargs):
-        ActionTimeout.set(self.action, self.cleaned_data.get('username'), datetime.datetime.now())
+        ActionTimeout.set(self.action, self.cleaned_data.get('username'), datetime.datetime.now().timestamp())
         return super(CommentForm, self).save(*args, **kwargs)

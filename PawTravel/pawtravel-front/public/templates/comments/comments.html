@@ -4,31 +4,12 @@
 <div class="pt-background-darkblue uk-width-1-1 uk-position-relative uk-light" style="height: 50px; font-size: 16px; font-weight: 600">
     <div class="uk-margin-left uk-position-center-left">{{ offer.comments.all|length }} comments</div>
     <div class="uk-position-center">
-        {% if is_paginated %}
-            <ul class="uk-pagination" style="margin-top: 20px;">
-                {% if page_obj.has_previous %}
-                <li><a href="?page={{ page_obj.previous_page_number }}"><span uk-pagination-previous></a></li>
-                {% else %}
-                <li class="uk-disabled"></li>
-                {% endif %}
-                {% for i in page_obj.paginator.page_range %}
-                {% if page_obj.number == i %}
-                <li class="uk-active"><span>{{ i }}</span></li>
-                {% elif i > page_obj.number|add:'-3' and i < page_obj.number|add:'3' %}
-                <li><a href="?page={{ i }}">{{ i }}</a></li>
-                {% endif %}
-                {% endfor %}
-                {% if page_obj.has_next %}
-                <li><a href="?page={{ page_obj.next_page_number }}"><span uk-pagination-next></a></li>
-                {% else %}
-                <li class="uk-disabled"></li>
-                {% endif %}
-            </ul>
-        {% endif %}
+        {% include 'comments/pagination.html' %}
     </div>
 </div>
 
 <ul id="comments" class="uk-comment-list">
+    {% if object_list %}
     {% for comment in object_list %}
     <li class="uk-padding-small {% if forloop.counter0|divisibleby:"2" %}pt-background-white{% endif %}">
         <article class="uk-comment uk-visible-toggle uk-animation-toggle" id="{{ comment.id }}" tabindex="-1">
@@ -49,6 +30,9 @@
         </article>
     </li>
     {% endfor %}
+    {% else %}
+
+    {% endif %}
     {% if user.is_authenticated %}
     <div>
         <form method="POST">
@@ -63,7 +47,7 @@
             </div>
             <div class="uk-text-right" uk-margin><button type="submit" class="uk-button pt-button-primary uk-text-right">Send a comment</button></div>
         </form>
-        {% if comment_form.non_field_errors %}
+        {% if form.non_field_errors %}
         <div class="uk-alert-danger" uk-alert>
             {% for error in form.non_field_errors %}
                 {{ error }}
@@ -74,27 +58,7 @@
     {% endif %}
     <div class="pt-background-lightblue uk-width-1-1 uk-position-relative uk-light" style="height: 50px; font-size: 16px; font-weight: 600">
     <div class="uk-position-center">
-        {% if is_paginated %}
-            <ul class="uk-pagination" style="margin-top: 20px;">
-                {% if page_obj.has_previous %}
-                <li><a href="?page={{ page_obj.previous_page_number }}"><span uk-pagination-previous></a></li>
-                {% else %}
-                <li class="uk-disabled"></li>
-                {% endif %}
-                {% for i in page_obj.paginator.page_range %}
-                {% if page_obj.number == i %}
-                <li class="uk-active"><span>{{ i }}</span></li>
-                {% elif i > page_obj.number|add:'-3' and i < page_obj.number|add:'3' %}
-                <li><a href="?page={{ i }}">{{ i }}</a></li>
-                {% endif %}
-                {% endfor %}
-                {% if page_obj.has_next %}
-                <li><a href="?page={{ page_obj.next_page_number }}"><span uk-pagination-next></a></li>
-                {% else %}
-                <li class="uk-disabled"></li>
-                {% endif %}
-            </ul>
-        {% endif %}
+        {% include 'comments/pagination.html' %}
     </div>
     </div>
 </ul>
