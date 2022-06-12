@@ -9,7 +9,6 @@
 </div>
 
 <ul id="comments" class="uk-comment-list">
-    {% if object_list %}
     {% for comment in object_list %}
     <li class="uk-padding-small {% if forloop.counter0|divisibleby:"2" %}pt-background-white{% endif %}">
         <article class="uk-comment uk-visible-toggle uk-animation-toggle" id="{{ comment.id }}" tabindex="-1">
@@ -30,9 +29,6 @@
         </article>
     </li>
     {% endfor %}
-    {% else %}
-
-    {% endif %}
     {% if user.is_authenticated %}
     <div>
         <form method="POST">
@@ -55,8 +51,10 @@
         </div>
         {% endif %}
     </div>
+    {% else %}
+        <p>You may write your own comment! All you have to do is <a href="{% url 'login' %}?next={{request.path}}">sign in</a>.</p>
     {% endif %}
-    <div class="pt-background-lightblue uk-width-1-1 uk-position-relative uk-light" style="height: 50px; font-size: 16px; font-weight: 600">
+    <div class="pt-background-lightblue uk-width-1-1 uk-position-relative uk-light uk-margin" style="height: 50px; font-size: 16px; font-weight: 600">
     <div class="uk-position-center">
         {% include 'comments/pagination.html' %}
         {% if not is_paginated %}No more comments{% endif %}

@@ -1,7 +1,7 @@
 {% if is_paginated %}
     <ul class="uk-pagination" style="margin-top: 20px;">
         {% if page_obj.has_previous %}
-        <li><a href="?page={{ page_obj.previous_page_number }}#comments"><span uk-pagination-previous></a></li>
+        <li><a href="?page={{ page_obj.previous_page_number }}#comments"><span uk-pagination-previous/></a></li>
         {% else %}
         <li class="uk-disabled"></li>
         {% endif %}
@@ -13,7 +13,7 @@
         {% endif %}
         {% endfor %}
         {% if page_obj.has_next %}
-        <li><a href="?page={{ page_obj.next_page_number }}#comments"><span uk-pagination-next></a></li>
+        <li><a href="?page={{ page_obj.next_page_number }}#comments"><span uk-pagination-next/></a></li>
         {% else %}
         <li class="uk-disabled"></li>
         {% endif %}
