@@ -1,5 +1,4 @@
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
 from django.urls import reverse
 
 from django.views.generic import DetailView
@@ -8,7 +7,6 @@ from django.views.generic.list import MultipleObjectMixin
 
 from . import models
 from comments.forms import CommentForm
-from comments.models import Comment
 
 
 class OfferDetailView(FormMixin, DetailView, MultipleObjectMixin):
@@ -24,6 +22,12 @@ class OfferDetailView(FormMixin, DetailView, MultipleObjectMixin):
         offer = self.get_object()
         object_list = offer.comments.all()
         return super().get_context_data(object_list=object_list, **kwargs)
+
+    def dispatch(self, request, *args, **kwargs):
+        this = self.get_object()
+        if 'slug_url' not in kwargs or kwargs['slug_url'] != this.slug_url:
+            return HttpResponseRedirect(reverse('offer', kwargs={'pk': this.pk, 'slug_url': this.slug_url}))
+        return super().dispatch(request, *args, **kwargs)
 
     def get_success_url(self):
         return reverse('offer', kwargs={'pk': self.get_object().id})
