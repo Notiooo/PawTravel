@@ -2,7 +2,7 @@
 {% load avatar_tags %}
 
 <div class="pt-background-darkblue uk-width-1-1 uk-position-relative uk-light" style="height: 50px; font-size: 16px; font-weight: 600">
-    <div class="uk-margin-left uk-position-center-left">{{ offer.comments.all|length }} comments</div>
+    <div class="uk-margin-left uk-position-center-left">{{ offer.comments.all|length }} comment{{ offer.comments.all|length|pluralize }}</div>
     <div class="uk-position-center">
         {% include 'comments/pagination.html' %}
     </div>
@@ -59,6 +59,7 @@
     <div class="pt-background-lightblue uk-width-1-1 uk-position-relative uk-light" style="height: 50px; font-size: 16px; font-weight: 600">
     <div class="uk-position-center">
         {% include 'comments/pagination.html' %}
+        {% if not is_paginated %}No more comments{% endif %}
     </div>
     </div>
 </ul>
