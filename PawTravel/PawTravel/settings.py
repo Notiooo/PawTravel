@@ -11,15 +11,15 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 import os
+from os import getenv
 from pathlib import Path
 
-from os import getenv
 from dotenv import load_dotenv
+
 load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
@@ -32,7 +32,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -44,10 +43,20 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'corsheaders',
+
     # Our apps
     'users',
     'offers',
+    'travel_guides',
+    'comments',
+
+    # 3rd party apps
+    'widget_tweaks',
     'tinymce',
+    'sslserver',
+    'social_django',
+    'avatar',
+    'macros',
 ]
 
 MIDDLEWARE = [
@@ -59,6 +68,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'social_django.middleware.SocialAuthExceptionMiddleware',
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True
@@ -70,7 +80,8 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             os.path.join(BASE_DIR, 'templates'),
-            os.path.join(BASE_DIR, 'pawtravel-front/public')
+            os.path.join(BASE_DIR, 'pawtravel-front/public'),
+            os.path.join(BASE_DIR, 'pawtravel-front/public/templates')
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -79,13 +90,14 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
 ]
 
 WSGI_APPLICATION = 'PawTravel.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
@@ -96,7 +108,6 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -116,7 +127,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
@@ -127,7 +137,6 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
@@ -147,7 +156,28 @@ AUTH_USER_MODEL = 'users.CustomUser'
 LOGIN_REDIRECT_URL = 'home' # Uncomment this once the homepage is ready
 LOGOUT_REDIRECT_URL = 'home' # Uncomment this once the homepage is ready
 
+AUTHENTICATION_BACKENDS = [
+    'social_core.backends.facebook.FacebookOAuth2',
+    'social_core.backends.google.GoogleOAuth2',
+    'django.contrib.auth.backends.ModelBackend',  # Authenticate with the username and password
+    'users.authentication.EmailAuthenticationBackend',  # Email-based authentication backend
+]
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Social authentication settings
+SOCIAL_AUTH_FACEBOOK_EXTRA_DATA = [
+    ('name', 'name'),
+    ('email', 'email'),
+    ('picture', 'picture'),
+    ('link', 'profile_url'),
+]
+SOCIAL_AUTH_FACEBOOK_KEY = '1168427277430470'
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = "744887949840-3a1l402q1oede706ba8i2ufodq5miorr.apps.googleusercontent.com"
+SECRET_KEY = str(getenv('SECRET_KEY'))
+SOCIAL_AUTH_FACEBOOK_SECRET = str(getenv('SOCIAL_AUTH_FACEBOOK_SECRET'))
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = str(getenv('SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET'))
+AVATAR_THUMB_FORMAT = "PNG"

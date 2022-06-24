@@ -13,34 +13,37 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-from django.urls import path, include
-from django.contrib.staticfiles.urls import static
-from django.contrib.staticfiles.urls import staticfiles_urlpatterns
-from . import settings
-
-from rest_framework import routers
-
 # The solution below is experimental and PyCharm's IntelliSense doesn't seem to like it.
 # Feel free to change it if you find a more elegant solution.
 # # # # # #
 import sys
+
+from django.contrib import admin
+from django.contrib.staticfiles.urls import static
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.urls import path, include
+from rest_framework import routers
+from django.urls import path, include
+
+from . import settings
+
 sys.path.append('..')
 
 from users.views import CustomUserViewSet
-# # # # # #
 
-from django.contrib.staticfiles.urls import static
-from django.contrib.staticfiles.urls import staticfiles_urlpatterns
-from . import settings
+# # # # # #
 
 router = routers.DefaultRouter()
 router.register(r'users', CustomUserViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('offers/', include('offers.urls')),
+    path('guides/', include('travel_guides.urls', namespace='travel_guides')),
     path('tinymce/', include('tinymce.urls')),
+    path('offers/', include('offers.urls')),
+    path('users/', include('django.contrib.auth.urls')),  # logout
+    path('users/', include('users.urls')),
+    path('avatar/', include('avatar.urls')),
     path('', include(router.urls)),
 ]
 
