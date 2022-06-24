@@ -18,13 +18,8 @@ class DetailOfferViewTestCase(TestCase):
         self.mock_file = tempfile.NamedTemporaryFile(suffix=".jpg").name
         self.current_time = datetime.datetime.now()
         user = CustomUser.objects.create(username='user1')
-<<<<<<< HEAD
-        offerCategory = OfferCategory.objects.create(name="TestCategory", iconImage=self.mockFile)
-        offer = Offer.objects.create(
-=======
         OfferCategory.objects.create(name="TestCategory")
         Offer.objects.create(
->>>>>>> master
             title="TestTitle",
             short_content="Example short content",
             content="<b>Styled content</b>",
@@ -142,7 +137,6 @@ class DetailOfferViewTestCase(TestCase):
         response = self.client.get('/offers/testtitle-1/')
         self.assertContains(response, "http://google.com")
 
-<<<<<<< HEAD
 class HomePageView(TestCase):
     def testViewStatusCode(self):
         response = self.client.get('/')
@@ -156,8 +150,6 @@ class HomePageView(TestCase):
         response = self.client.get(reverse('home'))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'home.html')
-=======
->>>>>>> master
 
 class DetailOfferTestCase(TestCase):
     """Tests that check the model itself rather than the view itself"""
@@ -198,7 +190,6 @@ class DetailOfferTestCase(TestCase):
 
     def test_get_absolute_url(self):
         offer = Offer.objects.get(id=1)
-<<<<<<< HEAD
         self.assertEquals(offer.get_absolute_url(), '/offers/1/')
 
 class CreateOfferViewTestCase(TestCase):
@@ -271,6 +262,3 @@ class UpdateOfferViewTestCase(TestCase):
         # For some reason client.post dosen't change anything in the database
         # for now I have no idea why, maybe later this bug will be resolved
         #self.assertEquals(self.offer.title, "NewTestTitle")
-=======
-        self.assertEquals(offer.get_absolute_url(), '/offers/testtitle-1/')
->>>>>>> master
