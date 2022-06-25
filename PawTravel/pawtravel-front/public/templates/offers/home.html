@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% for offer in object_list %}
+        <p> <a href="{{ offer.get_absolute_url }}"> Title: {{ offer.title }}</a> </p>
+        <p> Image: {{ offer.image }}</p>
+        <p> Author: {{ offer.author }}</p>
+    {% endfor %}
+{% endblock content %}

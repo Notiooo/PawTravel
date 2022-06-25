@@ -38,7 +38,7 @@ class Offer(models.Model):
     original_price = models.FloatField()
     offer_price = models.FloatField()
     link = models.URLField()
-    comments = GenericRelation(Comment, related_query_name='all_comments')
+    comments = GenericRelation(Comment, related_query_name='all_comments', blank=True)
 
     def __str__(self):
         return self.title
