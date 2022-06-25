@@ -2,7 +2,7 @@
 
 {% block content %}
     {% for offer in object_list %}
-        <p> Title: {{ offer.title }} </p>
+        <p> <a href="{{ offer.get_absolute_url }}"> Title: {{ offer.title }}</a> </p>
         <p> Image: {{ offer.image }}</p>
         <p> Author: {{ offer.author }}</p>
     {% endfor %}

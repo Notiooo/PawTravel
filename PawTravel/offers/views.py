@@ -13,14 +13,13 @@ from comments.forms import CommentForm
 class HomePageView(ListView):
     model = models.Offer
     context_object_name = 'offer'
-    template_name = 'home.html'
+    template_name = 'offers/home.html'
 
 class OfferCreateView(CreateView):
     model = models.Offer
-    template_name = 'new_offer.html'
-    fields = [
-        'title', 'shortContent', 'content', 'category', 'image',
-        'originalPrice', 'offerPrice', 'offerEnds', 'link']
+    template_name = 'offers/new_offer.html'
+    fields = ['title', 'short_content', 'content', 'category', 'image',
+        'original_price', 'offer_price', 'offer_ends', 'link']
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -29,9 +28,9 @@ class OfferCreateView(CreateView):
 class OfferUpdateView(UpdateView):  #Here will be mixin preventing access from different users
     model = models.Offer
     fields = [
-        'title', 'shortContent', 'content', 'category', 'image',
-        'originalPrice', 'offerPrice', 'offerEnds', 'link']
-    template_name = 'edit_offer.html'
+        'title', 'short_content', 'content', 'category', 'image',
+        'original_price', 'offer_price', 'offer_ends', 'link']
+    template_name = 'offers/edit_offer.html'
 
 class OfferDetailView(FormMixin, DetailView, MultipleObjectMixin):
     """A view showing one particular offer in detail."""
