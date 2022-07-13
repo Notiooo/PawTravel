@@ -52,7 +52,7 @@ class Guide(models.Model):
     VISIBILITY=(('visible', 'Visible'), ('hidden', 'Hidden'))
     title = models.CharField(max_length=256)#
     description = models.CharField(max_length=1024)
-    slug = models.SlugField(max_length=250)
+    slug_url = models.SlugField(editable=False)
     author = models.ForeignKey("users.CustomUser", on_delete=models.CASCADE)
     category = models.CharField(max_length=24, choices=CATEGORY_CHOICES)
     country = models.CharField(max_length=32, choices=COUNTRY_CHOICES)
@@ -71,13 +71,14 @@ class Guide(models.Model):
     def get_absolute_url(self):
         '''
         Generate absolute url of this object (guide)
-        :return: Absolute url with slug
+        :return: Absolute url with slug-pk
         '''
-        return reverse('travel_guides:guide', kwargs={'pk': self.pk, 'slug': self.slug})
+        return reverse("travel_guides:guide_detail", kwargs={'pk': self.pk, 'slug_url': self.slug_url})
 
-    def save(self, *args, **kwargs):
+    def save(self, **kwargs):
         """
-        Custom save method, it populates slug field with its title
+        Save function provided by an additional mechanism where
+        any changes should take into account slug refreshes in the url
         """
-        self.slug = slugify(self.title)
-        super(Guide, self).save(*args, **kwargs)
+        self.slug_url = slugify(self.title)
+        super(Guide, self).save(kwargs)
