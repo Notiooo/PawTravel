@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'offers',
     'travel_guides',
     'comments',
+    'chat',
 
     # 3rd party apps
     'widget_tweaks',
