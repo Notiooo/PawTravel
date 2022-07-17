@@ -3,6 +3,9 @@ from django.views.generic import ListView, DetailView, CreateView
 from .forms import GuideForm
 from .models import Guide
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+
 from users.models import CustomUser
 
 # Create your views here.
@@ -40,6 +43,16 @@ class GuideDetailView(DetailView):
 
     def get_queryset(self):
         return super().get_queryset().filter(visible='visible')
+
+    def dispatch(self, request, *args, **kwargs):
+        """
+        The function, if slug is not specified, but a valid id is given,
+        redirects to the address with the entered slug. Otherwise, it behaves in the standard way
+        """
+        this = self.get_object()
+        if 'slug_url' not in kwargs or kwargs['slug_url'] != this.slug_url:
+            return HttpResponseRedirect(reverse('travel_guides:guide_detail', kwargs={'pk': this.pk, 'slug_url': this.slug_url}))
+        return super().dispatch(request, *args, **kwargs)
 
 
 class GuideFormView(LoginRequiredMixin, CreateView):

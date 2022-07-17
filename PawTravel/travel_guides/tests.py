@@ -1,8 +1,9 @@
 from django.test import TestCase
 from django.test.client import RequestFactory
+from django.urls import reverse
 
 from .models import Guide
-from django.utils import timezone
+from parameterized import parameterized
 from users.models import CustomUser
 from .views import GuideFormView
 
@@ -25,20 +26,10 @@ class GuideModelTests(TestCase):
         guide_two=Guide(title="Lorem Ipsum", author=self.author)
         guide_two.save()
 
-        self.assertNotEqual(guide_one.slug, guide_two.slug)
-
-    def test_custom_save_other_guide_collision(self):
-        """
-        If we add '1' to article's slug it may collide with article which had this '1' in its title
-        """
-        time = timezone.now()
-        guide_special = Guide(title="Lorem Ipsum 1", publish=time, author=self.author)
-        guide_special.save()
-        guide_one = Guide(title="Lorem Ipsum", publish=time, author=self.author)
-        guide_one.save()
-        guide_two = Guide(title="Lorem Ipsum", publish=time, author=self.author)
-        guide_two.save()
-        self.assertNotEqual(guide_two.slug, guide_special.slug)
+        self.assertEqual(guide_one.slug_url, "lorem-ipsum")
+        self.assertEqual(guide_one.pk, 1)
+        self.assertEqual(guide_two.slug_url, "lorem-ipsum")
+        self.assertEqual(guide_two.pk, 2)
 
 
 class GuidesViewTests(TestCase):
@@ -46,12 +37,81 @@ class GuidesViewTests(TestCase):
     Test class responsible for testing views
     """
     def setUp(self) -> None:
-
-        self.author=CustomUser(username="TestUser")
+        self.author = CustomUser(username="TestUser")
         self.author.save()
-        self.guide=Guide(title="Test guide", author=self.author)
+        self.guide = Guide(title="Test guide", author=self.author)
         self.guide.save()
 
+    @parameterized.expand([
+        ('/guides/1/', 302),
+        ('/guides/slug-url-9-1', 301),
+        ('/guides/slug-url--1', 301),
+        ('/guides/slug-url-9-1/', 302),
+        ('/guides/slug-url--1/', 302),
+        ('/guides/1', 301),
+        ('/guides/test-guide-1/', 200),
+    ])
+    def test_view_status_code(self, test_input, status_code):
+        """
+        Test to verify the correctness of the status codes of each url
+        """
+        response = self.client.get(test_input)
+        self.assertEqual(response.status_code, status_code)
+
+    @parameterized.expand([
+        '/guides/1/',
+        '/guides/slug-url-9-1',
+        '/guides/slug-url--1',
+        '/guides/slug-url-9-1/',
+        '/guides/slug-url--1/',
+        "/guides/1",
+    ])
+    def test_view_by_name_and_url_are_the_same(self, test_input):
+        """
+        Test to verify the correctness of the redirection of each url
+        """
+        response_name = self.client.get(reverse('travel_guides:guide_detail', kwargs={'pk': 1}), follow=True)
+        response_url = self.client.get(test_input, follow=True)
+        self.assertEqual(response_name.redirect_chain[-1], response_url.redirect_chain[-1])
+        self.assertEqual(response_name.status_code, 200)
+        self.assertEqual(response_url.status_code, 200)
+
+    def test_view_by_name_status_code(self):
+        """
+        Test to verify that with the correct pk there will be a redirect
+        """
+        response = self.client.get(reverse('travel_guides:guide_detail', kwargs={'pk': 1}))
+        self.assertEqual(response.status_code, 302)
+
+    def test_view_by_name_follow(self):
+        """
+        Test to verify that with the correct pk there will be a redirect to the correct page
+        """
+        response = self.client.get(reverse('travel_guides:guide_detail', kwargs={'pk': 1}), follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.redirect_chain[-1], ('/guides/test-guide-1/', 302))
+
+    def test_view_by_name_with_wrong_slug_status_code(self):
+        """
+        Test to verify that with correct pk but wrong slug will redirect
+        """
+        response = self.client.get(reverse('travel_guides:guide_detail', kwargs={'pk': 1, 'slug_url': 'any-slug-url'}))
+        self.assertEqual(response.status_code, 302)
+
+    def test_view_by_name_with_wrong_slug_follow(self):
+        """
+        Test to verify that with correct pk but wrong slug will redirect to correct page
+        """
+        response = self.client.get(reverse('travel_guides:guide_detail', kwargs={'pk': 1, 'slug_url': 'any-slug-url'}), follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.redirect_chain[-1], ('/guides/test-guide-1/', 302))
+
+    def test_view_by_name_with_correct_slug(self):
+        """
+        Test to verify that with a valid slug and pk given to url there should be no redirection
+        """
+        response = self.client.get(reverse('travel_guides:guide_detail', kwargs={'pk': 1, 'slug_url': 'test-guide'}))
+        self.assertEqual(response.status_code, 200)
 
     def test_guide_list(self):
         """
@@ -87,6 +147,7 @@ class GuidesViewTests(TestCase):
         request.user = CustomUser.objects.create(username='testuser', email="test@test.com")
         response = GuideFormView.as_view()(request)
         self.assertEqual(response.status_code, 200, "User should be able to access this page if logged")
+
 
 class GuideSearchTests(TestCase):
     """
@@ -135,6 +196,7 @@ class GuideSearchTests(TestCase):
         self.assertEqual(len(Guide.search.search(country="poland", category="hotels", keywords=["message"])), 1)
         self.assertEqual(len(Guide.search.search(keywords=["test", "lorem", "ipsum"])), 2)
 
+
 class VisibilityTest(TestCase):
     """
     This class tests if visibility settings works correctly
@@ -167,5 +229,4 @@ class VisibilityTest(TestCase):
         """
         resp=self.client.get(self.guide_two.get_absolute_url())
         self.assertEqual(resp.status_code, 404)
-
 
