@@ -8,7 +8,7 @@ from django.urls import reverse
 
 from users.models import CustomUser
 
-# Create your views here.
+
 class GuideListView(ListView):
     """
     Guide List view. It shows list of guides.

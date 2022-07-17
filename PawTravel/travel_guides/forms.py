@@ -1,16 +1,31 @@
 from tinymce.widgets import TinyMCE
 
-from .models import Guide
+from .models import Guide, GuideCategory, Country
 from django import forms
 
+
 class GuideForm(forms.ModelForm):
-    '''
+    """
     Form for creating new travel guides
-    '''
+    """
     body = forms.CharField(widget=TinyMCE(attrs={'cols': 40, 'rows': 30}))
-    category=forms.ChoiceField(choices=Guide.CATEGORY_CHOICES, required=True)
-    country=forms.ChoiceField(choices=Guide.COUNTRY_CHOICES, required=True)
+    category = forms.ChoiceField(
+        widget=forms.Select,
+        choices=(),
+        required=True
+    )
+
+    country = forms.ChoiceField(
+        widget=forms.Select,
+        choices=(),
+        required=True
+    )
 
     class Meta:
-        model=Guide
-        fields=('title', 'description', 'body', 'category', 'country')
+        model = Guide
+        fields = ('title', 'description', 'body', 'category', 'country')
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['category'].choices = [(category.id, category.name) for category in GuideCategory.objects.all()]
+        self.fields['country'].choices = [(country.id, country.name) for country in Country.objects.all()]
