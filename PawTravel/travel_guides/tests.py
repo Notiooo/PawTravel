@@ -2,7 +2,7 @@ from django.test import TestCase
 from django.test.client import RequestFactory
 from django.urls import reverse
 
-from .models import Guide
+from .models import Guide, GuideCategory, Country
 from parameterized import parameterized
 from users.models import CustomUser
 from .views import GuideFormView
@@ -39,7 +39,11 @@ class GuidesViewTests(TestCase):
     def setUp(self) -> None:
         self.author = CustomUser(username="TestUser")
         self.author.save()
-        self.guide = Guide(title="Test guide", author=self.author)
+        self.category = GuideCategory(name="Test Category")
+        self.category.save()
+        self.country = Country(name="Test Country")
+        self.country.save()
+        self.guide = Guide(title="Test guide", author=self.author, category=self.category, country=self.country)
         self.guide.save()
 
     @parameterized.expand([
@@ -158,10 +162,14 @@ class GuideSearchTests(TestCase):
         self.author.save()
         self.author_two=CustomUser(username="TestUser2", email="test_email_two@test.com")
         self.author_two.save()
-        Guide(author=self.author, category="hotels", description="It is test Lorem ipsum").save()
-        Guide(author=self.author, country="poland", body="It is only test").save()
+        self.category = GuideCategory(name="hotels")
+        self.category.save()
+        self.country = Country(name="poland")
+        self.country.save()
+        Guide(author=self.author, category=self.category, description="It is test Lorem ipsum").save()
+        Guide(author=self.author, country=self.country, body="It is only test").save()
         Guide(author=self.author_two, title="Lorem test ipsum").save()
-        Guide(author=self.author_two,  country="poland", category="hotels", body="message").save()
+        Guide(author=self.author_two,  country=self.country, category=self.category, body="message").save()
 
     def test_user_search(self):
         """
@@ -202,13 +210,18 @@ class VisibilityTest(TestCase):
     This class tests if visibility settings works correctly
     """
     def setUp(self):
-        self.author=CustomUser(username="TestUser", email="test_email@test.com")
+        self.category = GuideCategory(name="Test Category")
+        self.category.save()
+        self.country = Country(name="Test Country")
+        self.country.save()
+        self.author = CustomUser(username="TestUser", email="test_email@test.com")
         self.author.save()
-        self.guide=Guide(title="Test guide", author=self.author)
+        self.guide = Guide(title="Test guide", author=self.author, category=self.category, country=self.country)
         self.guide.save()
-        self.guide_two=Guide(title="Test guide", author=self.author, visible='Hidden')
+        self.guide_two = Guide(title="Test guide", author=self.author,
+                               visible='Hidden', category=self.category, country=self.country)
         self.guide_two.save()
-        self.guide_three=Guide(title="Test guide", author=self.author)
+        self.guide_three = Guide(title="Test guide", author=self.author, category=self.category, country=self.country)
         self.guide_three.save()
 
     def test_list_with_hidden_article_default(self):
@@ -229,4 +242,3 @@ class VisibilityTest(TestCase):
         """
         resp=self.client.get(self.guide_two.get_absolute_url())
         self.assertEqual(resp.status_code, 404)
-

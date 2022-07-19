@@ -26,6 +26,9 @@ class GuideForm(forms.ModelForm):
         fields = ('title', 'description', 'body', 'category', 'country')
 
     def __init__(self, *args, **kwargs):
+        """
+        Loads the countries and categories available for selection into the form
+        """
         super().__init__(*args, **kwargs)
         self.fields['category'].choices = [(category.id, category.name) for category in GuideCategory.objects.all()]
         self.fields['country'].choices = [(country.id, country.name) for country in Country.objects.all()]

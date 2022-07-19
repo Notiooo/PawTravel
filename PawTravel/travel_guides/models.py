@@ -22,9 +22,9 @@ class GuideSearchManager(models.Manager):
         """
         query_set = super().get_queryset().all()
         if country is not None:
-            query_set = query_set.filter(country=country)
+            query_set = query_set.filter(country__name=country)
         if category is not None:
-            query_set = query_set.filter(category=category)
+            query_set = query_set.filter(category__name=category)
         if keywords is not None:
             q_object = ~Q()
             for item in keywords:
@@ -72,8 +72,8 @@ class Guide(models.Model):
     slug_url = models.SlugField(editable=False)
     author = models.ForeignKey("users.CustomUser", on_delete=models.CASCADE)
     image = models.ImageField(blank=False)
-    category = models.ForeignKey(GuideCategory, on_delete=models.CASCADE, related_name='category')
-    country = models.ForeignKey(Country, on_delete=models.CASCADE, related_name='country')
+    category = models.ForeignKey(GuideCategory, on_delete=models.CASCADE, related_name='category', null=True)
+    country = models.ForeignKey(Country, on_delete=models.CASCADE, related_name='country', null=True)
     visible = models.CharField(max_length=16, choices=VISIBILITY, default='visible')
     body = HTMLField()
     publish = models.DateTimeField(default=timezone.now)
