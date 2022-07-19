@@ -26,14 +26,25 @@
                     <!-- Category & Country -->
                     <div class="uk-grid-small uk-flex-middle" uk-grid>
                         <div class="uk-padding-small">
-                            {% if guide.category.icon_image %}
-                            <img src="{{ guide.category.icon_image.url }}" width="40" height="40" alt="img">
+                            {% if guide.category %}
+                                {% if guide.category.icon_image %}
+                                <img src="{{ guide.category.icon_image.url }}" width="40" height="40" alt="img">
+                                {% else %}
+                                <span class="pt-color-lightblue" uk-icon="icon: hashtag; ratio: 1.75"></span>
+                                {% endif %}
+                                {{ guide.category.name }}
+                            {% else %}
+                            <span class="pt-color-lightblue" uk-icon="icon: hashtag; ratio: 1.75"></span>
+                            No category
                             {% endif %}
-                            {{ guide.category.name }}
                         </div>
                         <div class="uk-padding-small">
                             <span class="pt-color-lightblue" uk-icon="icon: location; ratio: 1.75"></span>
+                            {% if guide.country %}
                             {{ guide.country.name }}
+                            {% else %}
+                            No country
+                            {% endif %}
                         </div>
                     </div>
                 </div>
