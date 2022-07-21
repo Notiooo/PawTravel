@@ -1,6 +1,7 @@
 from django.test import TestCase
 from django.test.client import RequestFactory
 from django.urls import reverse
+from django.test import Client
 
 from .models import Guide
 from parameterized import parameterized
@@ -249,8 +250,7 @@ class VotingSystemTests(TestCase):
         """
         Checks if voting paths return correct code (200)
         """
-        url=self.guide.get_absolute_url()
-        id=url.split("/")[-2]
+        id=self.guide.id
         c=Client(username="TestUser", email="test_email_two@test.com")
         c.login(username="TestUser", email="test_email_two@test.com")
         for option in ["like", "dislike"]:
@@ -262,15 +262,14 @@ class VotingSystemTests(TestCase):
         """
         Checks if system counts up votes correctly
         """
-        url = self.guide.get_absolute_url()
-        id = url.split("/")[-2]
+        id = self.guide.id
         vote_url = "/guides/vote/{}/like".format(id)
         view=GuideVoteView
         #User 1 voting up
         factory = RequestFactory()
         request = factory.post(vote_url)
         request.user = CustomUser.objects.create(username='testuser', email="test@test.com")
-        response=view.post(self=view, request=request, slug=id, mode="like")
+        response=view.post(self=view, request=request, pk=id, mode="like")
         json_response=json.loads(response.content.decode())
         self.assertEqual(json_response["likes"], 1)
         self.assertEqual(json_response["num_votes"], 1)
@@ -278,7 +277,7 @@ class VotingSystemTests(TestCase):
         request = factory.post(vote_url)
         request.user = CustomUser.objects.create(username='testuser2', email="test2@test.com")
         view = GuideVoteView
-        response = view.post(self=view, request=request, slug=id, mode="like")
+        response = view.post(self=view, request=request, pk=id, mode="like")
         json_response=json.loads(response.content.decode())
         self.assertEqual(json_response["likes"], 2)
         self.assertEqual(json_response["num_votes"], 2)
@@ -287,15 +286,14 @@ class VotingSystemTests(TestCase):
         """
         Checks if system counts up votes correctly
         """
-        url = self.guide.get_absolute_url()
-        id = url.split("/")[-2]
-        vote_url = "/guides/vote/{}/dislike".format(id)
+        id = self.guide.id
+        vote_url = "/guides/vote/{}/like".format(id)
         view = GuideVoteView
         # User 1 voting down
         factory = RequestFactory()
         request = factory.post(vote_url)
         request.user = CustomUser.objects.create(username='testuser', email="test@test.com")
-        response = view.post(self=view, request=request, slug=id, mode="dislike")
+        response = view.post(self=view, request=request, pk=id, mode="dislike")
         json_response = json.loads(response.content.decode())
         self.assertEqual(json_response["likes"], -1)
         self.assertEqual(json_response["num_votes"], 1)
@@ -303,7 +301,7 @@ class VotingSystemTests(TestCase):
         request = factory.post(vote_url)
         request.user = CustomUser.objects.create(username='testuser2', email="test2@test.com")
         view = GuideVoteView
-        response = view.post(self=view, request=request, slug=id, mode="dislike")
+        response = view.post(self=view, request=request, pk=id, mode="dislike")
         json_response = json.loads(response.content.decode())
         self.assertEqual(json_response["likes"], -2)
         self.assertEqual(json_response["num_votes"], 2)
@@ -312,19 +310,19 @@ class VotingSystemTests(TestCase):
         """
         Checks if changing vote works as intended
         """
-        url = self.guide.get_absolute_url()
-        id = url.split("/")[-2]
+        id = self.guide.id
+        vote_url = "/guides/vote/{}/like".format(id)
         vote_url = "/guides/vote/{}/dislike".format(id)
         view = GuideVoteView
         # User 1 voting down
         factory = RequestFactory()
         request = factory.post(vote_url)
         request.user = CustomUser.objects.create(username='testuser', email="test@test.com")
-        response = view.post(self=view, request=request, slug=id, mode="dislike")
+        response = view.post(self=view, request=request, pk=id, mode="dislike")
         json_response = json.loads(response.content.decode())
         self.assertEqual(json_response["likes"], -1)
         self.assertEqual(json_response["num_votes"], 1)
-        response = view.post(self=view, request=request, slug=id, mode="like")
+        response = view.post(self=view, request=request, pk=id, mode="like")
         json_response = json.loads(response.content.decode())
         self.assertEqual(json_response["likes"], 1)
         self.assertEqual(json_response["num_votes"], 1)

@@ -79,9 +79,9 @@ class GuideVoteView(View):
     """
     View responsible for processing voting system
     """
-    def post(self, request, slug, mode):
+    def post(self, request, pk, mode):
         user=request.user
-        guide=Guide.objects.get(slug=slug)
+        guide=Guide.objects.get(id=pk)
         if user.is_authenticated:
             if mode=="like":
                 Vote.objects.record_vote(guide, user, 1)
