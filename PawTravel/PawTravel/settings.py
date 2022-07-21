@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'users',
     'offers',
     'travel_guides',
+    'comments',
 
     # 3rd party apps
     'widget_tweaks',
@@ -55,6 +56,7 @@ INSTALLED_APPS = [
     'sslserver',
     'social_django',
     'avatar',
+    'macros',
     'voting',
 ]
 
