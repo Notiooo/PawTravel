@@ -23,7 +23,7 @@ class GuideForm(forms.ModelForm):
 
     class Meta:
         model = Guide
-        fields = ('title', 'description', 'body', 'category', 'country')
+        fields = ('title', 'description', 'body', 'category', 'country', 'image')
 
     def __init__(self, *args, **kwargs):
         """

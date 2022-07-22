@@ -1,3 +1,5 @@
+import tempfile
+
 from django.test import TestCase
 from django.test.client import RequestFactory
 from django.urls import reverse
@@ -43,7 +45,8 @@ class GuidesViewTests(TestCase):
         self.category.save()
         self.country = Country(name="Test Country")
         self.country.save()
-        self.guide = Guide(title="Test guide", author=self.author, category=self.category, country=self.country)
+        self.guide = Guide(title="Test guide", author=self.author, category=self.category, country=self.country,
+                           image=tempfile.NamedTemporaryFile(suffix=".jpg").name)
         self.guide.save()
 
     @parameterized.expand([
