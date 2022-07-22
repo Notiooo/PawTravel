@@ -181,3 +181,29 @@
 .pt-search:focus {
     border: 0px;
 }
+
+/* ==== Offers ==== */
+.pt-offer-title
+{
+    font-weight: 500;
+    font-size: 28px;
+}
+
+.pt-offer-discount
+{
+    font-weight: 500;
+    font-size: 20px;
+}
+
+.pt-offer-author-name
+{
+    font-weight: 500;
+    font-size: 16px;
+}
+
+/* ==== Travel guides ==== */
+.pt-travel-guide-image
+{
+    border-radius: 25px 0px 25px 0px;
+    height: 225px;
+}
