@@ -1,4 +1,5 @@
 import datetime
+import json
 import tempfile
 
 from django.test import TestCase
@@ -7,6 +8,10 @@ from offers.models import Offer, OfferCategory
 from parameterized import parameterized_class, parameterized
 from users.models import CustomUser
 from pathlib import Path
+from django.test import Client
+import json
+from django.test.client import RequestFactory
+from .views import OfferDetailView, OfferVoteView
 
 
 class DetailOfferViewTestCase(TestCase):
@@ -178,3 +183,111 @@ class DetailOfferTestCase(TestCase):
     def test_get_absolute_url(self):
         offer = Offer.objects.get(id=1)
         self.assertEquals(offer.get_absolute_url(), '/offers/testtitle-1/')
+
+class VotingSystemTests(TestCase):
+    """
+    This class is responsible for testing implementation of voting system
+    """
+    def setUp(self):
+        """
+        Preparing single guide and two user accounts
+        """
+        self.user_one=CustomUser(username="TestUser", email="test_email@test.com")
+        self.user_one.save()
+        OfferCategory.objects.create(name="TestCategory")
+
+        Offer.objects.create(
+            title="TestTitle",
+            short_content="Example short content",
+            content="<b>Styled content</b>",
+            category=OfferCategory.objects.get(id=1),
+            image=tempfile.NamedTemporaryFile(suffix=".jpg").name,
+            offer_ends=datetime.datetime(2022, 12, 13, 14, 57, 11, 342380),
+            author=self.user_one,
+            original_price=1999.99,
+            offer_price=989.99,
+            link="http://google.com"
+        )
+        self.offer = Offer.objects.get(id=1)
+
+
+
+    def test_vote_response(self):
+        """
+        Checks if voting paths return correct code (200)
+        """
+        id=self.offer.id
+        c=Client(username="TestUser", email="test_email_two@test.com")
+        c.login(username="TestUser", email="test_email_two@test.com")
+        for option in ["like", "dislike"]:
+            vote_url="/offers/vote/{}/{}".format(id, option)
+            response=c.post(vote_url)
+            self.assertEqual(response.status_code, 200, "Option {} returned code {}".format(option, response.status_code))
+
+    def test_vote_up_amount(self):
+        """
+        Checks if system counts up votes correctly
+        """
+        id = self.offer.id
+        vote_url = "/offers/vote/{}/like".format(id)
+        view=OfferVoteView
+        #User 1 voting up
+        factory = RequestFactory()
+        request = factory.post(vote_url)
+        request.user = CustomUser.objects.create(username='testuser', email="test@test.com")
+        response=view.post(self=view, request=request, pk=id, mode="like")
+        json_response=json.loads(response.content.decode())
+        self.assertEqual(json_response["likes"], 1)
+        self.assertEqual(json_response["num_votes"], 1)
+        #User 2 voting up
+        request = factory.post(vote_url)
+        request.user = CustomUser.objects.create(username='testuser2', email="test2@test.com")
+        view = OfferVoteView
+        response = view.post(self=view, request=request, pk=id, mode="like")
+        json_response=json.loads(response.content.decode())
+        self.assertEqual(json_response["likes"], 2)
+        self.assertEqual(json_response["num_votes"], 2)
+
+    def test_vote_down(self):
+        """
+        Checks if system counts up votes correctly
+        """
+        id = self.offer.id
+        vote_url = "/offers/vote/{}/like".format(id)
+        view = OfferVoteView
+        # User 1 voting down
+        factory = RequestFactory()
+        request = factory.post(vote_url)
+        request.user = CustomUser.objects.create(username='testuser', email="test@test.com")
+        response = view.post(self=view, request=request, pk=id, mode="dislike")
+        json_response = json.loads(response.content.decode())
+        self.assertEqual(json_response["likes"], -1)
+        self.assertEqual(json_response["num_votes"], 1)
+        # User 2 voting down
+        request = factory.post(vote_url)
+        request.user = CustomUser.objects.create(username='testuser2', email="test2@test.com")
+        view = OfferVoteView
+        response = view.post(self=view, request=request, pk=id, mode="dislike")
+        json_response = json.loads(response.content.decode())
+        self.assertEqual(json_response["likes"], -2)
+        self.assertEqual(json_response["num_votes"], 2)
+
+    def test_change_vote(self):
+        """
+        Checks if changing vote works as intended
+        """
+        id = self.offer.id
+        vote_url = "/offers/vote/{}/dislike".format(id)
+        view = OfferVoteView
+        # User 1 voting down
+        factory = RequestFactory()
+        request = factory.post(vote_url)
+        request.user = CustomUser.objects.create(username='testuser', email="test@test.com")
+        response = view.post(self=view, request=request, pk=id, mode="dislike")
+        json_response = json.loads(response.content.decode())
+        self.assertEqual(json_response["likes"], -1)
+        self.assertEqual(json_response["num_votes"], 1)
+        response = view.post(self=view, request=request, pk=id, mode="like")
+        json_response = json.loads(response.content.decode())
+        self.assertEqual(json_response["likes"], 1)
+        self.assertEqual(json_response["num_votes"], 1)

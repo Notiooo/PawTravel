@@ -7,6 +7,10 @@ from django.views.generic.list import MultipleObjectMixin
 
 from . import models
 from comments.forms import CommentForm
+from voting.models import Vote
+from django.http import JsonResponse
+from django.views import View
+
 
 
 class OfferDetailView(FormMixin, DetailView, MultipleObjectMixin):
@@ -49,3 +53,22 @@ class OfferDetailView(FormMixin, DetailView, MultipleObjectMixin):
     def form_valid(self, form):
         form.form_valid(form, self.request)
         return super(OfferDetailView, self).form_valid(form)
+
+class OfferVoteView(View):
+    """
+    View responsible for processing voting system
+    """
+    def post(self, request, pk, mode):
+        user=request.user
+        guide=models.Offer.objects.get(id=pk)
+        if user.is_authenticated:
+            if mode=="like":
+                Vote.objects.record_vote(guide, user, 1)
+            elif mode=="dislike":
+                Vote.objects.record_vote(guide, user, -1)
+            else:
+                Vote.objects.record_vote(guide, user, 0)
+        data=dict()
+        data["likes"] = Vote.objects.get_score(guide)['score']
+        data["num_votes"] = Vote.objects.get_score(guide)['num_votes']
+        return JsonResponse(data)
