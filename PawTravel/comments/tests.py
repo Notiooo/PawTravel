@@ -6,6 +6,9 @@ from django.urls import reverse
 from offers.models import Offer, OfferCategory
 from users.models import CustomUser
 from comments.models import Comment
+from parameterized import parameterized, parameterized_class
+
+from travel_guides.models import Guide, GuideCategory, Country
 
 
 class CommentsTestCase(TestCase):
@@ -19,20 +22,22 @@ class CommentsTestCase(TestCase):
         user.set_password('password')
         user.save()
         OfferCategory.objects.create(name="TestCategory")
-        Offer.objects.create(
-            title="TestTitle",
-            short_content="Example short content",
-            content="<b>Styled content</b>",
-            category=OfferCategory.objects.get(id=1),
-            image=mock_file,
-            offer_ends=datetime.datetime(2022, 12, 13, 14, 57, 11, 342380),
-            author=user,
-            original_price=1999.99,
-            offer_price=989.99,
-            link="http://google.com"
-        )
+        Offer.objects.create(title="TestTitle", short_content="Example short content", content="<b>Styled content</b>",
+                             category=OfferCategory.objects.get(id=1), image=mock_file,
+                             offer_ends=datetime.datetime(2022, 12, 13, 14, 57, 11, 342380), author=user,
+                             original_price=1999.99,
+                             offer_price=989.99, link="http://google.com")
+
+        category = GuideCategory(name="Test Category").save()
+        country = Country(name="Test Country").save()
+        Guide.objects.create(title="TestGuide", author=user, category=category, country=country,
+                             image=tempfile.NamedTemporaryFile(suffix=".jpg").name)
 
 
+@parameterized_class(('page', 'slug_url'), [
+    ('offer',                       'testtitle'),
+    ('travel_guides:guide_detail',  'testguide'),
+ ])
 class DetailOfferLoggedInCommentsTestCase(CommentsTestCase):
     """
     The case where the user is logged in and we check if he has the
@@ -44,11 +49,11 @@ class DetailOfferLoggedInCommentsTestCase(CommentsTestCase):
         self.client.login(username='user1', password='password')
 
     def test_textarea_placeholder(self):
-        response = self.client.get(reverse('offer', kwargs={'pk': 1, 'slug_url': 'testtitle'}))
+        response = self.client.get(reverse(self.page, kwargs={'pk': 1, 'slug_url': self.slug_url}))
         self.assertContains(response, 'Tell us what you think')
 
     def test_comment_button(self):
-        response = self.client.get(reverse('offer', kwargs={'pk': 1, 'slug_url': 'testtitle'}))
+        response = self.client.get(reverse(self.page, kwargs={'pk': 1, 'slug_url': self.slug_url}))
         self.assertContains(response, 'Send a comment')
 
 
@@ -61,21 +66,33 @@ class DetailOfferLoggedOutCommentsTestCase(CommentsTestCase):
     def setUp(self):
         super(DetailOfferLoggedOutCommentsTestCase, self).setUp()
 
-    def test_(self):
-        response = self.client.get(reverse('offer', kwargs={'pk': 1, 'slug_url': 'testtitle'}))
+    @parameterized.expand([
+         ('offer',                      'testtitle', '/offers/testtitle-1/'),
+         ('travel_guides:guide_detail', 'testguide', '/guides/testguide-1/'),
+    ])
+    def test_no_logged_in_message(self, page, slug_url, link):
+        response = self.client.get(reverse(page, kwargs={'pk': 1, 'slug_url': slug_url}))
         self.assertContains(response, 'You may write your own comment! '
                                       'All you have to do is '
-                                      '<a href="/users/login/?next=/offers/testtitle-1/">sign in</a>')
+                                      '<a href="/users/login/?next=' + link + '">sign in</a>')
 
 
 class DetailOfferWithoutCommentsTestCase(CommentsTestCase):
     """A case to check the correct behavior when there are no comments"""
 
-    def test_no_comments(self):
-        response = self.client.get(reverse('offer', kwargs={'pk': 1, 'slug_url': 'testtitle'}))
+    @parameterized.expand([
+         ('offer',                      'testtitle'),
+         ('travel_guides:guide_detail', 'testguide'),
+    ])
+    def test_no_comments(self, page, slug_url):
+        response = self.client.get(reverse(page, kwargs={'pk': 1, 'slug_url': slug_url}))
         self.assertContains(response, '0 comments')
 
 
+@parameterized_class(('page', 'slug_url', 'commented_object'), [
+    ('offer',                       'testtitle', Offer),
+    ('travel_guides:guide_detail',  'testguide', Guide),
+ ])
 class DetailOfferWithCommentsTestCase(CommentsTestCase):
     """A case to check the correct behavior when there are comments"""
 
@@ -86,28 +103,24 @@ class DetailOfferWithCommentsTestCase(CommentsTestCase):
         self.mock_file = tempfile.NamedTemporaryFile(suffix=".jpg").name
         self.time = datetime.datetime(year=2020, month=5, day=17, hour=16, minute=50)
         self.comment_user = CustomUser.objects.create(username='user2', email='user2@gmail.com')
-        self.offer = Offer.objects.get(id=1)
-        self.comment = Comment.objects.create(
-            text="Test comment content",
-            author=self.comment_user,
-            object_id=1,
-            content_object=self.offer
-        )
+        self.offer = self.commented_object.objects.get(id=1)
+        self.comment = Comment.objects.create(text="Test comment content", author=self.comment_user, object_id=1,
+                                              content_object=self.offer)
         self.comment.date = self.time
         self.comment.save()
 
     def test_one_comment(self):
-        response = self.client.get(reverse('offer', kwargs={'pk': 1, 'slug_url': 'testtitle'}))
+        response = self.client.get(reverse(self.page, kwargs={'pk': 1, 'slug_url': self.slug_url}))
         self.assertContains(response, '1 comment')
 
     def test_correct_user(self):
-        response = self.client.get(reverse('offer', kwargs={'pk': 1, 'slug_url': 'testtitle'}))
+        response = self.client.get(reverse(self.page, kwargs={'pk': 1, 'slug_url': self.slug_url}))
         self.assertContains(response, 'user2')
 
     def test_correct_comment_text(self):
-        response = self.client.get(reverse('offer', kwargs={'pk': 1, 'slug_url': 'testtitle'}))
+        response = self.client.get(reverse(self.page, kwargs={'pk': 1, 'slug_url': self.slug_url}))
         self.assertContains(response, 'Test comment content')
 
     def test_correct_date(self):
-        response = self.client.get(reverse('offer', kwargs={'pk': 1, 'slug_url': 'testtitle'}))
+        response = self.client.get(reverse(self.page, kwargs={'pk': 1, 'slug_url': self.slug_url}))
         self.assertContains(response, 'May 17, 2020, 4:50 p.m.')
