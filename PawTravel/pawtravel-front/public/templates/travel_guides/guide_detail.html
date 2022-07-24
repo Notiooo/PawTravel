@@ -53,5 +53,8 @@
                 <p>{{ guide.body|safe}}</p>
             </div>
         </div>
+        <div uk-scrollspy="cls: uk-animation-slide-bottom-medium; target: > div, ul > *; delay: 150">
+        {% include 'comments/comments.html' with object=guide  %}
+        </div>
     </div>
 {% endblock content %}

@@ -1,6 +1,4 @@
-import string
-import random
-
+from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
 from django.db.models import Q
 from django.urls import reverse
@@ -9,6 +7,8 @@ from django.utils.text import slugify
 from tinymce.models import HTMLField
 
 from users.models import CustomUser
+from comments.models import Comment
+
 
 
 class GuideSearchManager(models.Manager):
@@ -79,6 +79,7 @@ class Guide(models.Model):
     publish = models.DateTimeField(default=timezone.now)
     objects = models.Manager()  # Default manager
     search = GuideSearchManager()
+    comments = GenericRelation(Comment, related_query_name='all_comments')
 
     class Meta:
         ordering = ('-publish',)
