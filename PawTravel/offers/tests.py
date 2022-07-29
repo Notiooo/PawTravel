@@ -210,7 +210,20 @@ class VotingSystemTests(TestCase):
         )
         self.offer = Offer.objects.get(id=1)
 
-
+    def test_context_score_load(self):
+        """
+        Checks if initial score is loaded alongside detail view
+        """
+        offer_url=self.offer.get_absolute_url()
+        response=self.client.get(offer_url)
+        try:
+            score=response.context["likes"]
+        except KeyError:
+            self.fail("Detail view didn't return likes value")
+        try:
+            score=response.context["num_votes"]
+        except KeyError:
+            self.fail("Detail view didn't return amount of votes")
 
     def test_vote_response(self):
         """

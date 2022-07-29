@@ -25,7 +25,10 @@ class OfferDetailView(FormMixin, DetailView, MultipleObjectMixin):
     def get_context_data(self, **kwargs):
         offer = self.get_object()
         object_list = offer.comments.all()
-        return super().get_context_data(object_list=object_list, **kwargs)
+        context=super().get_context_data(object_list=object_list, **kwargs)
+        context["likes"] = Vote.objects.get_score(context['offer'])['score']
+        context["num_votes"] = Vote.objects.get_score(context['offer'])['num_votes']
+        return context
 
     def dispatch(self, request, *args, **kwargs):
         this = self.get_object()
