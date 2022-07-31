@@ -1,16 +1,60 @@
-{% extends "base.html" %}}
-{% block title %} {{ object.title }} {% endblock %}
+{% extends 'base.html' %}
+{% load avatar_tags %}
 
 {% block content %}
-
-<h1>{{object.title}}</h1>
-    {{ object.body|safe }}
-    <div class='likesystem'>
-  <span class='likes' data-id={{object.slug}} data-type='guides/vote'>like</span>  <span class='dislikes' data-id={{object.slug}} data-type='guides/vote'>dislike</span><br>
-  Score: <span class='countlikes'>{{ likes }}</span>
-        <br>
-  Total votes:<span class='countdislikes'>{{ num_votes }}</span>
-</div>
-
-
-{% endblock %}
+    <div class="uk-container uk-container-small uk-margin-large-bottom uk-margin-large-top">
+        <div class="uk-flex uk-flex-column uk-flex-center uk-flex-middle" uk-scrollspy="cls: uk-animation-slide-bottom-medium; target: > div; delay: 150">
+            <div class="uk-margin-small pt-offer-title pt-color-darkblue uk-text-center">{{ guide.title }}</div>
+            <div class="uk-margin uk-width-xlarge uk-text-justify">{{ guide.description }}</div>
+            <div class="uk-margin-top uk-cover-container uk-width-1-1 pt-travel-guide-image">
+                <img src="{{ guide.image.url }}" alt="" uk-cover>
+            </div>
+            <div class="uk-margin-bottom uk-section-default uk-width-expand@s">
+                <div class="uk-flex-middle uk-flex-center uk-flex-left@s uk-margin-small-top" uk-toggle="cls: uk-margin-remove-top; mode: media; media: @s" uk-grid>
+                    <!-- Author -->
+                    <div class="uk-grid-small uk-flex-middle" uk-grid>
+                        <div class="uk-width-auto">
+                            {% avatar guide.author 60 class="uk-comment-avatar uk-border-circle" %}
+                        </div>
+                        <div class="uk-width-expand">
+                            <h4 class="pt-offer-author-name uk-margin-remove"><a class="uk-link-reset" href="#">{{ guide.author }}</a></h4>
+                            <div class="uk-comment-meta uk-margin-remove-top">
+                                Posted this {{ guide.publish|date:'d-m-Y' }}
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Category & Country -->
+                    <div class="uk-grid-small uk-flex-middle" uk-grid>
+                        <div class="uk-padding-small">
+                            {% if guide.category %}
+                                {% if guide.category.icon_image %}
+                                <img src="{{ guide.category.icon_image.url }}" width="40" height="40" alt="img">
+                                {% else %}
+                                <span class="pt-color-lightblue" uk-icon="icon: hashtag; ratio: 1.75"></span>
+                                {% endif %}
+                                {{ guide.category.name }}
+                            {% else %}
+                            <span class="pt-color-lightblue" uk-icon="icon: hashtag; ratio: 1.75"></span>
+                            No category
+                            {% endif %}
+                        </div>
+                        <div class="uk-padding-small">
+                            <span class="pt-color-lightblue" uk-icon="icon: location; ratio: 1.75"></span>
+                            {% if guide.country %}
+                            {{ guide.country.name }}
+                            {% else %}
+                            No country
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="uk-margin-medium-bottom">
+                <p>{{ guide.body|safe}}</p>
+            </div>
+        </div>
+        <div uk-scrollspy="cls: uk-animation-slide-bottom-medium; target: > div, ul > *; delay: 150">
+        {% include 'comments/comments.html' with object=guide  %}
+        </div>
+    </div>
+{% endblock content %}
