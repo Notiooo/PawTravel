@@ -256,9 +256,11 @@ class VotingSystemTests(TestCase):
         """
         Preparing single guide and two user accounts
         """
+        self.mock_file = tempfile.NamedTemporaryFile(suffix=".jpg").name
+
         self.user_one=CustomUser(username="TestUser", email="test_email@test.com")
         self.user_one.save()
-        self.guide=Guide(title="Test guide", author=self.user_one)
+        self.guide=Guide(title="Test guide", author=self.user_one, image=self.mock_file)
         self.guide.save()
 
 

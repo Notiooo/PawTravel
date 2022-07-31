@@ -13,6 +13,10 @@ from django.views.generic.list import MultipleObjectMixin
 from users.models import CustomUser
 
 # Create your views here.
+from comments.forms import CommentForm
+from voting.models import Vote
+
+
 class GuideListView(ListView):
     """
     Guide List view. It shows list of guides.

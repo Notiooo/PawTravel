@@ -54,9 +54,9 @@ $(function() {
                 success : function(data) {
                     if (data) {
                         $(likesystem_block).find('.countlikes').text(data.likes);
-                        $(likesystem_block).find('.countdislikes').text(data.dislikes);
+                        $(likesystem_block).find('.countdislikes').text(data.num_votes);
                     }
-                    console.log(data);
+                  //  console.log(data);
                 },
 
                 error : function(xhr,errmsg,err) {
@@ -95,9 +95,9 @@ $(function() {
                 success : function(data) {
                     if (data) {
                         $(this).parents('.likesystem').find('.countlikes').text(data.likes);
-                        $(this).siblings('.countdislikes').text(data.dislikes);
+                        $(this).siblings('.countdislikes').text(data.num_votes);
                     }
-                    console.log(data);
+                    //console.log(data);
                 },
 
                 error : function(xhr,errmsg,err) {
