@@ -11,11 +11,13 @@ from django.views.generic.edit import FormMixin
 from django.views.generic.list import MultipleObjectMixin
 
 from users.models import CustomUser
+from comments.forms import CommentForm
+
+
 
 # Create your views here.
 from comments.forms import CommentForm
 from voting.models import Vote
-
 
 class GuideListView(ListView):
     """

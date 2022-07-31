@@ -360,3 +360,4 @@ class VotingSystemTests(TestCase):
         json_response = json.loads(response.content.decode())
         self.assertEqual(json_response["likes"], 1)
         self.assertEqual(json_response["num_votes"], 1)
+

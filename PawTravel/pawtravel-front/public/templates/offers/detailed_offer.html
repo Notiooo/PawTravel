@@ -53,12 +53,14 @@
             <div class="uk-margin-medium-bottom">
                 <p>{{ offer.content|safe}}</p>
             </div>
+
         <div class='likesystem'>
         <button class='likes' data-id={{offer.pk}} data-type='offers/vote'>like</button>  <button class='dislikes' data-id={{offer.pk}} data-type='offers/vote'>dislike</button><br>
         Score: <span class='countlikes'>{{ likes }}</span>
         <br>
         Total votes:<span class='countdislikes'>{{ num_votes }}</span>
         </div>
+
         </div>
         <div uk-scrollspy="cls: uk-animation-slide-bottom-medium; target: > div, ul > *; delay: 150">
         {% include 'comments/comments.html' with object=offer %}
