@@ -1,3 +1,5 @@
+from django.http import JsonResponse
+from django.views import View
 from django.views.generic import ListView, DetailView, CreateView
 
 from .forms import GuideForm
@@ -11,6 +13,11 @@ from django.views.generic.list import MultipleObjectMixin
 from users.models import CustomUser
 from comments.forms import CommentForm
 
+
+
+# Create your views here.
+from comments.forms import CommentForm
+from voting.models import Vote
 
 class GuideListView(ListView):
     """
@@ -46,14 +53,17 @@ class GuideDetailView(FormMixin, DetailView, MultipleObjectMixin):
     form_class = CommentForm
     paginate_by = 5
 
-    def get_context_data(self, **kwargs):
-        offer = self.get_object()
-        object_list = offer.comments.all()
-        return super().get_context_data(object_list=object_list, **kwargs)
-
     def get_queryset(self):
         return super().get_queryset().filter(visible='visible')
 
+    def get_context_data(self, **kwargs):
+        guide = self.get_object()
+        object_list = guide.comments.all()
+        context = super().get_context_data(object_list=object_list, **kwargs)
+        context["likes"] = Vote.objects.get_score(context['guide'])['score']
+        context["num_votes"] = Vote.objects.get_score(context['guide'])['num_votes']
+        return context
+        
     def dispatch(self, request, *args, **kwargs):
         """
         The function, if slug is not specified, but a valid id is given,
@@ -97,3 +107,22 @@ class GuideFormView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.author=self.request.user
         return super().form_valid(form)
+
+class GuideVoteView(View):
+    """
+    View responsible for processing voting system
+    """
+    def post(self, request, pk, mode):
+        user=request.user
+        guide=Guide.objects.get(id=pk)
+        if user.is_authenticated:
+            if mode=="like":
+                Vote.objects.record_vote(guide, user, 1)
+            elif mode=="dislike":
+                Vote.objects.record_vote(guide, user, -1)
+            else:
+                Vote.objects.record_vote(guide, user, 0)
+        data=dict()
+        data["likes"] = Vote.objects.get_score(guide)['score']
+        data["num_votes"] = Vote.objects.get_score(guide)['num_votes']
+        return JsonResponse(data)
