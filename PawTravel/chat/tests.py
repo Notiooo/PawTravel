@@ -2,12 +2,14 @@ import json
 import time
 
 from django.test import TestCase
+from django.utils.timezone import make_aware
 from users.models import CustomUser
 # Create your tests here.
 from django.test.client import RequestFactory, Client
 from chat.views import ConversationView, ChatAPIView
 from chat.models import Message
-
+from datetime import timedelta, datetime
+from unittest import mock
 
 class ConversationListTests(TestCase):
     def setUp(self):
@@ -126,15 +128,36 @@ class ChattingAPITests(TestCase):
         Checks if user can fetch entire conversation
         Additionally checks if fetch returns same values for both sides of conversation
         """
-        Message(content="Lorem Ipsum 1", sent_by=self.user_one, sent_to=self.user_two).save()
-        time.sleep(1)
-        Message(content="Lorem Ipsum 2", sent_by=self.user_two, sent_to=self.user_one).save()
-        time.sleep(1)
-        Message(content="Lorem Ipsum 3", sent_by=self.user_one, sent_to=self.user_two).save()
-        time.sleep(1)
-        Message(content="Lorem Ipsum 4", sent_by=self.user_two, sent_to=self.user_one).save()
-        time.sleep(1)
-        Message(content="Lorem Ipsum 5", sent_by=self.user_one, sent_to=self.user_two).save()
+        creation_date = datetime.now() - timedelta(days=5)
+        creation_date = make_aware(creation_date)
+        with mock.patch('django.utils.timezone.now') as mock_now:
+            mock_now.return_value=creation_date
+            Message(content="Lorem Ipsum 1", sent_by=self.user_one, sent_to=self.user_two).save()
+
+        creation_date = datetime.now() - timedelta(days=4)
+        creation_date = make_aware(creation_date)
+        with mock.patch('django.utils.timezone.now') as mock_now:
+            mock_now.return_value=creation_date
+            Message(content="Lorem Ipsum 2", sent_by=self.user_two, sent_to=self.user_one).save()
+
+        creation_date = datetime.now() - timedelta(days=3)
+        creation_date = make_aware(creation_date)
+        with mock.patch('django.utils.timezone.now') as mock_now:
+            mock_now.return_value=creation_date
+            Message(content="Lorem Ipsum 3", sent_by=self.user_one, sent_to=self.user_two).save()
+
+        creation_date = datetime.now() - timedelta(days=2)
+        creation_date = make_aware(creation_date)
+        with mock.patch('django.utils.timezone.now') as mock_now:
+            mock_now.return_value=creation_date
+            Message(content="Lorem Ipsum 4", sent_by=self.user_two, sent_to=self.user_one).save()
+
+        creation_date = datetime.now() - timedelta(days=1)
+        creation_date = make_aware(creation_date)
+        with mock.patch('django.utils.timezone.now') as mock_now:
+            mock_now.return_value=creation_date
+            Message(content="Lorem Ipsum 5", sent_by=self.user_one, sent_to=self.user_two).save()
+
         factory = RequestFactory()
         request = factory.get("/conversation")
         request.user = self.user_one
