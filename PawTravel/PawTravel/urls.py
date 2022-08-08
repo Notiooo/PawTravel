@@ -22,7 +22,6 @@ from django.contrib import admin
 from django.contrib.staticfiles.urls import static
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.urls import path, include
-from rest_framework import routers
 from django.urls import path, include
 
 from . import settings
@@ -33,9 +32,6 @@ from users.views import CustomUserViewSet
 
 # # # # # #
 
-router = routers.DefaultRouter()
-router.register(r'users', CustomUserViewSet)
-
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('guides/', include('travel_guides.urls', namespace='travel_guides')),
@@ -44,7 +40,6 @@ urlpatterns = [
     path('users/', include('django.contrib.auth.urls')),  # logout
     path('users/', include('users.urls')),
     path('avatar/', include('avatar.urls')),
-    path('', include(router.urls)),
 ]
 
 urlpatterns += staticfiles_urlpatterns()
