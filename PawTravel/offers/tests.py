@@ -17,7 +17,8 @@ class DetailOfferViewTestCase(TestCase):
 
         self.mock_file = tempfile.NamedTemporaryFile(suffix=".jpg").name
         self.current_time = datetime.datetime.now()
-        user = CustomUser.objects.create(username='user1')
+        user = CustomUser.objects.create_user(username='user1', password='password')
+        self.client.login(username='user1', password='password')
         OfferCategory.objects.create(name="TestCategory")
         Offer.objects.create(
             title="TestTitle",
@@ -157,7 +158,8 @@ class DetailOfferTestCase(TestCase):
 
     def setUp(self):
         """Inserts the necessary test objects into the database"""
-        user = CustomUser.objects.create(username='user1')
+        user = CustomUser.objects.create_user(username='user1', password='password')
+        self.client.login(username='user1', password='password')
         OfferCategory.objects.create(name="TestCategory")
         Offer.objects.create(
             title="TestTitle",
@@ -195,8 +197,9 @@ class DetailOfferTestCase(TestCase):
 
 class CreateOfferViewTestCase(TestCase):
     def setUp(self):
-         user = CustomUser.objects.create(username='user1')
-         offerCategory = OfferCategory.objects.create(name="TestCategory")
+        user = CustomUser.objects.create_user(username='username', password='password')
+        self.client.login(username='username', password='password')
+        offerCategory = OfferCategory.objects.create(name="TestCategory")
 
     def test_view_status_code(self):
         response = self.client.get('/offers/new/')
@@ -211,13 +214,49 @@ class CreateOfferViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'offers/new_offer.html')
 
+class DeleteOfferViewTestCase(TestCase):
+    def setUp(self):
+        """Inserts the necessary test objects into the database"""
+
+        self.mock_file = tempfile.NamedTemporaryFile(suffix=".jpg").name
+        self.current_time = datetime.datetime.now()
+        user = CustomUser.objects.create_user(username='username', password='password')
+        self.client.login(username='username', password='password')
+        OfferCategory.objects.create(name="TestCategory")
+        self.offer = Offer.objects.create(
+            title="TestTitle",
+            slug_url='testtitle-1',
+            short_content="Example short content",
+            content="<b>Styled content</b>",
+            category=OfferCategory.objects.get(id=1),
+            image=self.mock_file,
+            offer_ends=datetime.datetime(2022, 12, 13, 14, 57, 11, 342380),
+            author=user,
+            original_price=1999.99,
+            offer_price=989.99,
+            link="http://google.com"
+        )
+
+    def test_view_status_code(self):
+        response = self.client.get('/offers/1/delete/')
+        self.assertEqual(response.status_code, 200)
+
+    def test_view_by_name(self):
+        response = self.client.get(reverse('offer_delete', args=[1]))
+        self.assertEqual(response.status_code, 200)
+
+    def test_view_correct_template(self):
+        response = self.client.get('/offers/1/delete/')
+        self.assertTemplateUsed(response, 'offers/delete_offer.html')
+
 class UpdateOfferViewTestCase(TestCase):
     def setUp(self):
         """Inserts the necessary test objects into the database"""
 
         self.mock_file = tempfile.NamedTemporaryFile(suffix=".jpg").name
         self.current_time = datetime.datetime.now()
-        user = CustomUser.objects.create(username='user1')
+        user = CustomUser.objects.create_user(username='username', password='password')
+        self.client.login(username='username', password='password')
         OfferCategory.objects.create(name="TestCategory")
         self.offer = Offer.objects.create(
             title="TestTitle",

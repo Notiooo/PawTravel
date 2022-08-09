@@ -1,11 +1,12 @@
 from django.http import HttpResponseRedirect
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 
 from django.views.generic import DetailView, ListView
-from django.views.generic.edit import CreateView, UpdateView 
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import DetailView
 from django.views.generic.edit import FormMixin
 from django.views.generic.list import MultipleObjectMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from . import models
 from comments.forms import CommentForm
@@ -15,7 +16,7 @@ class HomePageView(ListView):
     context_object_name = 'offer'
     template_name = 'offers/home.html'
 
-class OfferCreateView(CreateView):
+class OfferCreateView(LoginRequiredMixin, CreateView):
     model = models.Offer
     template_name = 'offers/new_offer.html'
     fields = ['title', 'short_content', 'content', 'category', 'image',
@@ -25,12 +26,17 @@ class OfferCreateView(CreateView):
         form.instance.author = self.request.user
         return super().form_valid(form)
 
-class OfferUpdateView(UpdateView):  #Here will be mixin preventing access from different users
+class OfferUpdateView(LoginRequiredMixin, UpdateView):  #Here will be mixin preventing access from different users
     model = models.Offer
     fields = [
         'title', 'short_content', 'content', 'category', 'image',
         'original_price', 'offer_price', 'offer_ends', 'link']
     template_name = 'offers/edit_offer.html'
+
+class OfferDeleteView(LoginRequiredMixin, DeleteView):
+    model = models.Offer
+    template_name = 'offers/delete_offer.html'
+    success_url = reverse_lazy('home')
 
 class OfferDetailView(FormMixin, DetailView, MultipleObjectMixin):
     """A view showing one particular offer in detail."""
