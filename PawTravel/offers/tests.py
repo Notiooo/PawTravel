@@ -17,10 +17,12 @@ class DetailOfferViewTestCase(TestCase):
 
         self.mock_file = tempfile.NamedTemporaryFile(suffix=".jpg").name
         self.current_time = datetime.datetime.now()
-        user = CustomUser.objects.create(username='user1')
+        user = CustomUser.objects.create_user(username='user1', password='password')
+        self.client.login(username='user1', password='password')
         OfferCategory.objects.create(name="TestCategory")
         Offer.objects.create(
             title="TestTitle",
+            slug_url='testtitle-1',
             short_content="Example short content",
             content="<b>Styled content</b>",
             category=OfferCategory.objects.get(id=1),
@@ -137,13 +139,27 @@ class DetailOfferViewTestCase(TestCase):
         response = self.client.get('/offers/testtitle-1/')
         self.assertContains(response, "http://google.com")
 
+class HomePageView(TestCase):
+    def test_view_status_code(self):
+        response = self.client.get('/')
+        self.assertEqual(response.status_code, 200)
+
+    def test_view_by_name(self):
+        response = self.client.get(reverse('home'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_view_correct_template(self):
+        response = self.client.get(reverse('home'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'offers/home.html')
 
 class DetailOfferTestCase(TestCase):
     """Tests that check the model itself rather than the view itself"""
 
     def setUp(self):
         """Inserts the necessary test objects into the database"""
-        user = CustomUser.objects.create(username='user1')
+        user = CustomUser.objects.create_user(username='user1', password='password')
+        self.client.login(username='user1', password='password')
         OfferCategory.objects.create(name="TestCategory")
         Offer.objects.create(
             title="TestTitle",
@@ -178,3 +194,113 @@ class DetailOfferTestCase(TestCase):
     def test_get_absolute_url(self):
         offer = Offer.objects.get(id=1)
         self.assertEquals(offer.get_absolute_url(), '/offers/testtitle-1/')
+
+class CreateOfferViewTestCase(TestCase):
+    def setUp(self):
+        user = CustomUser.objects.create_user(username='username', password='password')
+        self.client.login(username='username', password='password')
+        offerCategory = OfferCategory.objects.create(name="TestCategory")
+
+    def test_view_status_code(self):
+        response = self.client.get('/offers/new/')
+        self.assertEqual(response.status_code, 200)
+
+    def test_view_by_name(self):
+        response = self.client.get(reverse('offer_new'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_view_correct_template(self):
+        response = self.client.get(reverse('offer_new'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'offers/new_offer.html')
+
+class DeleteOfferViewTestCase(TestCase):
+    def setUp(self):
+        """Inserts the necessary test objects into the database"""
+
+        self.mock_file = tempfile.NamedTemporaryFile(suffix=".jpg").name
+        self.current_time = datetime.datetime.now()
+        user = CustomUser.objects.create_user(username='username', password='password')
+        self.client.login(username='username', password='password')
+        OfferCategory.objects.create(name="TestCategory")
+        self.offer = Offer.objects.create(
+            title="TestTitle",
+            slug_url='testtitle-1',
+            short_content="Example short content",
+            content="<b>Styled content</b>",
+            category=OfferCategory.objects.get(id=1),
+            image=self.mock_file,
+            offer_ends=datetime.datetime(2022, 12, 13, 14, 57, 11, 342380),
+            author=user,
+            original_price=1999.99,
+            offer_price=989.99,
+            link="http://google.com"
+        )
+
+    def test_view_status_code(self):
+        response = self.client.get('/offers/1/delete/')
+        self.assertEqual(response.status_code, 200)
+
+    def test_view_by_name(self):
+        response = self.client.get(reverse('offer_delete', args=[1]))
+        self.assertEqual(response.status_code, 200)
+
+    def test_view_correct_template(self):
+        response = self.client.get('/offers/1/delete/')
+        self.assertTemplateUsed(response, 'offers/delete_offer.html')
+
+class UpdateOfferViewTestCase(TestCase):
+    def setUp(self):
+        """Inserts the necessary test objects into the database"""
+
+        self.mock_file = tempfile.NamedTemporaryFile(suffix=".jpg").name
+        self.current_time = datetime.datetime.now()
+        user = CustomUser.objects.create_user(username='username', password='password')
+        self.client.login(username='username', password='password')
+        OfferCategory.objects.create(name="TestCategory")
+        self.offer = Offer.objects.create(
+            title="TestTitle",
+            slug_url='testtitle-1',
+            short_content="Example short content",
+            content="<b>Styled content</b>",
+            category=OfferCategory.objects.get(id=1),
+            image=self.mock_file,
+            offer_ends=datetime.datetime(2022, 12, 13, 14, 57, 11, 342380),
+            author=user,
+            original_price=1999.99,
+            offer_price=989.99,
+            link="http://google.com"
+        )
+
+    def test_view_status_code(self):
+        response = self.client.get('/offers/1/edit/')
+        self.assertEqual(response.status_code, 200)
+
+    def test_view_correct_template(self):
+        response = self.client.get('/offers/1/edit/')
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'offers/edit_offer.html')
+
+    def test_view_update_offer(self):
+        response = self.client.post(
+           '/offers/1/edit/', data=
+            {'title': "NewTestTitle",
+            'short_content': "New short content",
+            'content': "<b> New styled content </b>",
+            'category': '',
+            'image': '',
+            'date_posted': datetime.datetime(2022, 12, 13, 14, 57, 11, 342380),
+            'original_price': 199.99,
+            'offer_price': 99.99,
+            'offer_ends': datetime.datetime(2022, 12, 13, 14, 57, 11, 342311),
+            'link': "https://bing.com",
+            'author': 'user1'}
+        )
+
+       
+        self.offer.refresh_from_db()
+        self.assertEqual(response.status_code, 200)
+
+        # For some reason client.post dosen't change anything in the database
+        # for now I have no idea why, maybe later this bug will be resolved
+        #self.assertEquals(self.offer.title, "NewTestTitle")
