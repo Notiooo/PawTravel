@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load avatar_tags %}
+{% load static %}
 
 {% block content %}
     <div class="uk-container uk-container-small uk-margin-large-bottom">
@@ -10,14 +11,33 @@
                     <img src="{{ offer.image.url }}" class="uk-width-medium" alt="img">
                 </div>
                 <!-- Offer (right side) -->
-                <div class="uk-section-default uk-width-expand@s">
-                    <div class="uk-margin-small pt-offer-title pt-color-darkblue">{{ offer.title }}</div>
-                    <div class="uk-margin-small">
-                        <span class="pt-offer-discount">
-                            <span class="pt-color-red uk-text-bolder">{{ offer.offer_price }}$</span>
-                            <s class="uk-text-muted">{{ offer.original_price }}$</s>
-                        </span>
-                        Ends {{ offer.offer_ends|date:'d-m-Y' }} at {{ offer.offer_ends|date:'H:i' }}
+                <div class="uk-section-default uk-width-expand@s uk-flex uk-flex-column">
+                    <div class="uk-flex uk-flex-row">
+                        <div class="uk-flex-left@s uk-width-expand">
+                            <div class="uk-margin-small pt-offer-title pt-color-darkblue">{{ offer.title }}</div>
+                            <div class="uk-margin-small">
+                                <span class="pt-offer-discount">
+                                    <span class="pt-color-red uk-text-bolder">{{ offer.offer_price }}$</span>
+                                    <s class="uk-text-muted">{{ offer.original_price }}$</s>
+                                </span>
+                                Ends {{ offer.offer_ends|date:'d-m-Y' }} at {{ offer.offer_ends|date:'H:i' }}
+                            </div>
+                        </div>
+                        <div class="likesystem uk-flex-right@s uk-margin-small-top">
+                            <div class="uk-grid-small uk-grid-column-medium uk-flex-middle uk-flex-center" uk-grid>
+                                <div>
+                                    <a class='likes' data-id={{ offer.pk }} data-type='offers/vote'>
+                                        <img src="{% static 'img/voting/up-paw.png' %}" width="35px">
+                                    </a>
+                                </div>
+                                <div>
+                                    <a class='dislikes' data-id={{ offer.pk }} data-type='offers/vote'>
+                                        <img src="{% static 'img/voting/down-paw.png' %}" width="35px">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="pt-votes uk-text-center"><span class="countlikes">{{ likes }}</span></div>
+                        </div>
                     </div>
                     <div class="uk-text-justify">{{ offer.short_content }}</div>
                     <div class="uk-flex-middle" uk-grid>
@@ -53,14 +73,6 @@
             <div class="uk-margin-medium-bottom">
                 <p>{{ offer.content|safe}}</p>
             </div>
-
-        <div class='likesystem'>
-        <button class='likes' data-id={{offer.pk}} data-type='offers/vote'>like</button>  <button class='dislikes' data-id={{offer.pk}} data-type='offers/vote'>dislike</button><br>
-        Score: <span class='countlikes'>{{ likes }}</span>
-        <br>
-        Total votes:<span class='countdislikes'>{{ num_votes }}</span>
-        </div>
-
         </div>
         <div uk-scrollspy="cls: uk-animation-slide-bottom-medium; target: > div, ul > *; delay: 150">
         {% include 'comments/comments.html' with object=offer %}
