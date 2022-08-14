@@ -3,11 +3,13 @@ import tempfile
 from django.test import TestCase
 from django.test.client import RequestFactory
 from django.urls import reverse
+from django.test import Client
 
 from .models import Guide, GuideCategory, Country
 from parameterized import parameterized
 from users.models import CustomUser
-from .views import GuideFormView
+from .views import GuideFormView, GuideVoteView
+import json
 
 # Create your tests here.
 class GuideModelTests(TestCase):
@@ -245,3 +247,117 @@ class VisibilityTest(TestCase):
         """
         resp=self.client.get(self.guide_two.get_absolute_url())
         self.assertEqual(resp.status_code, 404)
+
+class VotingSystemTests(TestCase):
+    """
+    This class is responsible for testing implementation of voting system
+    """
+    def setUp(self):
+        """
+        Preparing single guide and two user accounts
+        """
+        self.mock_file = tempfile.NamedTemporaryFile(suffix=".jpg").name
+
+        self.user_one=CustomUser(username="TestUser", email="test_email@test.com")
+        self.user_one.save()
+        self.guide=Guide(title="Test guide", author=self.user_one, image=self.mock_file)
+        self.guide.save()
+
+
+    def test_context_score_load(self):
+        """
+        Checks if initial score is loaded alongside detail view
+        """
+        guide_url=self.guide.get_absolute_url()
+        response=self.client.get(guide_url)
+        try:
+            score=response.context["likes"]
+        except KeyError:
+            self.fail("Detail view didn't return likes value")
+        try:
+            score=response.context["num_votes"]
+        except KeyError:
+            self.fail("Detail view didn't return amount of votes")
+
+
+    def test_vote_response(self):
+        """
+        Checks if voting paths return correct code (200)
+        """
+        id=self.guide.id
+        c=Client(username="TestUser", email="test_email_two@test.com")
+        c.login(username="TestUser", email="test_email_two@test.com")
+        for option in ["like", "dislike"]:
+            vote_url="/guides/vote/{}/{}".format(id, option)
+            response=c.post(vote_url)
+            self.assertEqual(response.status_code, 200, "Option {} returned code {}".format(option, response.status_code))
+
+    def test_vote_up_amount(self):
+        """
+        Checks if system counts up votes correctly
+        """
+        id = self.guide.id
+        vote_url = "/guides/vote/{}/like".format(id)
+        view=GuideVoteView
+        #User 1 voting up
+        factory = RequestFactory()
+        request = factory.post(vote_url)
+        request.user = CustomUser.objects.create(username='testuser', email="test@test.com")
+        response=view.post(self=view, request=request, pk=id, mode="like")
+        json_response=json.loads(response.content.decode())
+        self.assertEqual(json_response["likes"], 1)
+        self.assertEqual(json_response["num_votes"], 1)
+        #User 2 voting up
+        request = factory.post(vote_url)
+        request.user = CustomUser.objects.create(username='testuser2', email="test2@test.com")
+        view = GuideVoteView
+        response = view.post(self=view, request=request, pk=id, mode="like")
+        json_response=json.loads(response.content.decode())
+        self.assertEqual(json_response["likes"], 2)
+        self.assertEqual(json_response["num_votes"], 2)
+
+    def test_vote_down(self):
+        """
+        Checks if system counts up votes correctly
+        """
+        id = self.guide.id
+        vote_url = "/guides/vote/{}/like".format(id)
+        view = GuideVoteView
+        # User 1 voting down
+        factory = RequestFactory()
+        request = factory.post(vote_url)
+        request.user = CustomUser.objects.create(username='testuser', email="test@test.com")
+        response = view.post(self=view, request=request, pk=id, mode="dislike")
+        json_response = json.loads(response.content.decode())
+        self.assertEqual(json_response["likes"], -1)
+        self.assertEqual(json_response["num_votes"], 1)
+        # User 2 voting down
+        request = factory.post(vote_url)
+        request.user = CustomUser.objects.create(username='testuser2', email="test2@test.com")
+        view = GuideVoteView
+        response = view.post(self=view, request=request, pk=id, mode="dislike")
+        json_response = json.loads(response.content.decode())
+        self.assertEqual(json_response["likes"], -2)
+        self.assertEqual(json_response["num_votes"], 2)
+
+    def test_change_vote(self):
+        """
+        Checks if changing vote works as intended
+        """
+        id = self.guide.id
+        vote_url = "/guides/vote/{}/like".format(id)
+        vote_url = "/guides/vote/{}/dislike".format(id)
+        view = GuideVoteView
+        # User 1 voting down
+        factory = RequestFactory()
+        request = factory.post(vote_url)
+        request.user = CustomUser.objects.create(username='testuser', email="test@test.com")
+        response = view.post(self=view, request=request, pk=id, mode="dislike")
+        json_response = json.loads(response.content.decode())
+        self.assertEqual(json_response["likes"], -1)
+        self.assertEqual(json_response["num_votes"], 1)
+        response = view.post(self=view, request=request, pk=id, mode="like")
+        json_response = json.loads(response.content.decode())
+        self.assertEqual(json_response["likes"], 1)
+        self.assertEqual(json_response["num_votes"], 1)
+
