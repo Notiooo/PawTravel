@@ -51,20 +51,14 @@
             </div>
             <div class="uk-margin-medium-bottom">
                 <p>{{ guide.body|safe}}</p>
-
-
             </div>
         </div>
         <div class='likesystem'>
-        <button class='likes' data-id={{guide.pk}} data-type='guides/vote'>like</button>  <button class='dislikes' data-id={{guide.pk}} data-type='guides/vote'>dislike</button><br>
-        Score: <span class='countlikes'>{{ likes }}</span>
-        <br>
-        Total votes:<span class='countdislikes'>{{ num_votes }}</span>
+            <button class='likes' data-id={{guide.pk}} data-type='guides/vote'>like</button>
+            <button class='dislikes' data-id={{guide.pk}} data-type='guides/vote'>dislike</button>
+            <p>Score: <span class='countlikes'>{{ likes }}</span></p>
+            <p>Total votes:<span class='countdislikes'>{{ num_votes }}</span></p>
         </div>
-
-      </div>
-        </div>
-
         <div uk-scrollspy="cls: uk-animation-slide-bottom-medium; target: > div, ul > *; delay: 150">
         {% include 'comments/comments.html' with object=guide  %}
         </div>

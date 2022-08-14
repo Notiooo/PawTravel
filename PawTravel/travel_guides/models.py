@@ -6,7 +6,6 @@ from django.utils import timezone
 from django.utils.text import slugify
 from tinymce.models import HTMLField
 
-
 from users.models import CustomUser
 from comments.models import Comment
 
