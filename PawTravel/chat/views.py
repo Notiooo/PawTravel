@@ -1,3 +1,6 @@
+import datetime
+import time
+
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
 from django.shortcuts import render
@@ -24,7 +27,7 @@ class ChatAPIView(LoginRequiredMixin, View):
     """
     View responsible for sending and fetching messages within given conversation
     """
-    def post(self, request, receiver, content):
+    def post(self, request, receiver, content, timestamp=None):
         user = request.user
         message_receipment = CustomUser.objects.get(id=receiver)
         if user.is_authenticated:
@@ -36,9 +39,9 @@ class ChatAPIView(LoginRequiredMixin, View):
             messages=Message.search.getConversation(user, message_receipment)
             return JsonResponse(messages, safe=False)  # or JsonResponse({'data': data})
 
-    def get(self, request, member):
+    def get(self, request, receiver, timestamp=None):
         user = request.user
         if user.is_authenticated:
-            message_receipment = CustomUser.objects.get(id=member)
-            messages=Message.search.getConversation(user, message_receipment)
+            message_receipment = CustomUser.objects.get(id=receiver)
+            messages=Message.search.getConversation(user, message_receipment, timestamp)
             return JsonResponse(list(messages), safe=False)

@@ -162,13 +162,46 @@ class ChattingAPITests(TestCase):
         request = factory.get("/conversation")
         request.user = self.user_one
         view = ChatAPIView
-        response = view.get(self=view, request=request, member=self.user_two.id)
+        response = view.get(self=view, request=request, receiver=self.user_two.id)
         json_response = json.loads(response.content.decode())
         factory = RequestFactory()
         request = factory.get("/conversation")
         request.user = self.user_two
         view = ChatAPIView
-        response = view.get(self=view, request=request, member=self.user_one.id)
+        response = view.get(self=view, request=request, receiver=self.user_one.id)
         json_response_two = json.loads(response.content.decode())
         self.assertEqual(len(json_response), 5)
         self.assertEqual(json_response, json_response_two)
+
+    def test_message_filter_range(self):
+        """
+        This test checks if optional time related parameter works as intended
+        """
+        Message(content="Lorem Ipsum", sent_by=self.user_one, sent_to=self.user_two).save()
+        Message(content="Lorem Ipsum", sent_by=self.user_one, sent_to=self.user_two).save()
+        third_message=Message(content="Lorem Ipsum", sent_to=self.user_one, sent_by=self.user_two)
+        third_message.save()
+        Message(content="Lorem Ipsum", sent_by=self.user_one, sent_to=self.user_two).save()
+        Message(content="Lorem Ipsum", sent_by=self.user_one, sent_to=self.user_two).save()
+        last_message=Message(content="Lorem Ipsum", sent_to=self.user_one, sent_by=self.user_two)
+        last_message.save()
+        #Just checking if prepared test data is ok, before real testing
+        self.assertEqual(third_message.id, 3, "Third message id error")
+        self.assertEqual(last_message.id, 6, "Sixth (last) message id error")
+        ###
+
+        factory = RequestFactory()
+        request = factory.get("/conversation")
+        request.user = self.user_one
+        view = ChatAPIView
+        response = view.get(self=view, request=request, receiver=self.user_two.id, timestamp=third_message.id)
+        json_response = json.loads(response.content.decode())
+        self.assertEqual(len(json_response), 3, "Expected 3 messages, got {}".format(len(json_response)))
+
+        factory = RequestFactory()
+        request = factory.get("/conversation")
+        request.user = self.user_one
+        view = ChatAPIView
+        response = view.get(self=view, request=request, receiver=self.user_two.id, timestamp=last_message.id)
+        json_response = json.loads(response.content.decode())
+        self.assertEqual(len(json_response), 0, "Expected 0 messages, got {}".format(len(json_response)))

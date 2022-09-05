@@ -6,6 +6,6 @@ from .views import ConversationView, ChatAPIView
 
 urlpatterns = [
     path('inbox/', ConversationView.as_view(), name='inbox'),
-    path('conversation/', ChatAPIView.as_view(), name='send'),
-
+    path('conversation/<int:receiver>', ChatAPIView.as_view(), name='send'),
+    path('conversation/<int:receiver>/<int:timestamp>', ChatAPIView.as_view(), name='send'),
 ]

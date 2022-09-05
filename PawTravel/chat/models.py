@@ -1,19 +1,27 @@
+import datetime
+
+import pytz
 from django.db import models
 from django.db.models import Q
 # Create your models here.
 from django.conf import settings
 from itertools import chain
 
+
 class MessageManager(models.Manager):
-    def getConversation(self, userOne, userTwo):
+    def getConversation(self, userOne, userTwo, oldest_id=None):
         """
         Get all messages between two users
         :param userOne: First user in conversation
         :param userTwo: Second user in conversation
+        :param oldest_id: Optional parameter which will return conversation messages newer than the id provided
         Please note that results are the same for a pair of users no matter in which order provided
         """
-        quert_set_one= super().get_queryset().filter(sent_by=userOne, sent_to=userTwo)
-        quert_set_two= super().get_queryset().filter(sent_by=userTwo, sent_to=userOne)
+        if oldest_id==None:
+            oldest_id=0
+
+        quert_set_one= super().get_queryset().filter(id__gt=oldest_id, sent_by=userOne, sent_to=userTwo)
+        quert_set_two= super().get_queryset().filter(id__gt=oldest_id, sent_by=userTwo, sent_to=userOne)
         result= quert_set_one | quert_set_two
         return list(result.order_by('date').values())
     def getConversationUsers(self, user):
