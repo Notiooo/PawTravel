@@ -43,7 +43,7 @@ $(function() {
     $(document).on('click', '.likes', function() {
             var object_id = $(this).data('id')
             var action_type = $(this).data('type')
-            var likesystem_block = $(this).parent('.likesystem')
+            var likesystem_block = $(this).closest('.likesystem')
 
             $.ajax({
                 url : '/'+action_type+'/'+ object_id +'/like',
@@ -56,7 +56,6 @@ $(function() {
                         $(likesystem_block).find('.countlikes').text(data.likes);
                         $(likesystem_block).find('.countdislikes').text(data.num_votes);
                     }
-                  //  console.log(data);
                 },
 
                 error : function(xhr,errmsg,err) {

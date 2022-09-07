@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load avatar_tags %}
+{% load static %}
 
 {% block content %}
     <div class="uk-container uk-container-small uk-margin-large-bottom uk-margin-large-top">
@@ -47,17 +48,24 @@
                             {% endif %}
                         </div>
                     </div>
+                    <div class="uk-width-expand@s uk-flex-right@s uk-flex-center uk-grid-small uk-grid-column-medium uk-flex-middle likesystem" uk-grid>
+                        <div class="pt-votes"><span class="countlikes">{{ likes }}</span></div>
+                        <div>
+                            <a class='likes' data-id={{guide.pk}} data-type='guides/vote'>
+                                <img src="{% static 'img/voting/up-paw.png' %}" width="35px">
+                            </a>
+                        </div>
+                        <div>
+                            <a class='dislikes' data-id={{guide.pk}} data-type='guides/vote'>
+                                <img src="{% static 'img/voting/down-paw.png' %}" width="35px">
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="uk-margin-medium-bottom">
                 <p>{{ guide.body|safe}}</p>
             </div>
-        </div>
-        <div class='likesystem'>
-            <button class='likes' data-id={{guide.pk}} data-type='guides/vote'>like</button>
-            <button class='dislikes' data-id={{guide.pk}} data-type='guides/vote'>dislike</button>
-            <p>Score: <span class='countlikes'>{{ likes }}</span></p>
-            <p>Total votes:<span class='countdislikes'>{{ num_votes }}</span></p>
         </div>
         <div uk-scrollspy="cls: uk-animation-slide-bottom-medium; target: > div, ul > *; delay: 150">
         {% include 'comments/comments.html' with object=guide  %}
