@@ -10,6 +10,7 @@ from chat.views import ConversationView, ChatAPIView
 from chat.models import Message
 from datetime import timedelta, datetime
 from unittest import mock
+from datetime import date
 
 class ConversationListTests(TestCase):
     def setUp(self):
@@ -40,7 +41,7 @@ class ConversationListTests(TestCase):
         """
         Checking is single value is returned if there is only one conversation
         """
-        creation_date = datetime.now()
+        creation_date = datetime(2019, 4, 13, 0, 0)
         creation_date = make_aware(creation_date)
         with mock.patch('django.utils.timezone.now') as mock_now:
             mock_now.return_value=creation_date
@@ -60,7 +61,7 @@ class ConversationListTests(TestCase):
         However this conversation has more than one message
         Checking if there are no dupes
         """
-        creation_date = datetime.now()
+        creation_date = datetime(2019, 4, 13, 0, 0)
         creation_date = make_aware(creation_date)
         with mock.patch('django.utils.timezone.now') as mock_now:
             mock_now.return_value=creation_date
@@ -82,11 +83,15 @@ class ConversationListTests(TestCase):
         In 1st conversation he is a receipment
         In 2nd conversation he is the one who sent a message
         """
-        message = Message(content="Lorem Ipsum", sent_to=self.user_one, sent_by=self.user_three)
-        message_two = Message(content="Lorem Ipsum", sent_by=self.user_one, sent_to=self.user_two)
-        message.save()
-        message_two.save()
-        Message(content="Lorem Ipsum", sent_by=self.user_three, sent_to=self.user_two)
+        creation_date = datetime(2019, 4, 13, 0, 0)
+        creation_date = make_aware(creation_date)
+        with mock.patch('django.utils.timezone.now') as mock_now:
+            mock_now.return_value=creation_date
+            message = Message(content="Lorem Ipsum", sent_to=self.user_one, sent_by=self.user_three)
+            message_two = Message(content="Lorem Ipsum", sent_by=self.user_one, sent_to=self.user_two)
+            message.save()
+            message_two.save()
+            Message(content="Lorem Ipsum", sent_by=self.user_three, sent_to=self.user_two)
         factory = RequestFactory()
         request = factory.get("/messages/inbox/")
         request.user=self.user_one
