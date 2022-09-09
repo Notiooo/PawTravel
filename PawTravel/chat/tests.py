@@ -40,15 +40,15 @@ class ConversationListTests(TestCase):
         """
         Checking is single value is returned if there is only one conversation
         """
-        self.message = Message(content="Lorem Ipsum", sent_by=self.user_one, sent_to=self.user_two)
-        self.message.save()
+        message = Message(content="Lorem Ipsum", sent_by=self.user_one, sent_to=self.user_two)
+        message.save()
         factory = RequestFactory()
         request = factory.get("/messages/inbox/")
         request.user=self.user_one
         view = ConversationView
         response = view.get(self=view, request=request)
         json_response = json.loads(response.content.decode())
-        self.assertEqual(json_response, [2], "Expected [2], got {}".format(json_response))
+        self.assertEqual(json_response, [[2, [message.content, str(message.date)]]], "Expected [2], got {}".format(json_response))
 
     def test_single_conversation_multiple_messages(self):
         """
@@ -56,16 +56,17 @@ class ConversationListTests(TestCase):
         However this conversation has more than one message
         Checking if there are no dupes
         """
-        Message(content="Lorem Ipsum", sent_by=self.user_one, sent_to=self.user_two).save()
-        Message(content="Lorem Ipsum", sent_by=self.user_one, sent_to=self.user_two).save()
-        Message(content="Lorem Ipsum", sent_to=self.user_one, sent_by=self.user_two).save()
+        Message(content="Lorem Ipsum1", sent_by=self.user_one, sent_to=self.user_two).save()
+        Message(content="Lorem Ipsum2", sent_by=self.user_one, sent_to=self.user_two).save()
+        last_message=Message(content="Lorem Ipsum3", sent_to=self.user_one, sent_by=self.user_two)
+        last_message.save()
         factory = RequestFactory()
         request = factory.get("/messages/inbox/")
         request.user = self.user_one
         view = ConversationView
         response = view.get(self=view, request=request)
         json_response = json.loads(response.content.decode())
-        self.assertEqual(json_response, [2], "Expected [2], got {}".format(json_response))
+        self.assertEqual(json_response, [[2, [last_message.content, str(last_message.date)]]], "Expected [2], got {}".format(json_response))
 
     def test_multiple_conversations(self):
         """
@@ -73,10 +74,11 @@ class ConversationListTests(TestCase):
         In 1st conversation he is a receipment
         In 2nd conversation he is the one who sent a message
         """
-        self.message = Message(content="Lorem Ipsum", sent_to=self.user_one, sent_by=self.user_three)
-        self.message_two = Message(content="Lorem Ipsum", sent_by=self.user_one, sent_to=self.user_two)
-        self.message.save()
-        self.message_two.save()
+        message = Message(content="Lorem Ipsum", sent_to=self.user_one, sent_by=self.user_three)
+        message_two = Message(content="Lorem Ipsum", sent_by=self.user_one, sent_to=self.user_two)
+        message.save()
+        message_two.save()
+        Message(content="Lorem Ipsum", sent_by=self.user_three, sent_to=self.user_two)
         factory = RequestFactory()
         request = factory.get("/messages/inbox/")
         request.user=self.user_one
@@ -84,7 +86,8 @@ class ConversationListTests(TestCase):
         response = view.get(self=view, request=request)
         json_response = json.loads(response.content.decode())
         json_response.sort()
-        self.assertEqual(json_response, [2, 3], "Expected [2, 3], got {}".format(json_response))
+        self.assertEqual(json_response, [[2, [message.content, str(message.date)]], [3, [message_two.content, str(message_two.date)]]],
+                         "Expected [2, 3], got {}".format(json_response))
 
 class ChattingAPITests(TestCase):
     """
