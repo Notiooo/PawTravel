@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'social_django',
     'avatar',
     'macros',
+    'voting',
 ]
 
 MIDDLEWARE = [

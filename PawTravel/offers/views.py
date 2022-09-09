@@ -7,6 +7,9 @@ from django.views.generic.list import MultipleObjectMixin
 
 from . import models
 from comments.forms import CommentForm
+from voting.models import Vote
+from django.http import JsonResponse
+from django.views import View
 
 
 class OfferDetailView(FormMixin, DetailView, MultipleObjectMixin):
@@ -21,7 +24,10 @@ class OfferDetailView(FormMixin, DetailView, MultipleObjectMixin):
     def get_context_data(self, **kwargs):
         offer = self.get_object()
         object_list = offer.comments.all()
-        return super().get_context_data(object_list=object_list, **kwargs)
+        context = super().get_context_data(object_list=object_list, **kwargs)
+        context["likes"] = Vote.objects.get_score(context['offer'])['score']
+        context["num_votes"] = Vote.objects.get_score(context['offer'])['num_votes']
+        return context
 
     def dispatch(self, request, *args, **kwargs):
         this = self.get_object()
@@ -49,3 +55,28 @@ class OfferDetailView(FormMixin, DetailView, MultipleObjectMixin):
     def form_valid(self, form):
         form.form_valid(form, self.request)
         return super(OfferDetailView, self).form_valid(form)
+
+
+class OfferVoteView(View):
+    """
+    View responsible for processing voting system
+    """
+
+    def post(self, request, pk, mode):
+        user = request.user
+        guide = models.Offer.objects.get(id=pk)
+        self.record_vote(guide, mode, user)
+        data = dict()
+        data["likes"] = Vote.objects.get_score(guide)['score']
+        data["num_votes"] = Vote.objects.get_score(guide)['num_votes']
+        return JsonResponse(data)
+
+    @staticmethod
+    def record_vote(guide, mode, user):
+        if user.is_authenticated:
+            if mode == "like":
+                Vote.objects.record_vote(guide, user, 1)
+            elif mode == "dislike":
+                Vote.objects.record_vote(guide, user, -1)
+            else:
+                Vote.objects.record_vote(guide, user, 0)
