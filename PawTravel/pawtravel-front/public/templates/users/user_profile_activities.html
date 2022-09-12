@@ -1,0 +1,42 @@
+{% extends 'users/profile.html' %}
+{% load static %}
+
+
+{% block right_side %}
+            <div class="uk-margin-medium-bottom uk-width-expand uk-text-center">
+                <ul class="uk-tab">
+                    <li class="uk-active pt-tab">
+                        <a href="{% url 'profile_activities' %}" aria-expanded="true">Activities</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'profile_added' %}" aria-expanded="false">Added</a>
+                    </li>
+                </ul>
+                <div class="uk-width-1-2@m border-occasion">
+                    <div class="uk-grid-small" uk-grid>
+                        <!-- Img -->
+                        <div class="uk-width-auto uk-flex uk-flex-left">
+                            <img class="image-occasion" src="{% static 'img/placeholders/avatars/avataro.jpg' %}"
+                                 alt="">
+                        </div>
+
+                        <div class="uk-padding-small uk-padding-remove-vertical uk-flex uk-flex-middle uk-width-expand">
+                            <!-- Offer -->
+                            <div class="uk-flex uk-flex-column uk-text-left uk-margin-remove uk-width-expand" grid>
+                                <div style="font-weight: bold; font-size: 18px" class="pt-color-darkblue">Chleb z
+                                    czarnuszką
+                                </div>
+                                <div> Commented on 17.03.2022</div>
+                            </div>
+                            <!-- Likes -->
+                            <div class="uk-padding-small uk-margin-remove likesystem uk-width-auto uk-flex uk-flex-column uk-text-right">
+                                <div class="uk-text-center">
+                                    <img src="{% static 'img/voting/up-paw.png' %}" width="35px">
+                                    <div style="font-size: 18px" class="pt-votes"><span class="countlikes">{{ likes }}169</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+{% endblock right_side %}
