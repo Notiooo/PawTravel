@@ -8,6 +8,7 @@ from tinymce.models import HTMLField
 
 from users.models import CustomUser
 from comments.models import Comment
+from voting.models import Vote
 
 
 
@@ -101,3 +102,11 @@ class Guide(models.Model):
         """
         self.slug_url = slugify(self.title)
         super(Guide, self).save(kwargs)
+
+        @property
+        def get_likes(self):
+            return Vote.objects.get_score(self)['score']
+
+        @property
+        def get_votes(self):
+            return Vote.objects.get_score(self)['num_votes']
