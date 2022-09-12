@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="uk-container uk-container-large uk-margin-medium-top">
+        <div class="uk-margin-large-top" uk-grid>
+            <div class="uk-width-1-4@l uk-text-center">
+                <div class="pt-profile-image uk-align-center">
+                    <img class="uk-border-circle" src="{% static 'img/placeholders/avatars/avataro.jpg' %}" alt="">
+                </div>
+                <div class="pt-background-white uk-padding-small" style="border-radius: 8px; margin-top: -110px">
+                    <!-- Username -->
+                    <div style="height: 90px"></div>
+                    <div class="pt-profile-username" style="font-size: 20px">Kaguya Shinomiya</div>
+
+                    <!-- Statistics -->
+                    <div class="pt-color-darkblue uk-margin-medium-top uk-text-small uk-grid-column-collapse uk-child-width-expand@s"
+                         uk-grid>
+                        <div>
+                            <div class="uk-visible@s" style="border-right: solid 1px;">
+                                <div class="uk-text-bold">50</div>
+                                <div>Occasions</div>
+                            </div>
+                            <div class="uk-hidden@s">
+                                <div class="uk-text-bold">50</div>
+                                <div>Occasions</div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="uk-visible@s" style="border-right: solid 1px;">
+                                <div class="uk-text-bold">70</div>
+                                <div>Comments</div>
+                            </div>
+                            <div class="uk-hidden@s">
+                                <div class="uk-text-bold">70</div>
+                                <div>Comments</div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="uk-text-bold">110</div>
+                            <div>Likes</div>
+                        </div>
+                    </div>
+                    <div class="uk-margin-small-left uk-margin-small-bottom uk-text-left">
+                        <!-- About-->
+                        <div class="uk-margin-medium-top"></div>
+                        <p class="pt-profile-username">About</p>
+                        <div class="uk-margin-medium-bottom" style="font-size: 14px">
+                            Roses are red, violets are blue. This poem has no sense, microwave.
+                        </div>
+
+                        <!-- Badges-->
+                        <div class="uk-margin-small">
+                            <p class="pt-profile-username">Badges</p>
+                            <div class="uk-grid-row-small" uk-grid>
+                                <div class="uk-flex uk-flex-column">
+                                    <div class="uk-text-center">
+                                        <img class="uk-margin-remove uk-border-circle"
+                                             src="{% static 'img/placeholders/badges/trusted.png' %}" alt="">
+                                    </div>
+                                    <div>Trusted</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Message button-->
+                        <div class="uk-padding-small uk-padding-remove-left uk-padding-remove-bottom">
+                            <hr style="border-color: #6B818C">
+                        </div>
+                        <div class="uk-hidden">
+                            <a class="uk-icon-link pt-color-darkblue" href="#">
+                                <span uk-icon="icon: mail; ratio: 1.3"
+                                      style='margin-right:0.9em; display:inline-block;'></span>
+                                Message
+                            </a>
+                        </div>
+                        <div class="uk-flex uk-flex-column uk-grid-small" uk-grid>
+                            <a class="uk-icon-link pt-color-darkblue" href="#">
+                                <span uk-icon="icon: cog; ratio: 1.3"
+                                      style='margin-right:0.9em; display:inline-block;'></span>
+                                Settings
+                            </a>
+                            <a class="uk-icon-link pt-color-darkblue" href="#">
+                                <span uk-icon="icon: user; ratio: 1.3"
+                                      style='margin-right:0.9em; display:inline-block;'></span>
+                                Profile
+                            </a>
+                            <a class="uk-icon-link pt-color-darkblue" href="#">
+                        <span uk-icon="icon: sign-out; ratio: 1.3"
+                              style='margin-right:0.9em; display:inline-block;'></span>
+                                Sign out
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% block right_side %}
+            {% endblock right_side %}
+        </div>
+    </div>
+{% endblock content %}

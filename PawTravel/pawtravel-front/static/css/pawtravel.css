@@ -209,9 +209,46 @@
     font-size: 16px;
 }
 
+.pt-profile-username
+{
+    color: #08415C;
+    font-weight: 500;
+    font-size: 18px;
+}
+
+.pt-profile-image
+{
+    width: 160px;
+    clip-path: circle();
+    margin-top: -80px;
+}
+
 /* ==== Travel guides ==== */
 .pt-travel-guide-image
 {
     border-radius: 25px 0px 25px 0px;
     height: 225px;
 }
+
+.uk-tab>.uk-active>a
+{
+    color: #08415C;
+    border-color: #6B818C;
+    border-bottom-width: 2px;
+}
+
+.border-occasion
+{
+    border: 2px solid #6B818C;
+    border-radius: 20px 20px 20px 0px;
+}
+
+.image-occasion
+{
+    min-height: 120px;
+    max-height: 120px;
+    min-width: 120px;
+    max-width: 120px;
+    border-radius: 20px 0px 20px 0px;
+}
+
