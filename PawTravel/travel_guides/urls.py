@@ -8,4 +8,5 @@ urlpatterns = [
     path('list/', views.GuideListView.as_view(), name='guide_list'),
     path('<int:pk>/', views.GuideDetailView.as_view(), name='guide_detail'),
     path('<slug_url>-<int:pk>/', views.GuideDetailView.as_view(), name="guide_detail"),
+    path('', views.HomePageView.as_view(), name="guide_homepage"),
 ]

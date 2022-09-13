@@ -1,4 +1,4 @@
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, DetailView, CreateView, TemplateView
 
 from .forms import GuideForm
 from .models import Guide
@@ -9,6 +9,15 @@ from django.urls import reverse
 from users.models import CustomUser
 
 # Create your views here.
+
+
+class HomePageView(TemplateView):
+    """
+    Guide Home Page View. Displays a list of all guides as well as
+    """
+    template_name = 'travel_guides/guide_homepage.html'
+
+
 class GuideListView(ListView):
     """
     Guide List view. It shows list of guides.
