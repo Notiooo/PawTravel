@@ -4,13 +4,133 @@
 
 {% block content %}
 
-<!-- Highest rated travel guide | Worth checking out -->
 <div class="uk-container uk-visible@m">
-
+    <form id="form" method="post">
+        {% csrf_token %}
+        <div class="uk-child-width-expand@s uk-text-center" uk-grid >
+                <div class="uk-width-2-5">
+                    <div class="uk-inline uk-width-1-1 pt-input-search uk-padding-small uk-border-rounded">
+                    <a class="uk-form-icon pt-color-lightblue" href="#" uk-icon="icon: location"></a>
+                        DESTINATION
+                    </div>
+                </div>
+                <div class="uk-width-2-5">
+                    <div class="uk-inline uk-width-1-1 pt-input-search uk-padding-small uk-border-rounded">
+                    <a class="uk-form-icon pt-color-lightblue " href="#" uk-icon="icon: world"></a>
+                        CATEGORY
+                    </div>
+                </div>
+                <div class="uk-margin-auto-vertical">
+                    <button class="uk-inline uk-width-1-1 uk-button pt-button-primary">
+                        <a style="color: #FFFFFF" class="uk-form-icon pt-color-lightblue" href="#" uk-icon="icon: search"></a>
+                        SEARCH
+                    </button>
+                </div>
+            </div>
+        </form>
 </div>
 
-<div class="uk-container uk-hidden@m">
-
+    <!-- Highest rated travel guide | Worth checking out -->
+<div class="uk-container">
+        <div>
+            <div class="uk-grid-collapse uk-text-center uk-margin-small-top" uk-grid>
+                <div class="uk-width-1-1@s uk-width-3-5@m  pt-background-lightblue pt-border-rounded uk-margin-bottom">
+                    <p style="font-size: 32px; margin-top: 4px; margin-bottom: 0px; color: #FFFFFF" class="uk-text-bolder uk-text-center uk-margin-bottom">Highest rated travel guide</p>
+                    <div style="background: #FFFFFF" class="uk-margin-medium-right uk-margin-medium-left pt-border-rounded uk-flex uk-margin-medium-bottom">
+                        <div class="uk-width-1-3">
+                            <img class="pt-border-photo" src="{% static 'img/login/Stockphoto.png' %}">
+                        </div>
+                        <div class="uk-width-1-1 uk-margin-small-top uk-margin-small-right uk-margin-small-left uk-margin-small-bottom">
+                            <table class="uk-table-small uk-width-expand">
+                                <tr>
+                                    <td class="uk-padding-remove uk-text-left">
+                                        <p style="font-size: 18px; margin-bottom: 0px; color: #6B818C" class="uk-text-bolder">How to travel cheap to Japan</p>
+                                    </td>
+                                    <td class="uk-padding-remove uk-text-right">
+                                        <div class="uk-flex uk-flex-center">
+                                            <div><p uk-icon="icon: location; ratio: 1"></p></div>
+                                            <p class="uk-margin-remove">Japan</p>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="uk-padding-remove uk-text-left">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</td>
+                                    <td class="uk-padding-remove uk-text-center">
+                                        <p style="font-size: 30px; margin-bottom: 0px; color: #CC2936" class="uk-text-bolder uk-margin-remove-top">250</p>
+                                        <a href="#">
+                                            <span class="uk-icon pt-color-darkblue" uk-icon="icon: plus-circle; ratio: 1"></span>
+                                        </a>
+                                        <a href="#">
+                                            <span class="uk-icon pt-color-darkblue" uk-icon="icon: minus-circle; ratio: 1"></span>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="uk-padding-remove uk-text-left">
+                                        <div class="uk-inline">
+                                            <span class="uk-form-icon" style="color: #6B818C" uk-icon="icon:  user"></span>
+                                            <p class="uk-margin-remove" style="padding-left: 35px">Michael.herb</p>
+                                        </div>
+                                    <td  class="uk-padding-remove uk-text-right">
+                                        <div class="uk-margin-small-top">
+                                             <div class="uk-flex">
+                                                <div>
+                                                    <div class="uk-inline">
+                                                        <span class="uk-form-icon" style="color: #6B818C" uk-icon="icon: bag"></span>
+                                                        <p class="uk-margin-remove-top uk-margin-remove-bottom uk-margin-small-right" style="padding-left: 35px">Trip</p>
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <button class="uk-button-small pt-button-primary" style="">View</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div style="width: 10px; background: #FFFFFF;" class="uk-visible@m"></div>
+                <div class="uk-position-relative uk-width-1-1@s uk-width-expand pt-background-white pt-border-rounded uk-margin-bottom"  uk-slideshow>
+                    <p style="font-size: 28px; margin-top: 8px; margin-bottom: 0px" class="uk-text-bolder uk-text-center">Worth checking out</p>
+                    <ul class="uk-slideshow-items">
+                        <li class="uk-padding-small">
+                             <div style="background: #FFFFFF" class="uk-margin-medium-right uk-margin-medium-left pt-border-rounded uk-flex uk-margin-small-bottom">
+                                <div class="uk-width-1-3">
+                                    <img class="pt-border-photo" src="{% static 'img/login/Stockphoto.png' %}">
+                                </div>
+                                <div class="uk-flex">
+                                    <div class="uk-flex-center uk-margin-small-left pt-color-red">250</div>
+                                    <div class="uk-text-left uk-margin-small-left"> Lorem ipsum dolor sit amet, consectetur adipiscing elit</div>
+                                </div>
+                             </div>
+                            <div style="background: #FFFFFF" class="uk-margin-medium-right uk-margin-medium-left pt-border-rounded uk-flex uk-margin-small-bottom">
+                                <div class="uk-width-1-3">
+                                    <img class="pt-border-photo" src="{% static 'img/login/Stockphoto.png' %}">
+                                </div>
+                                <div class="uk-flex">
+                                    <div class="uk-flex-center uk-margin-small-left pt-color-red">250</div>
+                                    <div class="uk-text-left uk-margin-small-left"> Lorem ipsum dolor sit amet, consectetur adipiscing elit</div>
+                                </div>
+                             </div>
+                        <li class="uk-padding">
+                            B
+                        </li>
+                        <li class="uk-padding">
+                             C
+                        </li>
+                    </ul>
+                    <div class="uk-position-bottom-center uk-position-small uk-margin-medium-bottom">
+                        <ul class="uk-dotnav">
+                            <li uk-slideshow-item="0"><a href="#">Item 1</a></li>
+                            <li uk-slideshow-item="1"><a href="#">Item 2</a></li>
+                            <li uk-slideshow-item="2"><a href="#">Item 3</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
 </div>
 
 <!-- New | Hot | Offers | Travel Guides | Filter -->
@@ -19,8 +139,8 @@
     <div class="uk-navbar-container uk-navbar-transparent" uk-navbar>
         <div class="uk-navbar-left uk-width-expand">
             <ul class="uk-navbar-nav uk-margin-medium">
-                <li><a href="#">New</a></li>
-                <li><a href="#">Hot</a></li>
+                <li class="pt-active"><a href="#">New</a></li>
+                <li ><a href="#">Hot</a></li>
             </ul>
         </div>
         <div class="uk-navbar-right">

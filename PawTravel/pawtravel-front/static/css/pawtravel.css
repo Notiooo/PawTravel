@@ -181,3 +181,14 @@
 .pt-search:focus {
     border: 0px;
 }
+
+.pt-border-rounded{
+    border-bottom: 0px solid;
+    border-radius: 15px;
+}
+
+.pt-border-photo {
+    border-bottom: 0px solid;
+    border-bottom-right-radius: 15px;
+    border-top-left-radius: 15px;
+}
