@@ -33,6 +33,7 @@ from users.views import CustomUserViewSet
 # # # # # #
 
 urlpatterns = [
+    path('', include('homepage.urls')),
     path('admin/', admin.site.urls),
     path('guides/', include('travel_guides.urls', namespace='travel_guides')),
     path('tinymce/', include('tinymce.urls')),
