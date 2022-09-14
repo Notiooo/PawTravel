@@ -157,6 +157,7 @@
 .pt-input {
     background-color: #EEE5E9 !important;
     border: 2px solid #6B818C !important;
+    border-radius: 10px 10px 10px 10px;
     color: #6B818C;
 }
 

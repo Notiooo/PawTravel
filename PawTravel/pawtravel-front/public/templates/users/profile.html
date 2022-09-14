@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block content %}
-    <div class="uk-container uk-container-large uk-margin-medium-top">
+    <div class="uk-container uk-container-large uk-margin-medium-top uk-margin-medium-bottom">
         <div class="uk-margin-large-top" uk-grid>
             <div class="uk-width-1-4@l uk-text-center">
                 <div class="pt-profile-image uk-align-center">
@@ -75,15 +75,10 @@
                             </a>
                         </div>
                         <div class="uk-flex uk-flex-column uk-grid-small" uk-grid>
-                            <a class="uk-icon-link pt-color-darkblue" href="#">
+                            <a class="uk-icon-link pt-color-darkblue" href="{% url 'edit_profile' %}">
                                 <span uk-icon="icon: cog; ratio: 1.3"
                                       style='margin-right:0.9em; display:inline-block;'></span>
                                 Settings
-                            </a>
-                            <a class="uk-icon-link pt-color-darkblue" href="#">
-                                <span uk-icon="icon: user; ratio: 1.3"
-                                      style='margin-right:0.9em; display:inline-block;'></span>
-                                Profile
                             </a>
                             <a class="uk-icon-link pt-color-darkblue" href="#">
                         <span uk-icon="icon: sign-out; ratio: 1.3"
