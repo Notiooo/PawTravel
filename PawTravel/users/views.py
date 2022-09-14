@@ -34,3 +34,17 @@ class ProfileView(generic.DetailView):
     template_name = 'users/user_profile.html'
     model = CustomUser
     context_object_name = 'user'
+
+
+class EditProfileView(generic.UpdateView):
+    template_name = 'users/edit_profile.html'
+    model = CustomUser
+    fields = '__all__'
+
+
+class ManageProfileView(generic.UpdateView):
+    template_name = 'users/manage_profile.html'
+    model = CustomUser
+    fields = '__all__'
+
+

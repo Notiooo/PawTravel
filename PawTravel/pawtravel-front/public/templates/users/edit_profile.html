@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="uk-container uk-container-large uk-margin-auto-vertical">
+        <div class="uk-margin-medium uk-grid-medium" uk-grid>
+            <div class="uk-width-1-5@l uk-text-center">
+                <div class="uk-flex uk-flex-column uk-height-1-1 uk-text-left pt-background-white"
+                     style="border-radius: 8px">
+                    <!-- Settings-->
+                    <div class="uk-padding-small pt-profile-username"
+                         style="font-size: 20px; font-weight: bold">Settings
+                    </div>
+
+                    <!-- Options-->
+                    <div class=" uk-margin-small-bottom">
+                        <div class="uk-margin-small-bottom uk-padding-small"
+                             style="background-color: #D3D3D3; font-size: 16px">
+                            <a class="uk-icon-link uk-padding-small uk-padding-remove-vertical pt-color-darkblue"
+                               href="#">
+                                Edit profile information
+                            </a>
+                        </div>
+
+                        <div style="font-size: 16px" class="uk-padding-small">
+                            <a class="uk-icon-link uk-padding-small uk-padding-remove-vertical pt-color-darkblue"
+                               href="{% url 'manage_profile' user.id %}">
+                                Manage profile
+                            </a>
+                        </div>
+                    </div>
+                    <div class="uk-height-1-1"><!-- Fills the free space --></div>
+
+                    <!-- Sign Out-->
+                    <div class="uk-padding-small">
+                        <div class="uk-padding-remove-left uk-padding-remove-bottom">
+                            <hr style="border-color: #6B818C">
+                        </div>
+
+                        <a class="uk-icon-link pt-color-darkblue" href="#">
+                            <span uk-icon="icon: sign-out; ratio: 1.3"
+                                  style='margin-right:0.9em; display:inline-block;'></span>
+                            Sign out
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="uk-width-3-5@l uk-text-left">
+                <div>
+                    <p class="pt-color-darkblue" style="font-weight: bold; font-size: 26px">Edit profile info</p>
+                    <hr style="border-color: #6B818C">
+                </div>
+                <div class="uk-margin-small">
+                    <p style="font-size: 18px">Avatar</p>
+                    <div class="uk-grid-collapse uk-column-1-1@s uk-flex uk-flex-middle uk-grid-row-small" uk-grid>
+                        <div class="uk- uk-margin-small-top pt-profile-image">
+                            <img class="uk-border-circle" src="{% static 'img/placeholders/avatars/avataro.jpg' %}"
+                                 alt="">
+                        </div>
+                        <div class="uk-margin-top">
+                            <button class="uk-margin-medium-right uk-button pt-button-primary">Change avatar</button>
+                            <button class="uk-button pt-button-primary">Delete avatar</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="uk-margin-medium">
+                    <hr style="border-color: #6B818C">
+                    <p style="font-size: 18px">User name</p>
+                    <div class="uk-margin">
+                        <input class="pt-input uk-input" type="text" placeholder="Name">
+                    </div>
+                </div>
+                <div class="uk-margin-small">
+                    <hr style="border-color: #6B818C">
+                    <p style="font-size: 18px">About me</p>
+                    <div class="uk-margin">
+                        <textarea class="pt-input uk-textarea" rows="5"
+                                  placeholder="Write something about yourself :)"></textarea>
+                    </div>
+                </div>
+                <div class="uk-margin-small-bottom uk-flex uk-flex-right">
+                    <button class="uk-button pt-button-secondary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
