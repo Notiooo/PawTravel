@@ -21,11 +21,11 @@ import sys
 from django.contrib import admin
 from django.contrib.staticfiles.urls import static
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
-from django.urls import path, include
 from rest_framework import routers
 from django.urls import path, include
 
 from . import settings
+from offers.views import OfferHomepageView
 
 sys.path.append('..')
 
@@ -45,7 +45,7 @@ urlpatterns = [
     path('users/', include('users.urls')),
     path('avatar/', include('avatar.urls')),
     path('messages/', include('chat.urls')),
-    path('', include(router.urls)),
+    path('', OfferHomepageView.as_view(), name="offer_homepage")
 ]
 
 urlpatterns += staticfiles_urlpatterns()

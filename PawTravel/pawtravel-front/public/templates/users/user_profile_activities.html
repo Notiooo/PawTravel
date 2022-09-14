@@ -6,18 +6,18 @@
             <div class="uk-margin-medium-bottom uk-width-expand uk-text-center">
                 <ul class="uk-tab">
                     <li class="uk-active pt-tab">
-                        <a href="{% url 'profile_activities' %}" aria-expanded="true">Activities</a>
+                        <a href="{% url 'profile_activities' user.id %}" aria-expanded="true">Activities</a>
                     </li>
                     <li>
-                        <a href="{% url 'profile_added' %}" aria-expanded="false">Added</a>
+                        <a href="{% url 'profile' user.id %}" aria-expanded="false">Added</a>
                     </li>
                 </ul>
                 <div class="uk-width-1-2@m border-occasion">
-                    <div class="uk-grid-small" uk-grid>
+                    <div class="uk-grid-small uk-margin-remove-left" uk-grid>
                         <!-- Img -->
-                        <div class="uk-width-auto uk-flex uk-flex-left">
+                        <div class="uk-cover-container uk-width-small">
                             <img class="image-occasion" src="{% static 'img/placeholders/avatars/avataro.jpg' %}"
-                                 alt="">
+                                 alt="" uk-cover>
                         </div>
 
                         <div class="uk-padding-small uk-padding-remove-vertical uk-flex uk-flex-middle uk-width-expand">

@@ -24,13 +24,13 @@ class SignUpView(generic.CreateView):
     success_url = reverse_lazy('login')
 
 
-class ProfileActivitiesView(generic.CreateView):
+class ProfileActivitiesView(generic.DetailView):
     template_name = 'users/user_profile_activities.html'
     model = CustomUser
-    fields = '__all__'
+    context_object_name = 'user'
 
 
-class ProfileAddedView(generic.CreateView):
-    template_name = 'users/user_profile_added.html'
+class ProfileView(generic.DetailView):
+    template_name = 'users/user_profile.html'
     model = CustomUser
-    fields = '__all__'
+    context_object_name = 'user'

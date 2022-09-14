@@ -3,7 +3,7 @@ from django.urls import reverse
 
 from django.views.generic import DetailView
 from django.views.generic.edit import FormMixin
-from django.views.generic.list import MultipleObjectMixin
+from django.views.generic.list import MultipleObjectMixin, ListView
 
 from . import models
 from comments.forms import CommentForm
@@ -55,6 +55,14 @@ class OfferDetailView(FormMixin, DetailView, MultipleObjectMixin):
     def form_valid(self, form):
         form.form_valid(form, self.request)
         return super(OfferDetailView, self).form_valid(form)
+
+
+class OfferHomepageView(ListView):
+    """A view showing list of the latest offers."""
+
+    model = models.Offer
+    context_object_name = 'offers'
+    template_name = 'offers/homepage_offers.html'
 
 
 class OfferVoteView(View):

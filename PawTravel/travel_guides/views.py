@@ -111,6 +111,14 @@ class GuideFormView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
+class GuideHomepageView(ListView):
+    """A view showing list of the latest offers."""
+
+    model = Guide
+    context_object_name = 'travel_guides'
+    template_name = 'travel_guides/homepage_travel_guides.html'
+
+
 class GuideVoteView(View):
     """
     View responsible for processing voting system

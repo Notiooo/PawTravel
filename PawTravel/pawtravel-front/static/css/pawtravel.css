@@ -197,6 +197,12 @@
     font-size: 28px;
 }
 
+.pt-offer-title-small
+{
+    font-weight: 500;
+    font-size: 24px;
+}
+
 .pt-offer-discount
 {
     font-weight: 500;
@@ -239,16 +245,13 @@
 
 .border-occasion
 {
+    outline: 5px solid white;
     border: 2px solid #6B818C;
     border-radius: 20px 20px 20px 0px;
 }
 
 .image-occasion
 {
-    min-height: 120px;
-    max-height: 120px;
-    min-width: 120px;
-    max-width: 120px;
-    border-radius: 20px 0px 20px 0px;
+    z-index: -100;
 }
 

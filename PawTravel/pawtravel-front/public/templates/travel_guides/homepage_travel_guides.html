@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load avatar_tags %}
+
+{% block content %}
+    <div class="uk-container uk-container-small uk-margin-large-bottom">
+        <div uk-scrollspy="cls: uk-animation-slide-bottom-medium; target: > div; delay: 50">
+            <div class="uk-width-1-1 uk-margin-large-bottom">
+                <img src="{% static 'img/placeholders/placeholder_homepage.jpg' %}"/>
+            </div>
+            <div class="uk-width-1-1 uk-flex-inline">
+                <div class="uk-width-auto">
+                    <ul class="uk-flex-left uk-tab">
+                        <li class="uk-active"><a href="#">New</a></li>
+                        <li class="uk-disabled"><a href="#">Hot</a></li>
+                    </ul>
+                </div>
+                <div class="uk-width-expand">
+                    <ul class="uk-flex-right uk-tab">
+                        <li><a href="{% url 'offer_homepage' %}">Offers</a></li>
+                        <li class="uk-active"><a href="{% url 'travel_guides:guides_homepage' %}">Travel Guides</a></li>
+                        <li class="uk-disabled">
+                            <a href="#">Filter <span uk-icon="icon: settings"></span></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            {% for travel_guide in travel_guides %}
+            <div class="uk-flex-center border-occasion uk-margin-remove-left" uk-grid>
+                <!-- Image (left side)-->
+                <div class="uk-padding-remove-horizontal uk-hidden@s">
+                    <img src="{{ travel_guide.image.url }}" class="uk-width-medium image-occasion" alt="img">
+                </div>
+                <div class="uk-cover-container uk-width-small uk-visible@s">
+                    <img src="{{ travel_guide.image.url }}" class="image-occasion" alt="img" uk-cover>
+                </div>
+                <!-- Offer (right side) -->
+                <div class="uk-width-expand@s uk-padding-small uk-flex uk-flex-column">
+                    <div class="uk-flex uk-flex-row">
+                        <div class="uk-flex-left@s uk-width-expand">
+                            <a class="uk-link-reset" href="{% url 'travel_guides:guide_detail' travel_guide.id %}">
+                                <span class="pt-offer-title-small pt-color-darkblue ">{{ travel_guide.title }}</span>
+                            </a>
+                            <div class="uk-text-justify">{{ travel_guide.description|truncatechars:80 }}</div>
+                        </div>
+                        <div class="likesystem uk-flex-center uk-flex-middle uk-width-auto uk-width-small@s">
+                            <div class="uk-grid-small uk-grid-column-medium uk-flex-middle uk-flex-center" uk-grid>
+                                <div>
+                                    <a class='likes' data-id={{ travel_guide.pk }} data-type='guides/vote'>
+                                        <img src="{% static 'img/voting/up-paw.png' %}" width="35px">
+                                    </a>
+                                </div>
+                                <div>
+                                    <a class='dislikes' data-id={{ travel_guide.pk }} data-type='guides/vote'>
+                                        <img src="{% static 'img/voting/down-paw.png' %}" width="35px">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="pt-votes uk-text-center"><span class="countlikes">{{ travel_guide.get_likes }}</span></div>
+                        </div>
+                    </div>
+                    <div class="uk-flex-middle" uk-grid>
+                        <!-- Author -->
+                        <div>
+                            <a class="uk-link-reset" href="{% url 'profile' travel_guide.author.id %}">
+                            <div class="uk-grid-small uk-flex-middle uk-margin-top" uk-grid>
+                                <div class="uk-width-auto">
+                                    {% avatar travel_guide.author 40 class="uk-comment-avatar uk-border-circle" %}
+                                </div>
+                                <div class="uk-width-expand">
+                                    <h4 class="pt-offer-author-name uk-margin-remove">{{ travel_guide.author }}</h4>
+                                </div>
+                            </div>
+                            </a>
+                        </div>
+                        <!-- Links & Category -->
+                        <div class="uk-padding-small uk-grid-small uk-flex-middle uk-flex-right@s uk-width-expand@s" uk-grid>
+                            <div>
+                                <span class="pt-color-darkblue" uk-icon="icon: comments; ratio: 1.5"></span>
+                            </div>
+                            <div>
+                                {% if travel_guide.category.icon_image %}
+                                    <img src="{{ travel_guide.category.icon_image.url }}" width="30" height="30" alt="img">
+                                {% endif %}
+                                {{ travel_guide.category.name }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+{% endblock content %}

@@ -7,7 +7,7 @@ from django.utils.text import slugify
 from tinymce.models import HTMLField
 
 from comments.models import Comment
-from comments.forms import CommentForm
+from voting.models import Vote
 
 
 class OfferCategory(models.Model):
@@ -49,3 +49,11 @@ class Offer(models.Model):
 
     def get_absolute_url(self):
         return reverse('offer', kwargs={'pk': self.pk, 'slug_url': self.slug_url})
+
+    @property
+    def get_likes(self):
+        return Vote.objects.get_score(self)['score']
+
+    @property
+    def get_votes(self):
+        return Vote.objects.get_score(self)['num_votes']

@@ -8,6 +8,7 @@ from tinymce.models import HTMLField
 
 from users.models import CustomUser
 from comments.models import Comment
+from voting.models import Vote
 
 
 
@@ -80,6 +81,14 @@ class Guide(models.Model):
     objects = models.Manager()  # Default manager
     search = GuideSearchManager()
     comments = GenericRelation(Comment, related_query_name='all_comments')
+
+    @property
+    def get_likes(self):
+        return Vote.objects.get_score(self)['score']
+
+    @property
+    def get_votes(self):
+        return Vote.objects.get_score(self)['num_votes']
 
     class Meta:
         ordering = ('-publish',)
