@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block content %}
-    <div class="uk-container uk-container-large uk-margin-medium-top">
+    <div class="uk-container uk-container-large uk-margin-auto-vertical">
         <div class="uk-margin-medium uk-grid-medium" uk-grid>
             <div class="uk-width-1-5@l uk-text-center">
                 <div class="uk-flex uk-flex-column uk-height-1-1 uk-text-left pt-background-white"
@@ -24,7 +24,7 @@
 
                         <div style="font-size: 16px" class="uk-padding-small">
                             <a class="uk-icon-link uk-padding-small uk-padding-remove-vertical pt-color-darkblue"
-                               href="{% url 'manage_profile' %}">
+                               href="{% url 'manage_profile' user.id %}">
                                 Manage profile
                             </a>
                         </div>
@@ -52,18 +52,18 @@
                 </div>
                 <div class="uk-margin-small">
                     <p style="font-size: 18px">Avatar</p>
-                    <div class="uk-column-1-1@s uk-flex uk-flex-middle uk-grid-row-small" uk-grid>
-                        <div class="image-occasion">
+                    <div class="uk-grid-collapse uk-column-1-1@s uk-flex uk-flex-middle uk-grid-row-small" uk-grid>
+                        <div class="uk- uk-margin-small-top pt-profile-image">
                             <img class="uk-border-circle" src="{% static 'img/placeholders/avatars/avataro.jpg' %}"
                                  alt="">
                         </div>
-                        <div>
+                        <div class="uk-margin-top">
                             <button class="uk-margin-medium-right uk-button pt-button-primary">Change avatar</button>
                             <button class="uk-button pt-button-primary">Delete avatar</button>
                         </div>
                     </div>
                 </div>
-                <div class="uk-margin-small">
+                <div class="uk-margin-medium">
                     <hr style="border-color: #6B818C">
                     <p style="font-size: 18px">User name</p>
                     <div class="uk-margin">
@@ -78,7 +78,7 @@
                                   placeholder="Write something about yourself :)"></textarea>
                     </div>
                 </div>
-                <div class="uk-margin-bottom uk-flex uk-flex-right">
+                <div class="uk-margin-small-bottom uk-flex uk-flex-right">
                     <button class="uk-button pt-button-secondary">Save changes</button>
                 </div>
             </div>

@@ -75,7 +75,7 @@
                             </a>
                         </div>
                         <div class="uk-flex uk-flex-column uk-grid-small" uk-grid>
-                            <a class="uk-icon-link pt-color-darkblue" href="{% url 'edit_profile' %}">
+                            <a class="uk-icon-link pt-color-darkblue" href="{% url 'edit_profile' user.id%}">
                                 <span uk-icon="icon: cog; ratio: 1.3"
                                       style='margin-right:0.9em; display:inline-block;'></span>
                                 Settings
