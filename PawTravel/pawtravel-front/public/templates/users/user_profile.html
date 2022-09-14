@@ -6,10 +6,10 @@
     <div class="uk-margin-medium-bottom uk-width-expand uk-text-center">
         <ul class="uk-tab">
             <li>
-                <a href="{% url 'profile_activities' %}" aria-expanded="true">Activities</a>
+                <a href="{% url 'profile_activities' user.id %}" aria-expanded="true">Activities</a>
             </li>
             <li class="uk-active pt-tab">
-                <a href="{% url 'profile_added' %}" aria-expanded="false">Added</a>
+                <a href="{% url 'profile' user.id %}" aria-expanded="false">Added</a>
             </li>
         </ul>
         <div class="uk-width-1-2@m border-occasion">

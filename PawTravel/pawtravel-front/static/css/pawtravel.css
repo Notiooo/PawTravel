@@ -191,6 +191,12 @@
 }
 
 /* ==== Offers ==== */
+.pt-offer-title
+{
+    font-weight: 500;
+    font-size: 28px;
+}
+
 .pt-offer-title-small
 {
     font-weight: 500;

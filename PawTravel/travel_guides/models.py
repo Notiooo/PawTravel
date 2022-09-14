@@ -82,6 +82,14 @@ class Guide(models.Model):
     search = GuideSearchManager()
     comments = GenericRelation(Comment, related_query_name='all_comments')
 
+    @property
+    def get_likes(self):
+        return Vote.objects.get_score(self)['score']
+
+    @property
+    def get_votes(self):
+        return Vote.objects.get_score(self)['num_votes']
+
     class Meta:
         ordering = ('-publish',)
 
@@ -102,11 +110,3 @@ class Guide(models.Model):
         """
         self.slug_url = slugify(self.title)
         super(Guide, self).save(kwargs)
-
-        @property
-        def get_likes(self):
-            return Vote.objects.get_score(self)['score']
-
-        @property
-        def get_votes(self):
-            return Vote.objects.get_score(self)['num_votes']

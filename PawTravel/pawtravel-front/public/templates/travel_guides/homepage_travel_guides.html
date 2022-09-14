@@ -17,84 +17,72 @@
                 </div>
                 <div class="uk-width-expand">
                     <ul class="uk-flex-right uk-tab">
-                        <li class="uk-active"><a href="{% url 'offer_homepage' %}">Offers</a></li>
-                        <li><a href="{% url 'travel_guides:guides_homepage' %}">Travel Guides</a></li>
+                        <li><a href="{% url 'offer_homepage' %}">Offers</a></li>
+                        <li class="uk-active"><a href="{% url 'travel_guides:guides_homepage' %}">Travel Guides</a></li>
                         <li class="uk-disabled">
                             <a href="#">Filter <span uk-icon="icon: settings"></span></a>
                         </li>
                     </ul>
                 </div>
             </div>
-            {% for offer in offers %}
+            {% for travel_guide in travel_guides %}
             <div class="uk-flex-center border-occasion uk-margin-remove-left" uk-grid>
                 <!-- Image (left side)-->
                 <div class="uk-padding-remove-horizontal uk-hidden@s">
-                    <img src="{{ offer.image.url }}" class="uk-width-medium image-occasion" alt="img">
+                    <img src="{{ travel_guide.image.url }}" class="uk-width-medium image-occasion" alt="img">
                 </div>
                 <div class="uk-cover-container uk-width-small uk-visible@s">
-                    <img src="{{ offer.image.url }}" class="image-occasion" alt="img" uk-cover>
+                    <img src="{{ travel_guide.image.url }}" class="image-occasion" alt="img" uk-cover>
                 </div>
                 <!-- Offer (right side) -->
                 <div class="uk-width-expand@s uk-padding-small uk-flex uk-flex-column">
                     <div class="uk-flex uk-flex-row">
                         <div class="uk-flex-left@s uk-width-expand">
-                            <a class="uk-link-reset" href="{% url 'offer' offer.id %}">
-                                <span class="pt-offer-title-small pt-color-darkblue ">{{ offer.title }}</span>
+                            <a class="uk-link-reset" href="{% url 'travel_guides:guide_detail' travel_guide.id %}">
+                                <span class="pt-offer-title-small pt-color-darkblue ">{{ travel_guide.title }}</span>
                             </a>
-                            <div class="">
-                                <span class="pt-offer-discount">
-                                    <span class="pt-color-red uk-text-bolder">{{ offer.offer_price }}$</span>
-                                    <s class="uk-text-muted">{{ offer.original_price }}$</s>
-                                </span>
-                                Ends {{ offer.offer_ends|date:'d-m-Y' }} at {{ offer.offer_ends|date:'H:i' }}
-                            </div>
-                            <div class="uk-text-justify">{{ offer.short_content|truncatechars:80 }}</div>
+                            <div class="uk-text-justify">{{ travel_guide.description|truncatechars:80 }}</div>
                         </div>
                         <div class="likesystem uk-flex-center uk-flex-middle uk-width-auto uk-width-small@s">
                             <div class="uk-grid-small uk-grid-column-medium uk-flex-middle uk-flex-center" uk-grid>
                                 <div>
-                                    <a class='likes' data-id={{ offer.pk }} data-type='offers/vote'>
+                                    <a class='likes' data-id={{ travel_guide.pk }} data-type='guides/vote'>
                                         <img src="{% static 'img/voting/up-paw.png' %}" width="35px">
                                     </a>
                                 </div>
                                 <div>
-                                    <a class='dislikes' data-id={{ offer.pk }} data-type='offers/vote'>
+                                    <a class='dislikes' data-id={{ travel_guide.pk }} data-type='guides/vote'>
                                         <img src="{% static 'img/voting/down-paw.png' %}" width="35px">
                                     </a>
                                 </div>
                             </div>
-                            <div class="pt-votes uk-text-center"><span class="countlikes">{{ offer.get_likes }}</span></div>
+                            <div class="pt-votes uk-text-center"><span class="countlikes">{{ travel_guide.get_likes }}</span></div>
                         </div>
                     </div>
                     <div class="uk-flex-middle" uk-grid>
                         <!-- Author -->
                         <div>
-                            <a class="uk-link-reset" href="{% url 'profile' offer.author.id %}">
+                            <a class="uk-link-reset" href="{% url 'profile' travel_guide.author.id %}">
                             <div class="uk-grid-small uk-flex-middle uk-margin-top" uk-grid>
                                 <div class="uk-width-auto">
-                                    {% avatar offer.author 40 class="uk-comment-avatar uk-border-circle" %}
+                                    {% avatar travel_guide.author 40 class="uk-comment-avatar uk-border-circle" %}
                                 </div>
                                 <div class="uk-width-expand">
-                                    <h4 class="pt-offer-author-name uk-margin-remove">{{ offer.author }}</h4>
+                                    <h4 class="pt-offer-author-name uk-margin-remove">{{ travel_guide.author }}</h4>
                                 </div>
                             </div>
                             </a>
                         </div>
                         <!-- Links & Category -->
-                        <div class="uk-grid-small uk-flex-middle uk-flex-right@s uk-width-expand@s" uk-grid>
+                        <div class="uk-padding-small uk-grid-small uk-flex-middle uk-flex-right@s uk-width-expand@s" uk-grid>
                             <div>
                                 <span class="pt-color-darkblue" uk-icon="icon: comments; ratio: 1.5"></span>
                             </div>
                             <div>
-                                {% if offer.category.icon_image %}
-                                    <img src="{{ offer.category.icon_image.url }}" width="30" height="30" alt="img">
+                                {% if travel_guide.category.icon_image %}
+                                    <img src="{{ travel_guide.category.icon_image.url }}" width="30" height="30" alt="img">
                                 {% endif %}
-                                {{ offer.category.name }}
-                            </div>
-                            <div>
-                                <a href="{{ offer.link }}" target="_blank">
-                                    <button class="uk-button pt-button-primary">Open offer</button>
-                                </a>
+                                {{ travel_guide.category.name }}
                             </div>
                         </div>
                     </div>
