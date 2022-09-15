@@ -9,16 +9,28 @@
     <form id="form" method="post">
         {% csrf_token %}
         <div class="uk-child-width-expand@s uk-text-center" uk-grid >
-            <div class="uk-width-2-5">
+            <div class="">
                 <div class="uk-inline uk-width-1-1 pt-input-search uk-padding-small uk-border-rounded">
-                <a class="uk-form-icon pt-color-lightblue" href="#" uk-icon="icon: location"></a>
+                <a class="uk-form-icon pt-color-lightblue uk-visible@m" href="#" uk-icon="icon: location"></a>
                     DESTINATION
                 </div>
             </div>
-            <div class="uk-width-2-5">
+            <div class="">
                 <div class="uk-inline uk-width-1-1 pt-input-search uk-padding-small uk-border-rounded">
-                <a class="uk-form-icon pt-color-lightblue " href="#" uk-icon="icon: world"></a>
+                <a class="uk-form-icon pt-color-lightblue uk-visible@m" href="#" uk-icon="icon: world"></a>
                     CATEGORY
+                </div>
+            </div>
+            <div class="">
+                <div class="uk-inline uk-width-1-1 pt-input-search uk-padding-small uk-border-rounded">
+                <a class="uk-form-icon pt-color-lightblue uk-visible@m" href="#" uk-icon="icon: credit-card"></a>
+                    BUDGET
+                </div>
+            </div>
+            <div class="">
+                <div class="uk-inline uk-width-1-1 pt-input-search uk-padding-small uk-border-rounded">
+                <a class="uk-form-icon pt-color-lightblue uk-visible@m" href="#" uk-icon="icon: calendar"></a>
+                    DATE
                 </div>
             </div>
             <div class="uk-margin-auto-vertical">
@@ -97,7 +109,7 @@
                                         <img class="pt-border-photo" src="{% static 'img/login/Stockphoto.png' %}">
                                     </div>
                                     <div class="uk-width-auto uk-margin-auto-vertical">
-                                        <div class="uk-margin-small-left pt-color-red">250</div>
+                                        <div class="uk-margin-small-left pt-color-red uk-margin-small-right">250</div>
                                     </div>
                                      <div class="uk-width-expand uk-margin-auto-vertical">
                                          <div class="uk-text-left uk-margin-small-left uk-text-bold"> Chleb z czarnuszką</div>
@@ -114,10 +126,10 @@
                                         <img class="pt-border-photo" src="{% static 'img/login/Stockphoto.png' %}">
                                     </div>
                                     <div class="uk-width-auto uk-margin-auto-vertical">
-                                        <div class="uk-margin-small-left pt-color-red">250</div>
+                                        <div class="uk-margin-small-left pt-color-red uk-margin-small-right">250</div>
                                     </div>
                                      <div class="uk-width-expand uk-margin-auto-vertical">
-                                         <div class="uk-text-left uk-margin-small-left uk-text-bold"> Chleb z czarnuszką</div>
+                                         <div class="uk-text-left uk-margin-small-left uk-text-bold uk-margin-small-right"> Chleb z czarnuszką</div>
                                          <div class="uk-text-left uk-margin-small-left"> Lorem ipsum dolor sit amet, consectetur adipiscing elit</div>
                                      </div>
                                 </div>
@@ -156,7 +168,7 @@
                         <div class="uk-width-1-3">
                             <div style="background: white" class="uk-margin-small-right uk-margin-small-left pt-border-rounded uk-margin-small-bottom uk-margin-remove-top uk-grid-column-collapse" uk-grid>
                                 <div class="uk-width-auto uk-margin-auto-vertical">
-                                        <div class="uk-margin-small-left pt-color-red">250</div>
+                                        <div class="uk-margin-small-left uk-margin-small-right pt-color-red">250</div>
                                     </div>
                                      <div class="uk-width-expand uk-margin-auto-vertical uk-margin-small-right">
                                          <div class="uk-text-left uk-margin-small-left uk-text-bold"> Chleb z czarnuszką</div>
@@ -167,7 +179,7 @@
                         <div class="uk-width-1-3">
                             <div style="background: white" class="uk-margin-small-right uk-margin-small-left pt-border-rounded uk-margin-small-bottom uk-margin-remove-top uk-grid-column-collapse" uk-grid>
                                 <div class="uk-width-auto uk-margin-auto-vertical">
-                                        <div class="uk-margin-small-left pt-color-red">250</div>
+                                        <div class="uk-margin-small-left pt-color-red uk-margin-small-right">250</div>
                                     </div>
                                      <div class="uk-width-expand uk-margin-auto-vertical uk-margin-small-right">
                                          <div class="uk-text-left uk-margin-small-left uk-text-bold"> Chleb z czarnuszką</div>
@@ -178,7 +190,7 @@
                         <div class="uk-width-1-3">
                             <div style="background: white" class="uk-margin-small-right uk-margin-small-left pt-border-rounded uk-margin-small-bottom uk-margin-remove-top uk-grid-column-collapse" uk-grid>
                                 <div class="uk-width-auto uk-margin-auto-vertical">
-                                        <div class="uk-margin-small-left pt-color-red">250</div>
+                                        <div class="uk-margin-small-left pt-color-red uk-margin-small-right">250</div>
                                     </div>
                                      <div class="uk-width-expand uk-margin-auto-vertical uk-margin-small-right">
                                          <div class="uk-text-left uk-margin-small-left uk-text-bold"> Chleb z czarnuszką</div>
@@ -231,4 +243,109 @@
         </div>
     </div>
 </nav>
+
+    <div class="uk-container uk-container-small uk-margin-remove-bottom">
+        <div style="background: #FFFFFF; border: lightgray 1px solid" class="uk-margin-small-right uk-margin-small-left pt-border-rounded uk-flex uk-margin-medium-bottom">
+            <div class="uk-width-1-3 uk-visible@m">
+                <img class="pt-border-photo" src="{% static 'img/login/Stockphoto.png' %}">
+            </div>
+            <div class="uk-width-1-1 uk-margin-small-top uk-margin-small-right uk-margin-small-left uk-margin-small-bottom uk-inline">
+                <div class="uk-text-left">
+                    <p style="font-size: 18px; margin-bottom: 0px; color: #6B818C" class="uk-text-bolder">Chleb z czarnuszką</p>
+                </div>
+                <div class="uk-grid-collapse" uk-grid>
+                    <div class="uk-width-auto uk-flex">
+                        <div>
+                            <p style="font-size: 18px; margin-bottom: 0px; color: #CC2936" class="uk-text-bolder">1125$</p>
+                        </div>
+                        <div class="uk-margin-small-left">
+                            <p style="font-size: 18px; margin-bottom: 0px; color: lightgray" class=""><s>2434$</s></p>
+                        </div>
+                    </div>
+                    <div class="uk-width-expand uk-text-right uk-margin-small-right uk-margin-auto-vertical">
+                        <div class="">
+                            <p style="font-size: 12px; margin-bottom: 0px; color: lightgray" class="uk-text-bolder">Ends: 01-01-2023</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="uk-text-left">
+                    <p class="uk-margin-medium-bottom">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                </div>
+                <div class="uk-position-bottom-center" uk-grid>
+                    <div class="uk-flex uk-flex-center uk-margin-auto-vertical">
+                        <p uk-icon="icon: user; ratio: 1"></p>
+                        <p class="uk-margin-remove-top uk-margin-small-left">Michael.herb</p>
+                    </div>
+                    <div class="uk-width-expand uk-flex uk-flex-center ">
+                            <a href="#" class="uk-margin-auto-vertical">
+                                <span class="uk-icon pt-color-darkblue" uk-icon="icon: plus-circle; ratio: 1.2"></span>
+                            </a>
+                             <p style="font-size: 30px; margin-bottom: 0px; color: #CC2936; margin-left: 3px; margin-right: 3px" class="uk-text-bolder uk-margin-remove-top">250</p>
+                            <a href="#" class="uk-margin-auto-vertical">
+                                <span class="uk-icon pt-color-darkblue" uk-icon="icon: minus-circle; ratio: 1.2"></span>
+                            </a>
+                    </div>
+                    <div class="uk-flex uk-flex-center uk-margin-auto-vertical">
+                        <p uk-icon="icon: world; ratio: 1"></p>
+                        <p class="uk-margin-remove-top uk-margin-small-left">Trip</p>
+                    </div>
+                    <div class="uk-margin-auto-vertical">
+                        <button class="uk-button-small pt-button-primary" style="">View</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="uk-container uk-container-small uk-margin-remove-bottom">
+        <div style="background: #FFFFFF; border: lightgray 1px solid" class="uk-margin-small-right uk-margin-small-left pt-border-rounded uk-flex uk-margin-remove-bottom">
+            <div class="uk-width-1-3 uk-visible@m">
+                <img class="pt-border-photo" src="{% static 'img/login/Stockphoto.png' %}">
+            </div>
+            <div class="uk-width-1-1 uk-margin-small-top uk-margin-small-right uk-margin-small-left uk-margin-small-bottom uk-inline">
+                <div class="uk-text-left">
+                    <p style="font-size: 18px; margin-bottom: 0px; color: #6B818C" class="uk-text-bolder">Chleb z czarnuszką</p>
+                </div>
+                <div class="uk-grid-collapse" uk-grid>
+                    <div class="uk-width-auto uk-flex">
+                        <div>
+                            <p style="font-size: 18px; margin-bottom: 0px; color: #CC2936" class="uk-text-bolder">1125$</p>
+                        </div>
+                        <div class="uk-margin-small-left">
+                            <p style="font-size: 18px; margin-bottom: 0px; color: lightgray" class=""><s>2434$</s></p>
+                        </div>
+                    </div>
+                    <div class="uk-width-expand uk-text-right uk-margin-small-right uk-margin-auto-vertical">
+                        <div class="">
+                            <p style="font-size: 12px; margin-bottom: 0px; color: lightgray" class="uk-text-bolder">Ends: 01-01-2023</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="uk-text-left">
+                    <p class="uk-margin-medium-bottom">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                </div>
+                <div class="uk-position-bottom-center" uk-grid>
+                    <div class="uk-flex uk-flex-center uk-margin-auto-vertical">
+                        <p uk-icon="icon: user; ratio: 1"></p>
+                        <p class="uk-margin-remove-top uk-margin-small-left">Michael.herb</p>
+                    </div>
+                    <div class="uk-width-expand uk-flex uk-flex-center ">
+                            <a href="#" class="uk-margin-auto-vertical">
+                                <span class="uk-icon pt-color-darkblue" uk-icon="icon: plus-circle; ratio: 1.2"></span>
+                            </a>
+                             <p style="font-size: 30px; margin-bottom: 0px; color: #CC2936; margin-left: 3px; margin-right: 3px" class="uk-text-bolder uk-margin-remove-top">250</p>
+                            <a href="#" class="uk-margin-auto-vertical">
+                                <span class="uk-icon pt-color-darkblue" uk-icon="icon: minus-circle; ratio: 1.2"></span>
+                            </a>
+                    </div>
+                    <div class="uk-flex uk-flex-center uk-margin-auto-vertical">
+                        <p uk-icon="icon: world; ratio: 1"></p>
+                        <p class="uk-margin-remove-top uk-margin-small-left">Trip</p>
+                    </div>
+                    <div class="uk-margin-auto-vertical">
+                        <button class="uk-button-small pt-button-primary" style="">View</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock content %}
