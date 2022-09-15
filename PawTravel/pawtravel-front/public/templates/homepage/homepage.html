@@ -5,7 +5,7 @@
 {% block content %}
 
 <!-- Search Bar -->
-<div class="uk-container uk-container-small uk-visible@m">
+<div class="uk-container uk-container-small">
     <form id="form" method="post">
         {% csrf_token %}
         <div class="uk-child-width-expand@s uk-text-center" uk-grid >
@@ -34,6 +34,7 @@
 <div class="uk-container uk-container-small">
         <div>
             <div class="uk-grid-collapse uk-text-center uk-margin-small-top" uk-grid>
+                 <!-- The best deal -->
                 <div class="uk-width-1-1@s uk-width-3-5@m  pt-background-lightblue pt-border-rounded uk-margin-bottom">
                     <p style="font-size: 32px; margin-top: 4px; margin-bottom: 0px; color: #FFFFFF" class="uk-text-bolder uk-text-center uk-margin-bottom">The best deal of the best</p>
                     <div style="background: #FFFFFF" class="uk-margin-small-right uk-margin-small-left pt-border-rounded uk-flex uk-margin-medium-bottom">
@@ -84,41 +85,107 @@
                     </div>
                 </div>
                 <div style="width: 10px; background: #FFFFFF;" class="uk-visible@m"></div>
-                <div class="uk-position-relative uk-width-1-1@s uk-width-expand pt-background-white pt-border-rounded uk-margin-bottom"  uk-slideshow>
-                    <p style="font-size: 28px; margin-top: 8px; margin-bottom: 0px" class="uk-text-bolder uk-text-center">Worth checking out</p>
-                    <ul class="uk-slideshow-items">
-                        <li class="uk-padding-small">
-                             <div style="background: #FFFFFF" class="uk-margin-medium-right uk-margin-medium-left pt-border-rounded uk-flex uk-margin-small-bottom">
-                                <div class="uk-width-1-3">
-                                    <img class="pt-border-photo" src="{% static 'img/login/Stockphoto.png' %}">
+                 <!-- Top offers  -->
+                <div class="uk-position-relative uk-width-1-1@s uk-width-expand pt-background-white pt-border-rounded uk-margin-bottom uk-visible@m"  uk-slideshow>
+                    <p style="font-size: 28px; margin-top: 8px; margin-bottom: 0px" class="uk-text-bolder uk-text-center">Top offers</p>
+                    <ul class="uk-slideshow-items ">
+                          <!-- Slide 1  -->
+                        <li class="uk-padding-small uk-overflow-auto ">
+                            <div class="uk-position-center">
+                                <div style="background: white" class="uk-margin-small-right uk-margin-small-left pt-border-rounded uk-margin-small-bottom uk-margin-remove-top uk-grid-column-collapse" uk-grid>
+                                    <div class="uk-width-1-3">
+                                        <img class="pt-border-photo" src="{% static 'img/login/Stockphoto.png' %}">
+                                    </div>
+                                    <div class="uk-width-auto uk-margin-auto-vertical">
+                                        <div class="uk-margin-small-left pt-color-red">250</div>
+                                    </div>
+                                     <div class="uk-width-expand uk-margin-auto-vertical">
+                                         <div class="uk-text-left uk-margin-small-left uk-text-bold"> Chleb z czarnuszką</div>
+                                         <div class="uk-text-left uk-margin-small-left"> Lorem ipsum dolor sit amet, consectetur adipiscing elit</div>
+                                     </div>
                                 </div>
-                                <div class="uk-flex">
-                                    <div class="uk-flex-center uk-margin-small-left pt-color-red">250</div>
-                                    <div class="uk-text-left uk-margin-small-left"> Lorem ipsum dolor sit amet, consectetur adipiscing elit</div>
-                                </div>
-                             </div>
-                            <div style="background: #FFFFFF" class="uk-margin-medium-right uk-margin-medium-left pt-border-rounded uk-flex uk-margin-small-bottom">
-                                <div class="uk-width-1-3">
-                                    <img class="pt-border-photo" src="{% static 'img/login/Stockphoto.png' %}">
-                                </div>
-                                <div class="uk-flex">
-                                    <div class="uk-flex-center uk-margin-small-left pt-color-red">250</div>
-                                    <div class="uk-text-left uk-margin-small-left"> Lorem ipsum dolor sit amet, consectetur adipiscing elit</div>
-                                </div>
-                             </div>
-                        <li class="uk-padding">
-                            B
+                            </div>
                         </li>
-                        <li class="uk-padding">
-                             C
+                         <!-- Slide 2  -->
+                        <li class="uk-padding-small uk-overflow-auto ">
+                            <div class="uk-position-center">
+                                <div style="background: white" class="uk-margin-small-right uk-margin-small-left pt-border-rounded uk-margin-small-bottom uk-margin-remove-top uk-grid-column-collapse" uk-grid>
+                                    <div class="uk-width-1-3">
+                                        <img class="pt-border-photo" src="{% static 'img/login/Stockphoto.png' %}">
+                                    </div>
+                                    <div class="uk-width-auto uk-margin-auto-vertical">
+                                        <div class="uk-margin-small-left pt-color-red">250</div>
+                                    </div>
+                                     <div class="uk-width-expand uk-margin-auto-vertical">
+                                         <div class="uk-text-left uk-margin-small-left uk-text-bold"> Chleb z czarnuszką</div>
+                                         <div class="uk-text-left uk-margin-small-left"> Lorem ipsum dolor sit amet, consectetur adipiscing elit</div>
+                                     </div>
+                                </div>
+                            </div>
+                        </li>
+                         <!-- Slide 3  -->
+                        <li class="uk-padding-small uk-overflow-auto ">
+                            <div class="uk-position-center">
+                                <div style="background: white" class="uk-margin-small-right uk-margin-small-left pt-border-rounded uk-margin-small-bottom uk-margin-remove-top uk-grid-column-collapse" uk-grid>
+                                    <div class="uk-width-1-3">
+                                        <img class="pt-border-photo" src="{% static 'img/login/Stockphoto.png' %}">
+                                    </div>
+                                    <div class="uk-width-auto uk-margin-auto-vertical">
+                                        <div class="uk-margin-small-left pt-color-red">250</div>
+                                    </div>
+                                     <div class="uk-width-expand uk-margin-auto-vertical">
+                                         <div class="uk-text-left uk-margin-small-left uk-text-bold"> Chleb z czarnuszką</div>
+                                         <div class="uk-text-left uk-margin-small-left"> Lorem ipsum dolor sit amet, consectetur adipiscing elit</div>
+                                     </div>
+                                </div>
+                            </div>
                         </li>
                     </ul>
-                    <div class="uk-position-bottom-center uk-position-small uk-margin-medium-bottom">
+                    <div class="uk-position-bottom-center uk-position-small uk-margin-small-bottom">
                         <ul class="uk-dotnav">
                             <li uk-slideshow-item="0"><a href="#">Item 1</a></li>
                             <li uk-slideshow-item="1"><a href="#">Item 2</a></li>
                             <li uk-slideshow-item="2"><a href="#">Item 3</a></li>
                         </ul>
+                    </div>
+                </div>
+
+                <div class="uk-position-relative uk-width-1-1@s uk-width-expand pt-background-white pt-border-rounded uk-margin-bottom uk-hidden@m"  uk-slideshow>
+                    <p style="font-size: 28px; margin-top: 8px; margin-bottom: 0px" class="uk-text-bolder uk-text-center">Top offers</p>
+                    <div class="uk-margin-small-top uk-margin-small-bottom uk-grid-column-collapse" uk-grid>
+                        <div class="uk-width-1-3">
+                            <div style="background: white" class="uk-margin-small-right uk-margin-small-left pt-border-rounded uk-margin-small-bottom uk-margin-remove-top uk-grid-column-collapse" uk-grid>
+                                <div class="uk-width-auto uk-margin-auto-vertical">
+                                        <div class="uk-margin-small-left pt-color-red">250</div>
+                                    </div>
+                                     <div class="uk-width-expand uk-margin-auto-vertical uk-margin-small-right">
+                                         <div class="uk-text-left uk-margin-small-left uk-text-bold"> Chleb z czarnuszką</div>
+                                         <div class="uk-text-left uk-margin-small-left"> Lorem ipsum dolor sit amet</div>
+                                     </div>
+                                </div>
+                        </div>
+                        <div class="uk-width-1-3">
+                            <div style="background: white" class="uk-margin-small-right uk-margin-small-left pt-border-rounded uk-margin-small-bottom uk-margin-remove-top uk-grid-column-collapse" uk-grid>
+                                <div class="uk-width-auto uk-margin-auto-vertical">
+                                        <div class="uk-margin-small-left pt-color-red">250</div>
+                                    </div>
+                                     <div class="uk-width-expand uk-margin-auto-vertical uk-margin-small-right">
+                                         <div class="uk-text-left uk-margin-small-left uk-text-bold"> Chleb z czarnuszką</div>
+                                         <div class="uk-text-left uk-margin-small-left"> Lorem ipsum dolor sit amet</div>
+                                     </div>
+                                </div>
+                        </div>
+                        <div class="uk-width-1-3">
+                            <div style="background: white" class="uk-margin-small-right uk-margin-small-left pt-border-rounded uk-margin-small-bottom uk-margin-remove-top uk-grid-column-collapse" uk-grid>
+                                <div class="uk-width-auto uk-margin-auto-vertical">
+                                        <div class="uk-margin-small-left pt-color-red">250</div>
+                                    </div>
+                                     <div class="uk-width-expand uk-margin-auto-vertical uk-margin-small-right">
+                                         <div class="uk-text-left uk-margin-small-left uk-text-bold"> Chleb z czarnuszką</div>
+                                         <div class="uk-text-left uk-margin-small-left"> Lorem ipsum dolor sit amet</div>
+                                     </div>
+                                </div>
+                        </div>
                     </div>
                 </div>
             </div>
