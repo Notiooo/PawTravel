@@ -25,6 +25,13 @@
         <div class="uk-inline">
             <span class="uk-form-icon" style="color: white;" uk-icon="icon: plus-circle"></span>
             <button class="uk-button pt-button-primary" style="padding-left: 50px">Add</button>
+            <div uk-dropdown>
+                <ul class="uk-nav uk-dropdown-nav">
+                    <li><a href="{% url 'travel_guides:add_guide' %}">Add new travel guide</a></li>
+                    <li class="uk-nav-divider"></li>
+                    <li class="uk-disabled"><a href="#">Add new offer</a></li>
+                </ul>
+            </div>
         </div>
         <ul class="uk-navbar-nav">
             <li>
@@ -35,7 +42,7 @@
         </ul>
         <ul class="uk-navbar-nav">
             <li>
-                <a href="#">
+                <a href="{% url 'inbox' %}">
                     <span class="uk-icon pt-color-darkblue" uk-icon="icon: mail; ratio: 1.8"></span>
                 </a>
             </li>
@@ -49,9 +56,19 @@
                 <a href="#"><span class="pt-color-darkblue" uk-icon="icon: user; ratio: 1.8"></span></a>
                 <div class="uk-navbar-dropdown">
                     <ul class="uk-nav uk-navbar-dropdown-nav">
-                        <li><a href="#">Your profile</a></li>
+                        {% if user.is_authenticated %}
+                        <li class="uk-active">Hello, again <b>{{ user.username }}</b>!</li>
                         <li class="uk-nav-divider"></li>
-                        <li><a href="#">Logout</a></li>
+                        <li><a href="{% url 'profile' user.id %}">Your profile</a></li>
+                        <li><a href="{% url 'profile_activities' user.id %}">Your activities</a></li>
+                        <li><a href="{% url 'edit_profile' %}">Settings</a></li>
+                        <li class="uk-nav-divider"></li>
+                        <li><a href="{% url 'logout' %}">Logout</a></li>
+                        {% else %}
+                        <li><a href="{% url 'login' %}">Login</a></li>
+                        <li class="uk-nav-divider"></li>
+                        <li><a href="{% url 'register' %}">Create new account</a></li>
+                        {% endif %}
                     </ul>
                 </div>
             </li>

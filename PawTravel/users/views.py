@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.views import generic
 from rest_framework import viewsets
@@ -27,24 +28,28 @@ class SignUpView(generic.CreateView):
 class ProfileActivitiesView(generic.DetailView):
     template_name = 'users/user_profile_activities.html'
     model = CustomUser
-    context_object_name = 'user'
+    context_object_name = 'user_profile'
 
 
 class ProfileView(generic.DetailView):
     template_name = 'users/user_profile.html'
     model = CustomUser
-    context_object_name = 'user'
+    context_object_name = 'user_profile'
 
 
-class EditProfileView(generic.UpdateView):
+class EditProfileView(LoginRequiredMixin, generic.UpdateView):
     template_name = 'users/edit_profile.html'
     model = CustomUser
     fields = '__all__'
 
+    def get_object(self, queryset=None):
+        return self.request.user
 
-class ManageProfileView(generic.UpdateView):
+
+class ManageProfileView(LoginRequiredMixin, generic.UpdateView):
     template_name = 'users/manage_profile.html'
     model = CustomUser
     fields = '__all__'
 
-
+    def get_object(self, queryset=None):
+        return self.request.user
