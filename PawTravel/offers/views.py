@@ -1,12 +1,14 @@
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 
-from django.views.generic import DetailView
+from django.views.generic import DetailView, TemplateView
 from django.views.generic.edit import FormMixin
 from django.views.generic.list import MultipleObjectMixin
 
-from . import models
+from . import models, forms
 from comments.forms import CommentForm
+
+from .forms import OfferForm
 
 
 class OfferDetailView(FormMixin, DetailView, MultipleObjectMixin):
@@ -49,3 +51,11 @@ class OfferDetailView(FormMixin, DetailView, MultipleObjectMixin):
     def form_valid(self, form):
         form.form_valid(form, self.request)
         return super(OfferDetailView, self).form_valid(form)
+
+
+class OfferFormView(TemplateView):
+    """A view for adding new offers to the database."""
+
+    template_name = 'offers/offer_form.html'
+    form_class = OfferForm
+    success_url = '/'
