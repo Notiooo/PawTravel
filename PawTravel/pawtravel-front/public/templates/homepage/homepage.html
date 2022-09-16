@@ -8,33 +8,33 @@
 <div class="uk-container uk-container-small">
     <form id="form" method="post">
         {% csrf_token %}
-        <div class="uk-child-width-expand@s uk-text-center" uk-grid >
-            <div class="">
-                <div class="uk-inline uk-width-1-1 pt-input-search uk-padding-small uk-border-rounded">
-                <a class="uk-form-icon pt-color-lightblue uk-visible@m" href="#" uk-icon="icon: location"></a>
-                    DESTINATION
-                </div>
-            </div>
-            <div class="">
-                <div class="uk-inline uk-width-1-1 pt-input-search uk-padding-small uk-border-rounded">
-                <a class="uk-form-icon pt-color-lightblue uk-visible@m" href="#" uk-icon="icon: world"></a>
-                    CATEGORY
-                </div>
-            </div>
-            <div class="">
-                <div class="uk-inline uk-width-1-1 pt-input-search uk-padding-small uk-border-rounded">
-                <a class="uk-form-icon pt-color-lightblue uk-visible@m" href="#" uk-icon="icon: credit-card"></a>
-                    BUDGET
-                </div>
-            </div>
-            <div class="">
-                <div class="uk-inline uk-width-1-1 pt-input-search uk-padding-small uk-border-rounded">
-                <a class="uk-form-icon pt-color-lightblue uk-visible@m" href="#" uk-icon="icon: calendar"></a>
-                    DATE
+        <div class="uk-child-width-expand@m uk-text-center" uk-grid >
+            <div class="uk-margin-auto-vertical">
+                <div class="uk-inline uk-width-1-1@s uk-margin-small-bottom">
+                    <span class="uk-form-icon" uk-icon="icon: location"></span>
+                    <input class="uk-input pt-input-search uk-border-rounded" type="search" placeholder="DESTINATION">
                 </div>
             </div>
             <div class="uk-margin-auto-vertical">
-                <button class="uk-inline uk-width-1-1 uk-button pt-button-primary">
+                <div class="uk-inline uk-width-1-1@s uk-margin-small-bottom">
+                    <span class="uk-form-icon" uk-icon="icon: thumbnails"></span>
+                    <input class="uk-input pt-input-search uk-border-rounded" type="search" placeholder="CATEGORY">
+                </div>
+            </div>
+            <div class="uk-margin-auto-vertical">
+                <div class="uk-inline uk-width-1-1@s uk-margin-small-bottom">
+                    <span class="uk-form-icon" uk-icon="icon: credit-card"></span>
+                    <input class="uk-input pt-input-search uk-border-rounded" type="search" placeholder="BUDGET">
+                </div>
+            </div>
+            <div class="uk-margin-auto-vertical">
+                <div class="uk-inline uk-width-1-1@s uk-margin-small-bottom">
+                    <span class="uk-form-icon" uk-icon="icon: calendar"></span>
+                    <input class="uk-input pt-input-search uk-border-rounded" type="search" placeholder="DATE">
+                </div>
+            </div>
+            <div class="uk-margin-auto-vertical">
+                <button class="uk-inline uk-width-1-1 uk-button pt-button-primary uk-margin-small-bottom">
                     <a style="color: #FFFFFF" class="uk-form-icon pt-color-lightblue" href="#" uk-icon="icon: search"></a>
                     SEARCH
                 </button>
@@ -51,7 +51,15 @@
                     <p style="font-size: 32px; margin-top: 4px; margin-bottom: 0px; color: #FFFFFF" class="uk-text-bolder uk-text-center uk-margin-bottom">The best deal of the best</p>
                     <div style="background: #FFFFFF" class="uk-margin-small-right uk-margin-small-left pt-border-rounded uk-flex uk-margin-medium-bottom">
                         <div class="uk-width-1-3 uk-visible@m">
-                            <img class="pt-border-photo" src="{% static 'img/login/Stockphoto.png' %}">
+                            <div class="uk-height-1-1"
+                                style="
+                                    border: 0px solid;
+                                    border-bottom-left-radius: 15px;
+                                    border-top-left-radius: 15px;
+                                    background-position: center center;
+                                    background-repeat: no-repeat;
+                                    background-image: url('https://picsum.photos/300');">
+                            </div>
                         </div>
                         <div class="uk-width-1-1 uk-margin-small-top uk-margin-small-right uk-margin-small-left uk-margin-small-bottom uk-inline">
                             <div class="uk-text-left">
@@ -106,7 +114,15 @@
                             <div class="uk-position-center">
                                 <div style="background: white" class="uk-margin-small-right uk-margin-small-left pt-border-rounded uk-margin-small-bottom uk-margin-remove-top uk-grid-column-collapse" uk-grid>
                                     <div class="uk-width-1-3">
-                                        <img class="pt-border-photo" src="{% static 'img/login/Stockphoto.png' %}">
+                                        <div class="uk-height-1-1"
+                                            style="
+                                                border: 0px solid;
+                                                border-bottom-left-radius: 15px;
+                                                border-top-left-radius: 15px;
+                                                background-position: center center;
+                                                background-repeat: no-repeat;
+                                                background-image: url('https://picsum.photos/300');">
+                                        </div>
                                     </div>
                                     <div class="uk-width-auto uk-margin-auto-vertical">
                                         <div class="uk-margin-small-left pt-color-red uk-margin-small-right">250</div>
@@ -123,7 +139,15 @@
                             <div class="uk-position-center">
                                 <div style="background: white" class="uk-margin-small-right uk-margin-small-left pt-border-rounded uk-margin-small-bottom uk-margin-remove-top uk-grid-column-collapse" uk-grid>
                                     <div class="uk-width-1-3">
-                                        <img class="pt-border-photo" src="{% static 'img/login/Stockphoto.png' %}">
+                                        <div class="uk-height-1-1"
+                                            style="
+                                                border: 0px solid;
+                                                border-bottom-left-radius: 15px;
+                                                border-top-left-radius: 15px;
+                                                background-position: center center;
+                                                background-repeat: no-repeat;
+                                                background-image: url('https://picsum.photos/300');">
+                                        </div>
                                     </div>
                                     <div class="uk-width-auto uk-margin-auto-vertical">
                                         <div class="uk-margin-small-left pt-color-red uk-margin-small-right">250</div>
@@ -140,7 +164,15 @@
                             <div class="uk-position-center">
                                 <div style="background: white" class="uk-margin-small-right uk-margin-small-left pt-border-rounded uk-margin-small-bottom uk-margin-remove-top uk-grid-column-collapse" uk-grid>
                                     <div class="uk-width-1-3">
-                                        <img class="pt-border-photo" src="{% static 'img/login/Stockphoto.png' %}">
+                                        <div class="uk-height-1-1"
+                                            style="
+                                                border: 0px solid;
+                                                border-bottom-left-radius: 15px;
+                                                border-top-left-radius: 15px;
+                                                background-position: center center;
+                                                background-repeat: no-repeat;
+                                                background-image: url('https://picsum.photos/300');">
+                                        </div>
                                     </div>
                                     <div class="uk-width-auto uk-margin-auto-vertical">
                                         <div class="uk-margin-small-left pt-color-red">250</div>
@@ -206,16 +238,16 @@
 
 <!-- New | Hot | Offers | Travel Guides | Filter -->
 <!-- List of travel guides -->
-<nav class="uk-container uk-container-small uk-margin-medium uk-visible@m">
+<nav class="uk-container uk-container-small uk-visible@m">
     <div class="uk-navbar-container uk-navbar-transparent" uk-navbar>
         <div class="uk-navbar-left uk-width-expand">
-            <ul class="uk-navbar-nav uk-margin-medium">
+            <ul class="uk-navbar-nav">
                 <li><a href="#">New</a></li>
                 <li><a href="#">Hot</a></li>
             </ul>
         </div>
         <div class="uk-navbar-right">
-            <ul class="uk-navbar-nav uk-margin-medium">
+            <ul class="uk-navbar-nav">
                 <li><a href="#">Offers</a></li>
                 <li><a href="#">Travel Guides</a></li>
                 <li><a href="#">Filter<span class="uk-margin-small-left" uk-icon="icon: list; ratio: 1.5"></span></a></li>
@@ -225,16 +257,16 @@
 </nav>
 
 <nav>
-    <div class="uk-container uk-container-small uk-margin-medium uk-hidden@m">
+    <div class="uk-container uk-container-small uk-hidden@m">
         <div class="uk-navbar-container uk-navbar-transparent" uk-navbar>
             <div class="uk-navbar-left uk-width-expand">
-                <ul class="uk-navbar-nav uk-margin-medium">
+                <ul class="uk-navbar-nav">
                     <li><a href="#">New</a></li>
                     <li><a href="#">Hot</a></li>
                 </ul>
             </div>
             <div class="uk-navbar-right">
-                <ul class="uk-navbar-nav uk-margin-medium">
+                <ul class="uk-navbar-nav ">
                     <li><a href="#">Offers</a></li>
                     <li><a href="#">Travel Guides</a></li>
                     <li><a href="#">Filter<span class="uk-margin-small-left" uk-icon="icon: list; ratio: 1.5"></span></a></li>
@@ -244,10 +276,21 @@
     </div>
 </nav>
 
-    <div class="uk-container uk-container-small uk-margin-remove-bottom">
+    <div class="uk-container uk-container-small uk-margin-remove-bottom uk-position-relative">
+        <div style="width: 75px; right: 20px; top: -30px" class="uk-position-absolute">
+            <a class="uk-navbar-item uk-logo" href="#"><img src="{% static 'img/login/Fire.png' %}" width="150px"></a>
+        </div>
         <div style="background: #FFFFFF; border: lightgray 1px solid" class="uk-margin-small-right uk-margin-small-left pt-border-rounded uk-flex uk-margin-medium-bottom">
             <div class="uk-width-1-3 uk-visible@m">
-                <img class="pt-border-photo" src="{% static 'img/login/Stockphoto.png' %}">
+                <div class="uk-height-1-1"
+                    style="
+                        border: 0px solid;
+                        border-bottom-left-radius: 15px;
+                        border-top-left-radius: 15px;
+                        background-position: center center;
+                        background-repeat: no-repeat;
+                        background-image: url('https://picsum.photos/300');">
+                </div>
             </div>
             <div class="uk-width-1-1 uk-margin-small-top uk-margin-small-right uk-margin-small-left uk-margin-small-bottom uk-inline">
                 <div class="uk-text-left">
@@ -269,7 +312,7 @@
                     </div>
                 </div>
                 <div class="uk-text-left">
-                    <p class="uk-margin-medium-bottom">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                    <p class="uk-margin-large-bottom">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
                 </div>
                 <div class="uk-position-bottom-center" uk-grid>
                     <div class="uk-flex uk-flex-center uk-margin-auto-vertical">
@@ -299,7 +342,15 @@
     <div class="uk-container uk-container-small uk-margin-remove-bottom">
         <div style="background: #FFFFFF; border: lightgray 1px solid" class="uk-margin-small-right uk-margin-small-left pt-border-rounded uk-flex uk-margin-remove-bottom">
             <div class="uk-width-1-3 uk-visible@m">
-                <img class="pt-border-photo" src="{% static 'img/login/Stockphoto.png' %}">
+                <div class="uk-height-1-1"
+                    style="
+                        border: 0px solid;
+                        border-bottom-left-radius: 15px;
+                        border-top-left-radius: 15px;
+                        background-position: center center;
+                        background-repeat: no-repeat;
+                        background-image: url('https://picsum.photos/300');">
+                </div>
             </div>
             <div class="uk-width-1-1 uk-margin-small-top uk-margin-small-right uk-margin-small-left uk-margin-small-bottom uk-inline">
                 <div class="uk-text-left">
@@ -321,7 +372,7 @@
                     </div>
                 </div>
                 <div class="uk-text-left">
-                    <p class="uk-margin-medium-bottom">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                    <p class="uk-margin-large-bottom">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
                 </div>
                 <div class="uk-position-bottom-center" uk-grid>
                     <div class="uk-flex uk-flex-center uk-margin-auto-vertical">

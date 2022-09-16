@@ -164,6 +164,16 @@
     border: 2px solid #F1Bf98 !important;
 }
 
+.pt-input-search {
+    background-color: white !important;
+    border: 2px solid #6B818C !important;
+    color: #6B818C;
+}
+
+.pt-input-search:focus {
+    border: 2px solid #F1Bf98 !important;
+}
+
 .pt-search
 {
     border-radius: 10px;
