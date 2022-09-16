@@ -3,7 +3,7 @@
 {% load static %}
 
 {% block content %}
-
+<div uk-scrollspy="cls: uk-animation-scale-up; target: > div; delay: 100;">
 <!-- Search Bar -->
 <div class="uk-container uk-container-small">
     <form id="form" method="post">
@@ -339,7 +339,7 @@
             </div>
         </div>
     </div>
-    <div class="uk-container uk-container-small uk-margin-remove-bottom">
+    <div class="uk-container uk-container-small uk-margin-medium-bottom">
         <div style="background: #FFFFFF; border: lightgray 1px solid" class="uk-margin-small-right uk-margin-small-left pt-border-rounded uk-flex uk-margin-remove-bottom">
             <div class="uk-width-1-3 uk-visible@m">
                 <div class="uk-height-1-1"
@@ -398,5 +398,6 @@
                 </div>
             </div>
         </div>
+    </div>
     </div>
 {% endblock content %}

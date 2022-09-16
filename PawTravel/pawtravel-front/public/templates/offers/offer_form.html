@@ -1,2 +1,92 @@
 {% extends 'base.html' %}
-TEST
+{% load widget_tweaks %}
+{% load static %}
+{% block content %}
+<form>
+        <div class="uk-margin-medium-bottom" uk-scrollspy="cls: uk-animation-scale-up; target: > div; delay: 100;">
+            <div style="border: solid 1px" class="uk-box-shadow-xlarge uk-container uk-container-small uk-border-rounded">
+                <div style="font-size: 30px" class="uk-text-bold uk-text-left uk-margin-large-top uk-animation-slide-bottom "uk-scrollspy="cls: uk-animation-scale-up; target: > p; delay: 300;">
+                    <p class="uk-margin-remove">Basic information</p>
+                </div>
+                <div class="uk-animation-slide-bottom uk-margin-small-bottom" uk-scrollspy="cls: uk-animation-scale-up; target: > div; delay: 900;">
+                    <div class="uk-child-width-1-1@s" uk-grid>
+                        <div class="uk-width-1-2@m">
+                            <p class="uk-margin-remove ">TITLE</p>
+                             <input class="uk-input pt-input uk-border-rounded" type="text" placeholder="Title of the offer">
+                        </div>
+                        <div class="uk-width-1-2@m">
+                            <p class="uk-margin-remove">LINK</p>
+                            <input class="uk-input pt-input uk-border-rounded" type="text" placeholder="Paste URL of the offer">
+                        </div>
+                    </div>
+                </div>
+                <div class="uk-animation-slide-bottom uk-margin-small-bottom" uk-scrollspy="cls: uk-animation-scale-up; target: > div; delay: 1200;">
+                    <div class="uk-child-width-1-1@s">
+                        <p class="uk-margin-remove">DESCRIPTION</p>
+                        <textarea class="uk-input pt-input uk-border-rounded uk-height-large"></textarea>
+                    </div>
+                </div>
+                <div class="uk-animation-slide-bottom uk-margin-small-bottom" uk-scrollspy="cls: uk-animation-scale-up; target: > div; delay: 1500;">
+                     <div class="uk-child-width-1-1@s" uk-grid>
+                        <div class="uk-width-1-2@m">
+                            <p class="uk-margin-remove ">TYPE</p>
+                             <input class="uk-input pt-input uk-border-rounded" type="text" placeholder="Select category">
+                        </div>
+                        <div class="uk-width-1-2@m">
+                            <p class="uk-margin-remove">EXPRITATION DATE</p>
+                            <input class="uk-input pt-input uk-border-rounded" type="text" placeholder="DD/MM/RRRR">
+                        </div>
+                    </div>
+                </div>
+                <div class="uk-animation-slide-bottom uk-margin-small-bottom" uk-scrollspy="cls: uk-animation-scale-up; target: > div; delay: 1800;">
+                     <div class="uk-child-width-1-1@s" uk-grid>
+                        <div class="uk-width-1-3@m">
+                            <p class="uk-margin-remove ">DISCOUNT PRICE</p>
+                             <input class="uk-input pt-input uk-border-rounded" type="text" placeholder="PLN">
+                        </div>
+                        <div class="uk-width-1-3@m">
+                            <p class="uk-margin-remove">ORIGINAL PRICE</p>
+                            <input class="uk-input pt-input uk-border-rounded" type="text" placeholder="PLN">
+                        </div>
+                         <div class="uk-width-1-3@m">
+                            <p class="uk-margin-remove">DISCOUNT CODE<span style="font-size: 12px; color: gray"> (optional)</span></p>
+                            <input class="uk-input pt-input uk-border-rounded" type="text" placeholder="Paste the code for dioscount">
+                        </div>
+                    </div>
+                </div>
+                <div style="font-size: 30px" class="uk-text-bold uk-text-left uk-margin-large-top uk-animation-slide-bottom " uk-scrollspy="cls: uk-animation-scale-up; target: > p; delay: 2100;">
+                    <p class="uk-margin-remove">Additional information</p>
+                </div>
+                <div class="uk-animation-slide-bottom uk-margin-small-bottom" uk-scrollspy="cls: uk-animation-scale-up; target: > div; delay: 1500;">
+                    <div class="js-upload uk-placeholder uk-height-large uk-flex uk-flex-middle uk-flex-column uk-flex-center" style="border-color: #6B818C; border-width: 2px; border-radius: 8px">
+                        <span uk-icon="icon: cloud-upload"></span>
+                        <span class="uk-text-middle pm-color-lightblue">Attach report by dropping it here</span>
+                        <p class="uk-text-middle pm-color-lightblue uk-margin-remove">or</p>
+                        <div uk-form-custom class="uk-margin-small" >
+                            <input type="file" multiple>
+                            <a href="{% url "homepage" %}"><button style="font-size: 14px" class=" uk-button pt-button-primary uk-button-large uk-width-auto">Browse files</button></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="uk-animation-slide-bottom uk-margin-small-bottom" uk-scrollspy="cls: uk-animation-scale-up; target: > div; delay: 2400;">
+                         <div class="uk-width-1-3">
+                            <p class="uk-margin-remove">LOCATION<span style="font-size: 12px; color: gray"> (optional)</span></p>
+                            <input class="uk-input pt-input uk-border-rounded" type="text" placeholder="Select region">
+                        </div>
+                </div>
+                <div class="uk-animation-slide-bottom uk-margin-medium-bottom" uk-scrollspy="cls: uk-animation-scale-up; target: > div; delay: 2700;">
+                     <div class="uk-flex uk-flex-right">
+                         <div class="uk-margin-auto-vertical">
+                                    <button class="uk-button pt-button-primary" style="">Preview</button>
+                         </div>
+                         <div class="uk-margin-auto-vertical uk-margin-left">
+                                    <button class="uk-button pt-button-secondary" style="">Publish</button>
+                         </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </form>
+
+{% endblock content %}
