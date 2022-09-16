@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load avatar_tags %}
+{% load widget_tweaks %}
 
 {% block content %}
     <div class="uk-container uk-container-large uk-margin-auto-vertical">
@@ -53,9 +55,8 @@
                 <div class="uk-margin-small">
                     <p style="font-size: 18px">Avatar</p>
                     <div class="uk-grid-collapse uk-column-1-1@s uk-flex uk-flex-middle uk-grid-row-small" uk-grid>
-                        <div class="uk- uk-margin-small-top pt-profile-image">
-                            <img class="uk-border-circle" src="{% static 'img/placeholders/avatars/avataro.jpg' %}"
-                                 alt="">
+                        <div class="uk-margin-small-top pt-profile-image">
+                            {% avatar user 160 class="uk-border-circle" %}
                         </div>
                         <div class="uk-margin-top">
                             <a href="{% url 'avatar_change' %}">
@@ -71,19 +72,21 @@
                     <hr style="border-color: #6B818C">
                     <p style="font-size: 18px">User name</p>
                     <div class="uk-margin">
-                        <input class="pt-input uk-input" type="text" placeholder="Name">
+                        <input class="pt-input uk-input uk-disabled" type="text" placeholder="Name" value="{{ user.username }}">
                     </div>
                 </div>
                 <div class="uk-margin-small">
                     <hr style="border-color: #6B818C">
                     <p style="font-size: 18px">About me</p>
-                    <div class="uk-margin">
-                        <textarea class="pt-input uk-textarea" rows="5"
-                                  placeholder="Write something about yourself :)"></textarea>
-                    </div>
-                </div>
-                <div class="uk-margin-small-bottom uk-flex uk-flex-right">
-                    <button class="uk-button pt-button-secondary">Save changes</button>
+                    <form method="POST">
+                    {% csrf_token %}
+                        <div class="uk-margin">
+                            {% render_field form.about_me class+="pt-input uk-textarea" rows="5" placeholder="Write something about yourself :)" %}
+                        </div>
+                        <div class="uk-margin-small-bottom uk-flex uk-flex-right">
+                            <button type="submit" class="uk-button pt-button-secondary">Save changes</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

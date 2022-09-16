@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load widget_tweaks %}
 
 {% block content %}
     <div class="uk-container uk-container-large uk-margin-medium-top">
@@ -53,14 +54,20 @@
 
                 <div>
                     <p style="font-size: 18px">Email</p>
-                    ayasaka@gamil.com
+                    {{ user.email }}
                     <div class="uk-margin-small uk-margin-medium-bottom">
                         <button class="uk-button pt-button-primary" id="toggle-usage" type="button"
                                 uk-toggle="target: .toggle">Change email
                         </button>
-                        <div class="uk-margin-small">
-                            <input hidden class="pt-input uk-input toggle" type="text" placeholder="janedoe@gmail.com">
-                        </div>
+                        <form hidden class="toggle" method="POST">
+                        {% csrf_token %}
+                            <div class="uk-margin-small">
+                                {% render_field form.email class+="pt-input uk-input" type="text" placeholder="janedoe@gmail.com" %}
+                            </div>
+                            <div class="uk-margin-bottom uk-flex uk-flex-right">
+                                <button type="submit" class="uk-button pt-button-secondary">Save changes</button>
+                            </div>
+                        </form>
                     </div>
 
                 </div>
@@ -70,14 +77,9 @@
                     <div style="font-size: 18px">Password</div>
 
                     <div class="uk-margin-small">
-                        <button class="uk-button pt-button-primary" id="toggle-usage" type="button"
-                                uk-toggle="target: .toggle2">Change password
-                        </button>
-                        <div class="uk-margin-small">
-                            <input hidden class="uk-margin pt-input uk-input toggle2" type="text"
-                                   placeholder="New password">
-                            <input hidden class="pt-input uk-input toggle2" type="text" placeholder="Confirm password">
-                        </div>
+                        <a href="{% url 'password_change' %}">
+                            <button class="uk-button pt-button-primary" id="toggle-usage" type="button">Change password</button>
+                        </a>
                     </div>
                 </div>
 
@@ -97,10 +99,6 @@
                             </div>
                         </div>
                     </div>
-                </div>
-
-                <div class="uk-margin-bottom uk-flex uk-flex-right">
-                    <button class="uk-button pt-button-secondary">Save changes</button>
                 </div>
             </div>
         </div>

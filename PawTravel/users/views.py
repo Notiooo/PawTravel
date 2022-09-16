@@ -1,5 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.urls import reverse_lazy
+from django.forms import forms
+from django.urls import reverse_lazy, reverse
 from django.views import generic
 from rest_framework import viewsets
 
@@ -40,16 +41,22 @@ class ProfileView(generic.DetailView):
 class EditProfileView(LoginRequiredMixin, generic.UpdateView):
     template_name = 'users/edit_profile.html'
     model = CustomUser
-    fields = '__all__'
+    fields = ('about_me', )
 
     def get_object(self, queryset=None):
         return self.request.user
+
+    def get_success_url(self):
+        return reverse('edit_profile')
 
 
 class ManageProfileView(LoginRequiredMixin, generic.UpdateView):
     template_name = 'users/manage_profile.html'
     model = CustomUser
-    fields = '__all__'
+    fields = ('email', )
 
     def get_object(self, queryset=None):
         return self.request.user
+
+    def get_success_url(self):
+        return reverse('manage_profile')
