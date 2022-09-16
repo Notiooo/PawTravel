@@ -70,7 +70,7 @@ class GuideDetailView(DetailView):
         return super().dispatch(request, *args, **kwargs)
 
 
-class GuideFormView(LoginRequiredMixin, CreateView):
+class GuideFormView(CreateView):
     """
     View responsible for rendering and handling Guide creation form
     """
