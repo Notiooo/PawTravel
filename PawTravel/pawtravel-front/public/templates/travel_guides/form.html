@@ -1,12 +1,61 @@
-{% extends "base.html" %}}
-
-{% block title %} Add new guide {% endblock %}
-{% block additional_headers %} {{ form.media }} {% endblock %}
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% load static %}
 {% block content %}
+    <form>
+        <div class="uk-margin-medium-bottom" uk-scrollspy="cls: uk-animation-scale-up; target: > div; delay: 100;">
+            <div style="border: solid 1px" class="uk-box-shadow-xlarge uk-container uk-container-small uk-border-rounded">
+                <div style="font-size: 30px" class="uk-text-bold uk-text-center uk-margin-large-top uk-animation-slide-bottom " uk-scrollspy="cls: uk-animation-scale-up; target: > p; delay: 300;">
+                    <p class="uk-margin-remove">We're glad you want to help others!</p>
+                </div>
+                <div class=" uk-animation-slide-bottom " uk-scrollspy="cls: uk-animation-scale-up; target: > div; delay: 600;">
+                    <div class="uk-flex uk-flex-center uk-flex-middle">
+                        <img src="{% static 'img/login/cat.png' %}" width="200px"/>
+                        <p class="">This service needs cats like <b>you</b>!<br>Already the first biggest step behind you.<br> Now all thats left is this form.</p>
+                    </div>
+                </div>
+                <div class="uk-animation-slide-bottom uk-margin-small-bottom" uk-scrollspy="cls: uk-animation-scale-up; target: > div; delay: 900;">
+                    <div class="uk-child-width-1-1@s" uk-grid>
+                        <div class="uk-width-1-3@m">
+                            <p class="uk-margin-remove ">TITLE</p>
+                             <input class="uk-input pt-input uk-border-rounded" type="text" placeholder="Short title of your article">
+                        </div>
+                        <div class="uk-width-2-3@m">
+                            <p class="uk-margin-remove">SHORT DESCRIPTION</p>
+                            <input class="uk-input pt-input uk-border-rounded" type="text" placeholder="A brief description od what will be in the article">
+                        </div>
+                    </div>
+                </div>
+                <div class="uk-animation-slide-bottom uk-margin-small-bottom" uk-scrollspy="cls: uk-animation-scale-up; target: > div; delay: 1200;">
+                    <div class="uk-child-width-1-1@s">
+                        <p class="uk-margin-remove">TEXT OF YOUR ARTICLE</p>
+                        <textarea class="uk-input pt-input uk-border-rounded uk-height-large"></textarea>
+                    </div>
+                </div>
+                <div class="uk-animation-slide-bottom uk-margin-small-bottom" uk-scrollspy="cls: uk-animation-scale-up; target: > div; delay: 1500;">
+                     <div class="uk-child-width-1-1@s" uk-grid>
+                        <div class="uk-width-1-2@m">
+                            <p class="uk-margin-remove ">CATEGORY</p>
+                             <input class="uk-input pt-input uk-border-rounded" type="text" placeholder="Select category">
+                        </div>
+                        <div class="uk-width-1-2@m">
+                            <p class="uk-margin-remove">COUNTRY</p>
+                            <input class="uk-input pt-input uk-border-rounded" type="text" placeholder="Select region">
+                        </div>
+                    </div>
+                </div>
+                <div class="uk-animation-slide-bottom uk-margin-medium-bottom" uk-scrollspy="cls: uk-animation-scale-up; target: > div; delay: 1800;">
+                     <div class="uk-flex uk-flex-right">
+                         <div class="uk-margin-auto-vertical">
+                                    <button class="uk-button pt-button-primary" style="">Preview</button>
+                         </div>
+                         <div class="uk-margin-auto-vertical uk-margin-left">
+                                    <button class="uk-button pt-button-secondary" style="">Publish</button>
+                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
 
-<form action="." method="post">
-{{ form.as_p }}
-{% csrf_token %}
-<input type="submit" value="Add guide">
-</form>
-{% endblock %}
+{% endblock content %}
