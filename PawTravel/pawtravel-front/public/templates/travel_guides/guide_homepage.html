@@ -131,7 +131,6 @@
 </div>
 
 <!-- New | Hot | Offers | Travel Guides | Filter -->
-<!-- List of travel guides -->
 <nav class="uk-container uk-container-small uk-margin-medium uk-visible@m">
     <div class="uk-navbar-container uk-navbar-transparent" uk-navbar>
         <div class="uk-navbar-left uk-width-expand">
@@ -169,4 +168,64 @@
         </div>
     </div>
 </nav>
+{% block list %}
+    {% include "travel_guides/guide_list.html"  %}
+{% endblock %}
+<!-- List of travel guides -->
+{#{% for guide in guide_list %}#}
+{#<div class="uk-container uk-container-small uk-margin-remove-bottom">#}
+{#        <div style="background: #FFFFFF; border: lightgray 1px solid" class="uk-margin-small-right uk-margin-small-left pt-border-rounded uk-flex uk-margin-medium-bottom">#}
+{#            <div class="uk-width-1-3 uk-visible@m">#}
+{#                <img class="pt-border-photo" src="{% static 'img/login/Stockphoto.png' %}">#}
+{#            </div>#}
+{#            <div class="uk-width-1-1 uk-margin-small-top uk-margin-small-right uk-margin-small-left uk-margin-small-bottom uk-inline">#}
+{#                <div class="uk-text-left">#}
+{#                    <p style="font-size: 18px; margin-bottom: 0px; color: #6B818C" class="uk-text-bolder">{{ guide.title }}</p>#}
+{#                </div>#}
+{#                <div class="uk-grid-collapse" uk-grid>#}
+{#                    <div class="uk-width-auto uk-flex">#}
+{#                        <div>#}
+{#                            <p style="font-size: 18px; margin-bottom: 0px; color: #CC2936" class="uk-text-bolder"></p>#}
+{#                        </div>#}
+{#                        <div class="uk-margin-small-left">#}
+{#                            <p style="font-size: 18px; margin-bottom: 0px; color: lightgray" class=""><s></s></p>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                    <div class="uk-width-expand uk-text-right uk-margin-small-right uk-margin-auto-vertical">#}
+{#                        <div class="">#}
+{#                            <p style="font-size: 12px; margin-bottom: 0px; color: lightgray" class="uk-text-bolder"></p>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#                <div class="uk-text-left">#}
+{#                    <p class="uk-margin-medium-bottom">{{ guide.description }}/p>#}
+{#                </div>#}
+{#                <div class="uk-position-bottom-center" uk-grid>#}
+{#                    <div class="uk-flex uk-flex-center uk-margin-auto-vertical">#}
+{#                        <p uk-icon="icon: user; ratio: 1"></p>#}
+{#                        <p class="uk-margin-remove-top uk-margin-small-left">{{ guide.author }}</p>#}
+{#                    </div>#}
+{#                    <div class="uk-width-expand uk-flex uk-flex-center ">#}
+{#                            <a href="#" class="uk-margin-auto-vertical">#}
+{#                                <span class="uk-icon pt-color-darkblue" uk-icon="icon: plus-circle; ratio: 1.2"></span>#}
+{#                            </a>#}
+{#                             <p style="font-size: 30px; margin-bottom: 0px; color: #CC2936; margin-left: 3px; margin-right: 3px" class="uk-text-bolder uk-margin-remove-top">250</p>#}
+{#                            <a href="#" class="uk-margin-auto-vertical">#}
+{#                                <span class="uk-icon pt-color-darkblue" uk-icon="icon: minus-circle; ratio: 1.2"></span>#}
+{#                            </a>#}
+{#                    </div>#}
+{#                    <div class="uk-flex uk-flex-center uk-margin-auto-vertical">#}
+{#                        <p uk-icon="icon: world; ratio: 1"></p>#}
+{#                        <p class="uk-margin-remove-top uk-margin-small-left">Trip</p>#}
+{#                    </div>#}
+{#                    <div class="uk-margin-auto-vertical">#}
+{#                        <button class="uk-button-small pt-button-primary" style="">View</button>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
+{#    {% empty %}#}
+{#    RIP#}
+{#{% endfor %}#}
 {% endblock content %}

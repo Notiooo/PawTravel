@@ -5,10 +5,16 @@ from .models import Guide
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from django.shortcuts import render
 
 from users.models import CustomUser
 
 # Create your views here.
+
+
+def guide_list(request):
+    queryset = Guide.objects.all()
+    return render(request, "travel_guides/guide_list.html", {'object_list': queryset})
 
 
 class HomePageView(TemplateView):
@@ -24,7 +30,7 @@ class GuideListView(ListView):
     If url has format /guides/user/<value> It will return list of guides of user with value username
     """
     model = Guide
-    paginate_by = 5
+    paginate_by = 1
     template_name = "travel_guides/guide_list.html"
 
     def get_queryset(self):
@@ -41,12 +47,6 @@ class GuideListView(ListView):
         if 'username' in self.kwargs:
             queryset= queryset.filter(author=CustomUser.objects.get(username=self.kwargs['username']), visible='visible')
         return queryset
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context=super().get_context_data(**kwargs)
-        context['category_choices']=Guide.CATEGORY_CHOICES
-        context['country_choices']=Guide.COUNTRY_CHOICES
-        return context
 
 
 class GuideDetailView(DetailView):

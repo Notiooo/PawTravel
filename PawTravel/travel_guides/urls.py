@@ -9,4 +9,5 @@ urlpatterns = [
     path('<int:pk>/', views.GuideDetailView.as_view(), name='guide_detail'),
     path('<slug_url>-<int:pk>/', views.GuideDetailView.as_view(), name="guide_detail"),
     path('', views.HomePageView.as_view(), name="guide_homepage"),
+    path('guide_list', views.guide_list, name="guide_list")
 ]
