@@ -8,7 +8,7 @@ from django.test import Client
 from .models import Guide, GuideCategory, Country
 from parameterized import parameterized
 from users.models import CustomUser
-from .views import GuideFormView, GuideVoteView
+from .views import GuideCreateFormView, GuideVoteView
 import json
 
 # Create your tests here.
@@ -154,7 +154,7 @@ class GuidesViewTests(TestCase):
         factory = RequestFactory()
         request = factory.get('/guides/add')
         request.user = CustomUser.objects.create(username='testuser', email="test@test.com")
-        response = GuideFormView.as_view()(request)
+        response = GuideCreateFormView.as_view()(request)
         self.assertEqual(response.status_code, 200, "User should be able to access this page if logged")
 
 

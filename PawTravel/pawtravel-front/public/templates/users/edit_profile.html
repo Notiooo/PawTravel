@@ -24,7 +24,7 @@
 
                         <div style="font-size: 16px" class="uk-padding-small">
                             <a class="uk-icon-link uk-padding-small uk-padding-remove-vertical pt-color-darkblue"
-                               href="{% url 'manage_profile' user.id %}">
+                               href="{% url 'manage_profile' %}">
                                 Manage profile
                             </a>
                         </div>
@@ -37,7 +37,7 @@
                             <hr style="border-color: #6B818C">
                         </div>
 
-                        <a class="uk-icon-link pt-color-darkblue" href="#">
+                        <a class="uk-icon-link pt-color-darkblue" href="{% url 'logout' %}">
                             <span uk-icon="icon: sign-out; ratio: 1.3"
                                   style='margin-right:0.9em; display:inline-block;'></span>
                             Sign out
@@ -58,8 +58,12 @@
                                  alt="">
                         </div>
                         <div class="uk-margin-top">
-                            <button class="uk-margin-medium-right uk-button pt-button-primary">Change avatar</button>
-                            <button class="uk-button pt-button-primary">Delete avatar</button>
+                            <a href="{% url 'avatar_change' %}">
+                                <button class="uk-margin-medium-right uk-button pt-button-primary">Change avatar</button>
+                            </a>
+                            <a href="{% url 'avatar_delete' %}">
+                                <button class="uk-button pt-button-primary">Delete avatar</button>
+                            </a>
                         </div>
                     </div>
                 </div>

@@ -97,12 +97,12 @@ class GuideDetailView(FormMixin, DetailView, MultipleObjectMixin):
         return super(GuideDetailView, self).form_valid(form)
 
 
-class GuideFormView(LoginRequiredMixin, CreateView):
+class GuideCreateFormView(LoginRequiredMixin, CreateView):
     """
     View responsible for rendering and handling Guide creation form
     """
     login_url = "/users/login/"
-    template_name = "travel_guides/form.html"
+    template_name = "travel_guides/create_form.html"
     model = Guide
     form_class = GuideForm
 
